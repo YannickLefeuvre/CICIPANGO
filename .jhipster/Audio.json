@@ -1,0 +1,20 @@
+{
+  "applications": ["CIPANGO"],
+  "changelogDate": "20220706105440",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "audio",
+  "fields": [
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Audio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

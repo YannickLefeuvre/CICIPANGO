@@ -1,0 +1,52 @@
+{
+  "applications": ["CIPANGO"],
+  "changelogDate": "20220706105640",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "contenu",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "icone",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "absisce",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ordonnee",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "arriereplan",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Contenu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "contenant",
+      "otherEntityRelationshipName": "contenus",
+      "relationshipName": "contenant",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "contenant",
+      "otherEntityRelationshipName": "contenus",
+      "relationshipName": "contenant",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
