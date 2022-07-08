@@ -77,17 +77,13 @@ entity Lien {
     arriereplan ImageBlob
 }
 
-relationship ManyToOne {
+//relationship ManyToOne {
 
-    Lien{contenant} to Contenant{liens},
-    Contenu{contenant} to Contenant{contenus},
-    Contenant{contenant} to Contenant{contenants}
-//    Ville{photo} to Photo,
-//    Ville{film} to Film,
-//    Ville{serie} to Serie,
-//    Ville{Livre} to Livre,
-//    Ville{albumPhoto} to AlbumPhoto,
-}
+//    Lien{contenant} to Contenant{liens},
+//    Contenu{contenant} to Contenant{contenus},
+//    Contenant{contenant} to Contenant{contenants}
+
+//}
 
 
 relationship OneToMany {
@@ -95,11 +91,7 @@ relationship OneToMany {
     Contenant{liens} to Lien{contenant},
     Contenant{contenus} to Contenu{contenant},
     Contenant{contenants} to Contenant{contenant}
-//    Ville{photo} to Photo,
-//    Ville{film} to Film,
-//    Ville{seri4848e} to Serie,
-//    Ville{Livre} to Livre,
-//    Ville{albumPhoto} to AlbumPhoto,
+
 }
 
 relationship OneToOne {

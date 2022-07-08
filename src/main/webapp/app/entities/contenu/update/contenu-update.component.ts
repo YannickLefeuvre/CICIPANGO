@@ -32,7 +32,6 @@ export class ContenuUpdateComponent implements OnInit {
     arriereplan: [],
     arriereplanContentType: [],
     contenant: [],
-    contenant: [],
   });
 
   constructor(
@@ -126,12 +125,10 @@ export class ContenuUpdateComponent implements OnInit {
       arriereplan: contenu.arriereplan,
       arriereplanContentType: contenu.arriereplanContentType,
       contenant: contenu.contenant,
-      contenant: contenu.contenant,
     });
 
     this.contenantsSharedCollection = this.contenantService.addContenantToCollectionIfMissing(
       this.contenantsSharedCollection,
-      contenu.contenant,
       contenu.contenant
     );
   }
@@ -142,11 +139,7 @@ export class ContenuUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IContenant[]>) => res.body ?? []))
       .pipe(
         map((contenants: IContenant[]) =>
-          this.contenantService.addContenantToCollectionIfMissing(
-            contenants,
-            this.editForm.get('contenant')!.value,
-            this.editForm.get('contenant')!.value
-          )
+          this.contenantService.addContenantToCollectionIfMissing(contenants, this.editForm.get('contenant')!.value)
         )
       )
       .subscribe((contenants: IContenant[]) => (this.contenantsSharedCollection = contenants));
@@ -163,7 +156,6 @@ export class ContenuUpdateComponent implements OnInit {
       ordonnee: this.editForm.get(['ordonnee'])!.value,
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
-      contenant: this.editForm.get(['contenant'])!.value,
       contenant: this.editForm.get(['contenant'])!.value,
     };
   }

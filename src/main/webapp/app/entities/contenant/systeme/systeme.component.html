@@ -1,0 +1,9 @@
+<div *ngFor="let contenu of contenant?.contenus">
+  <li>{{ contenu.nom }}</li>
+</div>
+
+<p>YOHOOOOOO</p>
+
+<div *ngFor="let contenant of contenant?.contenants">
+  <a [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+</div>

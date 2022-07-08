@@ -1,6 +1,6 @@
 {
   "applications": ["CIPANGO"],
-  "changelogDate": "20220706105140",
+  "changelogDate": "20220706111725",
   "dto": "no",
   "embedded": false,
   "entityTableName": "album_photo",

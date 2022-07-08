@@ -41,7 +41,6 @@
           <th scope="col"><span jhiTranslate="cipangoApp.lien.villeOrigine">Ville Origine</span></th>
           <th scope="col"><span jhiTranslate="cipangoApp.lien.villeCible">Ville Cible</span></th>
           <th scope="col"><span jhiTranslate="cipangoApp.lien.contenant">Contenant</span></th>
-          <th scope="col"><span jhiTranslate="cipangoApp.lien.contenant">Contenant</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -77,11 +76,6 @@
           <td>
             <div *ngIf="lien.villeCible">
               <a [routerLink]="['/contenant', lien.villeCible?.id, 'view']">{{ lien.villeCible?.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="lien.contenant">
-              <a [routerLink]="['/contenant', lien.contenant?.id, 'view']">{{ lien.contenant?.id }}</a>
             </div>
           </td>
           <td>

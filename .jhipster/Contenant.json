@@ -1,6 +1,6 @@
 {
   "applications": ["CIPANGO"],
-  "changelogDate": "20220706105540",
+  "changelogDate": "20220706112125",
   "dto": "no",
   "embedded": false,
   "entityTableName": "contenant",
@@ -59,12 +59,6 @@
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "contenant",
-      "otherEntityRelationshipName": "contenants",
-      "relationshipName": "contenant",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "lien",
       "otherEntityRelationshipName": "villeOrigine",
       "ownerSide": false,
@@ -83,24 +77,6 @@
       "otherEntityRelationshipName": "contenants",
       "relationshipName": "contenant",
       "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "lien",
-      "otherEntityRelationshipName": "contenant",
-      "relationshipName": "liens",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "contenu",
-      "otherEntityRelationshipName": "contenant",
-      "relationshipName": "contenus",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "contenant",
-      "otherEntityRelationshipName": "contenant",
-      "relationshipName": "contenants",
-      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

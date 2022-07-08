@@ -50,12 +50,10 @@ describe('Lien Management Update Component', () => {
       const lien: ILien = { id: 456 };
       const contenant: IContenant = { id: 8070 };
       lien.contenant = contenant;
-      const contenant: IContenant = { id: 1716 };
-      lien.contenant = contenant;
 
-      const contenantCollection: IContenant[] = [{ id: 47445 }];
+      const contenantCollection: IContenant[] = [{ id: 1716 }];
       jest.spyOn(contenantService, 'query').mockReturnValue(of(new HttpResponse({ body: contenantCollection })));
-      const additionalContenants = [contenant, contenant];
+      const additionalContenants = [contenant];
       const expectedCollection: IContenant[] = [...additionalContenants, ...contenantCollection];
       jest.spyOn(contenantService, 'addContenantToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -69,10 +67,10 @@ describe('Lien Management Update Component', () => {
 
     it('Should call villeOrigine query and add missing value', () => {
       const lien: ILien = { id: 456 };
-      const villeOrigine: IContenant = { id: 14590 };
+      const villeOrigine: IContenant = { id: 47445 };
       lien.villeOrigine = villeOrigine;
 
-      const villeOrigineCollection: IContenant[] = [{ id: 26027 }];
+      const villeOrigineCollection: IContenant[] = [{ id: 14590 }];
       jest.spyOn(contenantService, 'query').mockReturnValue(of(new HttpResponse({ body: villeOrigineCollection })));
       const expectedCollection: IContenant[] = [villeOrigine, ...villeOrigineCollection];
       jest.spyOn(contenantService, 'addContenantToCollectionIfMissing').mockReturnValue(expectedCollection);
@@ -87,10 +85,10 @@ describe('Lien Management Update Component', () => {
 
     it('Should call villeCible query and add missing value', () => {
       const lien: ILien = { id: 456 };
-      const villeCible: IContenant = { id: 83412 };
+      const villeCible: IContenant = { id: 26027 };
       lien.villeCible = villeCible;
 
-      const villeCibleCollection: IContenant[] = [{ id: 10676 }];
+      const villeCibleCollection: IContenant[] = [{ id: 83412 }];
       jest.spyOn(contenantService, 'query').mockReturnValue(of(new HttpResponse({ body: villeCibleCollection })));
       const expectedCollection: IContenant[] = [villeCible, ...villeCibleCollection];
       jest.spyOn(contenantService, 'addContenantToCollectionIfMissing').mockReturnValue(expectedCollection);
@@ -105,13 +103,11 @@ describe('Lien Management Update Component', () => {
 
     it('Should update editForm', () => {
       const lien: ILien = { id: 456 };
-      const villeOrigine: IContenant = { id: 97213 };
+      const villeOrigine: IContenant = { id: 10676 };
       lien.villeOrigine = villeOrigine;
-      const villeCible: IContenant = { id: 38627 };
+      const villeCible: IContenant = { id: 97213 };
       lien.villeCible = villeCible;
-      const contenant: IContenant = { id: 77720 };
-      lien.contenant = contenant;
-      const contenant: IContenant = { id: 4050 };
+      const contenant: IContenant = { id: 38627 };
       lien.contenant = contenant;
 
       activatedRoute.data = of({ lien });
@@ -120,7 +116,6 @@ describe('Lien Management Update Component', () => {
       expect(comp.editForm.value).toEqual(expect.objectContaining(lien));
       expect(comp.villeOriginesCollection).toContain(villeOrigine);
       expect(comp.villeCiblesCollection).toContain(villeCible);
-      expect(comp.contenantsSharedCollection).toContain(contenant);
       expect(comp.contenantsSharedCollection).toContain(contenant);
     });
   });

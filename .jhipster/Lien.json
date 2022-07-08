@@ -1,6 +1,6 @@
 {
   "applications": ["CIPANGO"],
-  "changelogDate": "20220706105740",
+  "changelogDate": "20220706112325",
   "dto": "no",
   "embedded": false,
   "entityTableName": "lien",
@@ -48,12 +48,6 @@
       "ownerSide": true,
       "relationshipName": "villeCible",
       "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "contenant",
-      "otherEntityRelationshipName": "liens",
-      "relationshipName": "contenant",
-      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "contenant",

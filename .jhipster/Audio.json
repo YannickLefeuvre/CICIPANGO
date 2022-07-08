@@ -1,6 +1,6 @@
 {
   "applications": ["CIPANGO"],
-  "changelogDate": "20220706105440",
+  "changelogDate": "20220706112025",
   "dto": "no",
   "embedded": false,
   "entityTableName": "audio",

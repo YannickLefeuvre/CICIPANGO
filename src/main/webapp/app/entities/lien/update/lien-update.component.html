@@ -158,19 +158,6 @@
             </option>
           </select>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.lien.contenant" for="field_contenant">Contenant</label>
-          <select class="form-control" id="field_contenant" data-cy="contenant" name="contenant" formControlName="contenant">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="contenantOption.id === editForm.get('contenant')!.value?.id ? editForm.get('contenant')!.value : contenantOption"
-              *ngFor="let contenantOption of contenantsSharedCollection; trackBy: trackContenantById"
-            >
-              {{ contenantOption.id }}
-            </option>
-          </select>
-        </div>
       </div>
 
       <div>

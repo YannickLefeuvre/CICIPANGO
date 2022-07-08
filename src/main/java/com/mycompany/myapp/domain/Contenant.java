@@ -54,84 +54,31 @@ public class Contenant implements Serializable {
     private String arriereplanContentType;
 
     @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant", "contenant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
     private Set<Lien> liens = new HashSet<>();
 
     @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "contenant", "contenant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "contenant" }, allowSetters = true)
     private Set<Contenu> contenus = new HashSet<>();
 
     @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Set<Contenant> contenants = new HashSet<>();
 
-    @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
-    private Contenant contenant;
-
-    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant", "contenant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
     @OneToOne(mappedBy = "villeOrigine")
     private Lien lienOrigine;
 
-    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant", "contenant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
     @OneToOne(mappedBy = "villeCible")
     private Lien lienCible;
 
     @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Contenant contenant;
-
-    @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant", "contenant" }, allowSetters = true)
-    private Set<Lien> liens = new HashSet<>();
-
-    @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "contenant", "contenant" }, allowSetters = true)
-    private Set<Contenu> contenus = new HashSet<>();
-
-    @OneToMany(mappedBy = "contenant")
-    @OneToMany(mappedBy = "contenant")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
-    private Set<Contenant> contenants = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -345,19 +292,6 @@ public class Contenant implements Serializable {
         return this;
     }
 
-    public Contenant getContenant() {
-        return this.contenant;
-    }
-
-    public void setContenant(Contenant contenant) {
-        this.contenant = contenant;
-    }
-
-    public Contenant contenant(Contenant contenant) {
-        this.setContenant(contenant);
-        return this;
-    }
-
     public Lien getLienOrigine() {
         return this.lienOrigine;
     }
@@ -406,99 +340,6 @@ public class Contenant implements Serializable {
 
     public Contenant contenant(Contenant contenant) {
         this.setContenant(contenant);
-        return this;
-    }
-
-    public Set<Lien> getLiens() {
-        return this.liens;
-    }
-
-    public void setLiens(Set<Lien> liens) {
-        if (this.liens != null) {
-            this.liens.forEach(i -> i.setContenant(null));
-        }
-        if (liens != null) {
-            liens.forEach(i -> i.setContenant(this));
-        }
-        this.liens = liens;
-    }
-
-    public Contenant liens(Set<Lien> liens) {
-        this.setLiens(liens);
-        return this;
-    }
-
-    public Contenant addLiens(Lien lien) {
-        this.liens.add(lien);
-        lien.setContenant(this);
-        return this;
-    }
-
-    public Contenant removeLiens(Lien lien) {
-        this.liens.remove(lien);
-        lien.setContenant(null);
-        return this;
-    }
-
-    public Set<Contenu> getContenus() {
-        return this.contenus;
-    }
-
-    public void setContenus(Set<Contenu> contenus) {
-        if (this.contenus != null) {
-            this.contenus.forEach(i -> i.setContenant(null));
-        }
-        if (contenus != null) {
-            contenus.forEach(i -> i.setContenant(this));
-        }
-        this.contenus = contenus;
-    }
-
-    public Contenant contenus(Set<Contenu> contenus) {
-        this.setContenus(contenus);
-        return this;
-    }
-
-    public Contenant addContenus(Contenu contenu) {
-        this.contenus.add(contenu);
-        contenu.setContenant(this);
-        return this;
-    }
-
-    public Contenant removeContenus(Contenu contenu) {
-        this.contenus.remove(contenu);
-        contenu.setContenant(null);
-        return this;
-    }
-
-    public Set<Contenant> getContenants() {
-        return this.contenants;
-    }
-
-    public void setContenants(Set<Contenant> contenants) {
-        if (this.contenants != null) {
-            this.contenants.forEach(i -> i.setContenant(null));
-        }
-        if (contenants != null) {
-            contenants.forEach(i -> i.setContenant(this));
-        }
-        this.contenants = contenants;
-    }
-
-    public Contenant contenants(Set<Contenant> contenants) {
-        this.setContenants(contenants);
-        return this;
-    }
-
-    public Contenant addContenants(Contenant contenant) {
-        this.contenants.add(contenant);
-        contenant.setContenant(this);
-        return this;
-    }
-
-    public Contenant removeContenants(Contenant contenant) {
-        this.contenants.remove(contenant);
-        contenant.setContenant(null);
         return this;
     }
 

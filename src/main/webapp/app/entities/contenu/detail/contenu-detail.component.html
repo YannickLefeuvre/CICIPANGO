@@ -54,12 +54,6 @@
             <a [routerLink]="['/contenant', contenu.contenant?.id, 'view']">{{ contenu.contenant?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="cipangoApp.contenu.contenant">Contenant</span></dt>
-        <dd>
-          <div *ngIf="contenu.contenant">
-            <a [routerLink]="['/contenant', contenu.contenant?.id, 'view']">{{ contenu.contenant?.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -36,7 +36,6 @@ export class LienUpdateComponent implements OnInit {
     villeOrigine: [],
     villeCible: [],
     contenant: [],
-    contenant: [],
   });
 
   constructor(
@@ -132,12 +131,10 @@ export class LienUpdateComponent implements OnInit {
       villeOrigine: lien.villeOrigine,
       villeCible: lien.villeCible,
       contenant: lien.contenant,
-      contenant: lien.contenant,
     });
 
     this.contenantsSharedCollection = this.contenantService.addContenantToCollectionIfMissing(
       this.contenantsSharedCollection,
-      lien.contenant,
       lien.contenant
     );
     this.villeOriginesCollection = this.contenantService.addContenantToCollectionIfMissing(this.villeOriginesCollection, lien.villeOrigine);
@@ -150,11 +147,7 @@ export class LienUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IContenant[]>) => res.body ?? []))
       .pipe(
         map((contenants: IContenant[]) =>
-          this.contenantService.addContenantToCollectionIfMissing(
-            contenants,
-            this.editForm.get('contenant')!.value,
-            this.editForm.get('contenant')!.value
-          )
+          this.contenantService.addContenantToCollectionIfMissing(contenants, this.editForm.get('contenant')!.value)
         )
       )
       .subscribe((contenants: IContenant[]) => (this.contenantsSharedCollection = contenants));
@@ -193,7 +186,6 @@ export class LienUpdateComponent implements OnInit {
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       villeOrigine: this.editForm.get(['villeOrigine'])!.value,
       villeCible: this.editForm.get(['villeCible'])!.value,
-      contenant: this.editForm.get(['contenant'])!.value,
       contenant: this.editForm.get(['contenant'])!.value,
     };
   }

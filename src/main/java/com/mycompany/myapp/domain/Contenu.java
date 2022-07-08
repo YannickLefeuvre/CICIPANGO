@@ -48,23 +48,7 @@ public class Contenu implements Serializable {
     private String arriereplanContentType;
 
     @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
-    private Contenant contenant;
-
-    @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Contenant contenant;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -171,19 +155,6 @@ public class Contenu implements Serializable {
 
     public void setArriereplanContentType(String arriereplanContentType) {
         this.arriereplanContentType = arriereplanContentType;
-    }
-
-    public Contenant getContenant() {
-        return this.contenant;
-    }
-
-    public void setContenant(Contenant contenant) {
-        this.contenant = contenant;
-    }
-
-    public Contenu contenant(Contenant contenant) {
-        this.setContenant(contenant);
-        return this;
     }
 
     public Contenant getContenant() {

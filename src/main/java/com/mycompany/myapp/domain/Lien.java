@@ -47,44 +47,18 @@ public class Lien implements Serializable {
     @Column(name = "arriereplan_content_type")
     private String arriereplanContentType;
 
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Contenant villeOrigine;
 
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Contenant villeCible;
 
     @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
-    private Contenant contenant;
-
-    @ManyToOne
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = {
-            "liens", "contenus", "contenants", "contenant", "lienOrigine", "lienCible", "contenant", "liens", "contenus", "contenants",
-        },
-        allowSetters = true
-    )
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Contenant contenant;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -216,19 +190,6 @@ public class Lien implements Serializable {
 
     public Lien villeCible(Contenant contenant) {
         this.setVilleCible(contenant);
-        return this;
-    }
-
-    public Contenant getContenant() {
-        return this.contenant;
-    }
-
-    public void setContenant(Contenant contenant) {
-        this.contenant = contenant;
-    }
-
-    public Lien contenant(Contenant contenant) {
-        this.setContenant(contenant);
         return this;
     }
 

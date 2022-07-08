@@ -6,13 +6,7 @@
     <!--
         Added the constraints for entity Contenu.
     -->
-    <changeSet id="20220706105640-2" author="jhipster">
-
-        <addForeignKeyConstraint baseColumnNames="contenant_id"
-                                 baseTableName="contenu"
-                                 constraintName="fk_contenu__contenant_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="contenant"/>
+    <changeSet id="20220706112225-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="contenant_id"
                                  baseTableName="contenu"

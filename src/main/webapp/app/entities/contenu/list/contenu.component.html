@@ -39,7 +39,6 @@
           <th scope="col"><span jhiTranslate="cipangoApp.contenu.ordonnee">Ordonnee</span></th>
           <th scope="col"><span jhiTranslate="cipangoApp.contenu.arriereplan">Arriereplan</span></th>
           <th scope="col"><span jhiTranslate="cipangoApp.contenu.contenant">Contenant</span></th>
-          <th scope="col"><span jhiTranslate="cipangoApp.contenu.contenant">Contenant</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -66,11 +65,6 @@
               />
             </a>
             <span *ngIf="contenu.arriereplan">{{ contenu.arriereplanContentType }}, {{ byteSize(contenu.arriereplan) }}</span>
-          </td>
-          <td>
-            <div *ngIf="contenu.contenant">
-              <a [routerLink]="['/contenant', contenu.contenant?.id, 'view']">{{ contenu.contenant?.id }}</a>
-            </div>
           </td>
           <td>
             <div *ngIf="contenu.contenant">

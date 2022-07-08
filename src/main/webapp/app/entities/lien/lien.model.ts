@@ -12,7 +12,6 @@ export interface ILien {
   villeOrigine?: IContenant | null;
   villeCible?: IContenant | null;
   contenant?: IContenant | null;
-  contenant?: IContenant | null;
 }
 
 export class Lien implements ILien {
@@ -27,7 +26,6 @@ export class Lien implements ILien {
     public arriereplan?: string | null,
     public villeOrigine?: IContenant | null,
     public villeCible?: IContenant | null,
-    public contenant?: IContenant | null,
     public contenant?: IContenant | null
   ) {}
 }

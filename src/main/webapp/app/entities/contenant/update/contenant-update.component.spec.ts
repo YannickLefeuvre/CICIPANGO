@@ -46,12 +46,10 @@ describe('Contenant Management Update Component', () => {
       const contenant: IContenant = { id: 456 };
       const contenant: IContenant = { id: 63570 };
       contenant.contenant = contenant;
-      const contenant: IContenant = { id: 6672 };
-      contenant.contenant = contenant;
 
-      const contenantCollection: IContenant[] = [{ id: 54294 }];
+      const contenantCollection: IContenant[] = [{ id: 6672 }];
       jest.spyOn(contenantService, 'query').mockReturnValue(of(new HttpResponse({ body: contenantCollection })));
-      const additionalContenants = [contenant, contenant];
+      const additionalContenants = [contenant];
       const expectedCollection: IContenant[] = [...additionalContenants, ...contenantCollection];
       jest.spyOn(contenantService, 'addContenantToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -65,16 +63,13 @@ describe('Contenant Management Update Component', () => {
 
     it('Should update editForm', () => {
       const contenant: IContenant = { id: 456 };
-      const contenant: IContenant = { id: 23853 };
-      contenant.contenant = contenant;
-      const contenant: IContenant = { id: 37428 };
+      const contenant: IContenant = { id: 54294 };
       contenant.contenant = contenant;
 
       activatedRoute.data = of({ contenant });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(contenant));
-      expect(comp.contenantsSharedCollection).toContain(contenant);
       expect(comp.contenantsSharedCollection).toContain(contenant);
     });
   });

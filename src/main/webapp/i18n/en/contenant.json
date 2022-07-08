@@ -27,13 +27,9 @@
       "liens": "Liens",
       "contenus": "Contenus",
       "contenants": "Contenants",
-      "contenant": "Contenant",
       "lienOrigine": "Lien Origine",
       "lienCible": "Lien Cible",
-      "contenant": "Contenant",
-      "liens": "Liens",
-      "contenus": "Contenus",
-      "contenants": "Contenants"
+      "contenant": "Contenant"
     }
   }
 }

@@ -7,10 +7,10 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Lien.
+        Added the entity Contenu.
     -->
-    <changeSet id="20220706105740-1" author="jhipster">
-        <createTable tableName="lien">
+    <changeSet id="20220706112225-1" author="jhipster">
+        <createTable tableName="contenu">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -35,15 +35,6 @@
             <column name="arriereplan_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="ville_origine_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_lien__ville_origine_id" />
-            </column>
-            <column name="ville_cible_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_lien__ville_cible_id" />
-            </column>
-            <column name="contenant_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="contenant_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -61,11 +52,11 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20220706105740-1-data" author="jhipster" context="faker">
+    <changeSet id="20220706112225-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/lien.csv"
+                  file="config/liquibase/fake-data/contenu.csv"
                   separator=";"
-                  tableName="lien"
+                  tableName="contenu"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="nom" type="string"/>

@@ -14,13 +14,9 @@ export interface IContenant {
   liens?: ILien[] | null;
   contenus?: IContenu[] | null;
   contenants?: IContenant[] | null;
-  contenant?: IContenant | null;
   lienOrigine?: ILien | null;
   lienCible?: ILien | null;
   contenant?: IContenant | null;
-  liens?: ILien[] | null;
-  contenus?: IContenu[] | null;
-  contenants?: IContenant[] | null;
 }
 
 export class Contenant implements IContenant {
@@ -37,13 +33,9 @@ export class Contenant implements IContenant {
     public liens?: ILien[] | null,
     public contenus?: IContenu[] | null,
     public contenants?: IContenant[] | null,
-    public contenant?: IContenant | null,
     public lienOrigine?: ILien | null,
     public lienCible?: ILien | null,
-    public contenant?: IContenant | null,
-    public liens?: ILien[] | null,
-    public contenus?: IContenu[] | null,
-    public contenants?: IContenant[] | null
+    public contenant?: IContenant | null
   ) {
     this.isCapital = this.isCapital ?? false;
   }

@@ -1,10 +1,13 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Contenant;
+import com.mycompany.myapp.domain.Contenu;
 import com.mycompany.myapp.repository.ContenantRepository;
+import com.mycompany.myapp.repository.ContenuRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,10 +39,13 @@ public class ContenantResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final ContenuRepository contenuRepository;
+
     private final ContenantRepository contenantRepository;
 
-    public ContenantResource(ContenantRepository contenantRepository) {
+    public ContenantResource(ContenantRepository contenantRepository, ContenuRepository contenuRepository) {
         this.contenantRepository = contenantRepository;
+        this.contenuRepository = contenuRepository;
     }
 
     /**
@@ -199,6 +205,25 @@ public class ContenantResource {
     public ResponseEntity<Contenant> getContenant(@PathVariable Long id) {
         log.debug("REST request to get Contenant : {}", id);
         Optional<Contenant> contenant = contenantRepository.findById(id);
+
+        List<Contenu> cn = new ArrayList<>();
+        List<Contenant> cna = new ArrayList<>();
+
+        cn = contenuRepository.findAll();
+        cna = contenantRepository.findAll();
+        // RAJOUT YAYA
+        for (Contenu cu : cn) {
+            if (cu.getContenant() != null && cu.getContenant().getId() == id) {
+                contenant.get().addContenus(cu);
+            }
+        }
+
+        for (Contenant ca : cna) {
+            if (ca.getContenant() != null && ca.getContenant().getId() == id) {
+                contenant.get().addContenants(ca);
+            }
+        }
+
         return ResponseUtil.wrapOrNotFound(contenant);
     }
 

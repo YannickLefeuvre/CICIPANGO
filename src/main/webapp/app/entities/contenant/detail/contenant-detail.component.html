@@ -62,12 +62,6 @@
             <a [routerLink]="['/contenant', contenant.contenant?.id, 'view']">{{ contenant.contenant?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="cipangoApp.contenant.contenant">Contenant</span></dt>
-        <dd>
-          <div *ngIf="contenant.contenant">
-            <a [routerLink]="['/contenant', contenant.contenant?.id, 'view']">{{ contenant.contenant?.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
@@ -77,6 +71,10 @@
       <button type="button" [routerLink]="['/contenant', contenant.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
       </button>
+    </div>
+    <p>NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</p>
+    <div *ngFor="let contenu of contenant?.contenus">
+      <li>{{ contenu.nom }}</li>
     </div>
   </div>
 </div>

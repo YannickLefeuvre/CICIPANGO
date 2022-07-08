@@ -1,6 +1,6 @@
 {
   "applications": ["CIPANGO"],
-  "changelogDate": "20220706104840",
+  "changelogDate": "20220706111425",
   "dto": "no",
   "embedded": false,
   "entityTableName": "application_user",
