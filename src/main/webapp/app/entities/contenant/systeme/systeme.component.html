@@ -7,3 +7,9 @@
 <div *ngFor="let contenant of contenant?.contenants">
   <a [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
 </div>
+
+<p>YAAAAAAAAA</p>
+
+<div *ngFor="let contenu of contenant?.contenus">
+  <a>{{ contenu.nom }}</a>
+</div>

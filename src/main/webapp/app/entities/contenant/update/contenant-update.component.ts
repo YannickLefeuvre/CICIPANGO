@@ -80,11 +80,16 @@ export class ContenantUpdateComponent implements OnInit {
   }
 
   save(): void {
+    alert('hummmmhmhmuuuuhu');
     this.isSaving = true;
+    alert('miam miam');
     const contenant = this.createFromForm();
+    alert('333333333333333.');
     if (contenant.id !== undefined) {
+      alert('22222222222');
       this.subscribeToSaveResponse(this.contenantService.update(contenant));
     } else {
+      alert('1111111111');
       this.subscribeToSaveResponse(this.contenantService.create(contenant));
     }
   }
@@ -157,7 +162,7 @@ export class ContenantUpdateComponent implements OnInit {
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.editForm.get(['contenant'])!.value,
-      contenus: this.editForm.get(['contenus'])!.value,
+      //      contenus: this.editForm.get(['contenus'])!.value,
     };
   }
 }

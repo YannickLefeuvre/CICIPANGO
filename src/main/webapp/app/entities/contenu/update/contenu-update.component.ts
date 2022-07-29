@@ -84,9 +84,12 @@ export class ContenuUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const contenu = this.createFromForm();
+    alert('4444444.');
     if (contenu.id !== undefined) {
+      alert('5555555.');
       this.subscribeToSaveResponse(this.contenuService.update(contenu));
     } else {
+      alert('66666666.');
       this.subscribeToSaveResponse(this.contenuService.create(contenu));
     }
   }
