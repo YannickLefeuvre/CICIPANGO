@@ -3,13 +3,15 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { IFilm, Film } from '../film.model';
 import { FilmService } from '../service/film.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { IContenant } from 'app/entities/contenant/contenant.model';
+import { ContenantService } from 'app/entities/contenant/service/contenant.service';
 
 @Component({
   selector: 'jhi-film-update',
@@ -18,18 +20,28 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 export class FilmUpdateComponent implements OnInit {
   isSaving = false;
 
+  contenantsSharedCollection: IContenant[] = [];
+
   editForm = this.fb.group({
     id: [],
     nom: [],
     images: [],
     imagesContentType: [],
     description: [],
+    icone: [],
+    iconeContentType: [],
+    absisce: [],
+    ordonnee: [],
+    arriereplan: [],
+    arriereplanContentType: [],
+    contenant: [],
   });
 
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected filmService: FilmService,
+    protected contenantService: ContenantService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -38,6 +50,8 @@ export class FilmUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ film }) => {
       this.updateForm(film);
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -80,6 +94,10 @@ export class FilmUpdateComponent implements OnInit {
     }
   }
 
+  trackContenantById(_index: number, item: IContenant): number {
+    return item.id!;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFilm>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -106,7 +124,30 @@ export class FilmUpdateComponent implements OnInit {
       images: film.images,
       imagesContentType: film.imagesContentType,
       description: film.description,
+      icone: film.icone,
+      iconeContentType: film.iconeContentType,
+      absisce: film.absisce,
+      ordonnee: film.ordonnee,
+      arriereplan: film.arriereplan,
+      arriereplanContentType: film.arriereplanContentType,
+      contenant: film.contenant,
     });
+    this.contenantsSharedCollection = this.contenantService.addContenantToCollectionIfMissing(
+      this.contenantsSharedCollection,
+      film.contenant
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.contenantService
+      .query()
+      .pipe(map((res: HttpResponse<IContenant[]>) => res.body ?? []))
+      .pipe(
+        map((contenants: IContenant[]) =>
+          this.contenantService.addContenantToCollectionIfMissing(contenants, this.editForm.get('contenant')!.value)
+        )
+      )
+      .subscribe((contenants: IContenant[]) => (this.contenantsSharedCollection = contenants));
   }
 
   protected createFromForm(): IFilm {
@@ -117,6 +158,13 @@ export class FilmUpdateComponent implements OnInit {
       imagesContentType: this.editForm.get(['imagesContentType'])!.value,
       images: this.editForm.get(['images'])!.value,
       description: this.editForm.get(['description'])!.value,
+      iconeContentType: this.editForm.get(['iconeContentType'])!.value,
+      icone: this.editForm.get(['icone'])!.value,
+      absisce: this.editForm.get(['absisce'])!.value,
+      ordonnee: this.editForm.get(['ordonnee'])!.value,
+      arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
+      arriereplan: this.editForm.get(['arriereplan'])!.value,
+      contenant: this.editForm.get(['contenant'])!.value,
     };
   }
 }

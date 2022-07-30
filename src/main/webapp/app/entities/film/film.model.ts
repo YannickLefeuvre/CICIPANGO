@@ -1,4 +1,5 @@
 import { Contenu } from '../contenu/contenu.model';
+import { IContenant } from 'app/entities/contenant/contenant.model';
 
 export interface IFilm {
   id?: number;
@@ -6,6 +7,13 @@ export interface IFilm {
   imagesContentType?: string | null;
   images?: string | null;
   description?: string | null;
+  iconeContentType?: string | null;
+  icone?: string | null;
+  absisce?: number | null;
+  ordonnee?: number | null;
+  arriereplanContentType?: string | null;
+  arriereplan?: string | null;
+  contenant?: IContenant | null;
 }
 
 export class Film extends Contenu implements IFilm {
@@ -14,7 +22,14 @@ export class Film extends Contenu implements IFilm {
     public nom?: string,
     public imagesContentType?: string | null,
     public images?: string | null,
-    public description?: string | null
+    public description?: string | null,
+    public iconeContentType?: string | null,
+    public icone?: string | null,
+    public absisce?: number | null,
+    public ordonnee?: number | null,
+    public arriereplanContentType?: string | null,
+    public arriereplan?: string | null,
+    public contenant?: IContenant | null
   ) {
     super(id, nom);
   }
