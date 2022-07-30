@@ -4,7 +4,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-
 import { IContenu, Contenu } from '../contenu.model';
 import { ContenuService } from '../service/contenu.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -84,12 +83,9 @@ export class ContenuUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const contenu = this.createFromForm();
-    alert('4444444.');
     if (contenu.id !== undefined) {
-      alert('5555555.');
       this.subscribeToSaveResponse(this.contenuService.update(contenu));
     } else {
-      alert('66666666.');
       this.subscribeToSaveResponse(this.contenuService.create(contenu));
     }
   }
