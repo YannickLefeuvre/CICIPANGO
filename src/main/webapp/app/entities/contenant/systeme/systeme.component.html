@@ -10,12 +10,7 @@
 
 <p>YAAAAAAAAA</p>
 
-<button
-  id="jh-create-entity"
-  data-cy="entityCreateButton"
-  class="btn btn-primary jh-create-entity create-contenu"
-  [routerLink]="['/contenu/new']"
->
-  <fa-icon icon="plus"></fa-icon>
-  <span jhiTranslate="cipangoApp.contenu.home.createLabel"> Create a new Contenu </span>
+<button type="submit" [routerLink]="['/contenant', contenant?.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+  <fa-icon icon="pencil-alt"></fa-icon>
+  <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
 </button>

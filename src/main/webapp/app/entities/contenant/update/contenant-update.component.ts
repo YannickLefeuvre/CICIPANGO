@@ -80,16 +80,11 @@ export class ContenantUpdateComponent implements OnInit {
   }
 
   save(): void {
-    alert('hummmmhmhmuuuuhu');
     this.isSaving = true;
-    alert('miam miam');
     const contenant = this.createFromForm();
-    alert('333333333333333.');
     if (contenant.id !== undefined) {
-      alert('22222222222');
       this.subscribeToSaveResponse(this.contenantService.update(contenant));
     } else {
-      alert('1111111111');
       this.subscribeToSaveResponse(this.contenantService.create(contenant));
     }
   }
