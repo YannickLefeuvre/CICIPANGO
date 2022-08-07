@@ -12,11 +12,12 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 
 @Component({
-  selector: 'jhi-contenant-update',
-  templateUrl: './contenant-update.component.html',
+  selector: 'jhi-creation',
+  templateUrl: './creation.component.html',
 })
-export class ContenantUpdateComponent implements OnInit {
+export class ContenantCreationComponent implements OnInit {
   isSaving = false;
+  contenanto = new Contenant();
 
   contenantsSharedCollection: IContenant[] = [];
 
@@ -44,6 +45,8 @@ export class ContenantUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contenant }) => {
+      this.contenanto = contenant;
+      contenant = null;
       this.updateForm(contenant);
 
       this.loadRelationshipsOptions();
@@ -84,11 +87,9 @@ export class ContenantUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const contenant = this.createFromForm();
-    if (contenant.id !== undefined) {
-      this.subscribeToSaveResponse(this.contenantService.update(contenant));
-    } else {
-      this.subscribeToSaveResponse(this.contenantService.create(contenant));
-    }
+    alert(contenant.id);
+
+    this.subscribeToSaveResponse(this.contenantService.create(contenant));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
@@ -125,12 +126,12 @@ export class ContenantUpdateComponent implements OnInit {
       ordonnee: contenant.ordonnee,
       arriereplan: contenant.arriereplan,
       arriereplanContentType: contenant.arriereplanContentType,
-      contenant: contenant.contenant,
+      contenant: this.contenanto,
     });
 
     this.contenantsSharedCollection = this.contenantService.addContenantToCollectionIfMissing(
       this.contenantsSharedCollection,
-      contenant.contenant
+      this.contenanto
     );
   }
 
@@ -158,7 +159,7 @@ export class ContenantUpdateComponent implements OnInit {
       ordonnee: this.editForm.get(['ordonnee'])!.value,
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
-      contenant: this.editForm.get(['contenant'])!.value,
+      contenant: this.contenanto,
       //      contenus: this.editForm.get(['contenus'])!.value,
     };
   }

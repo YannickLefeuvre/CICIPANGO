@@ -6,10 +6,18 @@ import { ContenantUpdateComponent } from './update/contenant-update.component';
 import { ContenantDeleteDialogComponent } from './delete/contenant-delete-dialog.component';
 import { ContenantRoutingModule } from './route/contenant-routing.module';
 import { SystemeComponent } from './systeme/systeme.component';
+import { ContenantCreationComponent } from './creation/creation.component';
 
 @NgModule({
   imports: [SharedModule, ContenantRoutingModule],
-  declarations: [ContenantComponent, ContenantDetailComponent, ContenantUpdateComponent, ContenantDeleteDialogComponent, SystemeComponent],
+  declarations: [
+    ContenantComponent,
+    ContenantDetailComponent,
+    ContenantUpdateComponent,
+    ContenantDeleteDialogComponent,
+    SystemeComponent,
+    ContenantCreationComponent,
+  ],
   entryComponents: [ContenantDeleteDialogComponent],
 })
 export class ContenantModule {}

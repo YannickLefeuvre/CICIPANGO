@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ContenantComponent } from '../list/contenant.component';
 import { ContenantDetailComponent } from '../detail/contenant-detail.component';
+import { ContenantCreationComponent } from '../creation/creation.component';
 import { ContenantUpdateComponent } from '../update/contenant-update.component';
 import { ContenantRoutingResolveService } from './contenant-routing-resolve.service';
 import { SystemeComponent } from '../systeme/systeme.component';
@@ -17,6 +18,14 @@ const contenantRoute: Routes = [
   {
     path: ':id/view',
     component: ContenantDetailComponent,
+    resolve: {
+      contenant: ContenantRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/add',
+    component: ContenantCreationComponent,
     resolve: {
       contenant: ContenantRoutingResolveService,
     },
