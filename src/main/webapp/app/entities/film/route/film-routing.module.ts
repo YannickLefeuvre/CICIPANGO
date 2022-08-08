@@ -32,7 +32,7 @@ const filmRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/add',
+    path: ':id/addfilm',
     component: CreationComponent,
     resolve: {
       contenant: ContenantRoutingResolveService,

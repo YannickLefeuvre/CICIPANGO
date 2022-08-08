@@ -6,6 +6,8 @@ import { AudioComponent } from '../list/audio.component';
 import { AudioDetailComponent } from '../detail/audio-detail.component';
 import { AudioUpdateComponent } from '../update/audio-update.component';
 import { AudioRoutingResolveService } from './audio-routing-resolve.service';
+import { CreationAudioComponent } from '../creation-audio/creation-audio.component';
+import { ContenantRoutingResolveService } from '../../contenant/route/contenant-routing-resolve.service';
 
 const audioRoute: Routes = [
   {
@@ -34,6 +36,14 @@ const audioRoute: Routes = [
     component: AudioUpdateComponent,
     resolve: {
       audio: AudioRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/addaudio',
+    component: CreationAudioComponent,
+    resolve: {
+      contenant: ContenantRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },

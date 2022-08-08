@@ -1,10 +1,34 @@
+import { Contenu } from '../contenu/contenu.model';
+import { IContenant } from 'app/entities/contenant/contenant.model';
+
 export interface IAudio {
   id?: number;
-  url?: string | null;
+  nom?: string;
+  url?: string;
+  iconeContentType?: string | null;
+  icone?: string | null;
+  absisce?: number | null;
+  ordonnee?: number | null;
+  arriereplanContentType?: string | null;
+  arriereplan?: string | null;
+  contenant?: IContenant | null;
 }
 
-export class Audio implements IAudio {
-  constructor(public id?: number, public url?: string | null) {}
+export class Audio extends Contenu implements IAudio {
+  constructor(
+    public id?: number,
+    public nom?: string,
+    public url?: string,
+    public iconeContentType?: string | null,
+    public icone?: string | null,
+    public absisce?: number | null,
+    public ordonnee?: number | null,
+    public arriereplanContentType?: string | null,
+    public arriereplan?: string | null,
+    public contenant?: IContenant | null
+  ) {
+    super(id, nom);
+  }
 }
 
 export function getAudioIdentifier(audio: IAudio): number | undefined {

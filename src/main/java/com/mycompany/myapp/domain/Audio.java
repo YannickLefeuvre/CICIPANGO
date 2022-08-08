@@ -11,32 +11,19 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "audio")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Audio implements Serializable {
+@PrimaryKeyJoinColumn(name = "ID")
+public class Audio extends Contenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
 
     @Column(name = "url")
     private String url;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Audio id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUrl() {
@@ -62,7 +49,7 @@ public class Audio implements Serializable {
         if (!(o instanceof Audio)) {
             return false;
         }
-        return id != null && id.equals(((Audio) o).id);
+        return this.getId() != null && this.getId().equals(((Audio) o).getId());
     }
 
     @Override
