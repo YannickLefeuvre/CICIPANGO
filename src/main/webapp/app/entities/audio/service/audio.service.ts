@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IAudio, getAudioIdentifier } from '../audio.model';
+import { IAudio, getAudioIdentifier, Audio, IFichiay, Fichiay } from '../audio.model';
 
 export type EntityResponseType = HttpResponse<IAudio>;
 export type EntityArrayResponseType = HttpResponse<IAudio[]>;
@@ -13,11 +13,19 @@ export type EntityArrayResponseType = HttpResponse<IAudio[]>;
 @Injectable({ providedIn: 'root' })
 export class AudioService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/audio');
+  protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/audiofile');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(audio: IAudio): Observable<EntityResponseType> {
     return this.http.post<IAudio>(this.resourceUrl, audio, { observe: 'response' });
+  }
+
+  // uploadfile(file: File): Observable<HttpResponse<FormData>>{
+  //   uploadfile(Fichiay: Fichiay): Observable<HttpResponse<File>>{
+  uploadFile(fichiay: IFichiay): Observable<EntityResponseType> {
+    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
+    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
   }
 
   update(audio: IAudio): Observable<EntityResponseType> {

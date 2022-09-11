@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,8 +9,8 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ContenantService } from 'app/entities/contenant/service/contenant.service';
-
-import { IAudio, Audio } from '../audio.model';
+import { UploadService } from './post-audio-service.service';
+import { IAudio, Audio, IFichiay, Fichiay } from '../audio.model';
 import { AudioService } from '../service/audio.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class CreationAudioComponent implements OnInit {
   isSaving = false;
   contenanto = new Contenant();
   contenantsSharedCollection: IContenant[] = [];
+  file: any = null;
 
   editForm = this.fb.group({
     id: [],
@@ -34,6 +35,9 @@ export class CreationAudioComponent implements OnInit {
     arriereplan: [],
     arriereplanContentType: [],
     contenant: [],
+    idFichier: [],
+    fichier: [],
+    fichierContentType: [],
   });
 
   constructor(
@@ -43,8 +47,46 @@ export class CreationAudioComponent implements OnInit {
     protected contenantService: ContenantService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected http: HttpClient,
+    private uploadService: UploadService
   ) {}
+
+  public onFilechange(event: any): void {
+    this.file = event.target.files[0];
+
+    // new
+    // this.filename = event.target.files[0].name;
+    // this.filecontent = await event.target.files[0].content;
+  }
+
+  //  upload():void {
+  //   alert(this.file.name);
+  //   if (this.file) {
+  //     alert(" YEUUUUUUUUUUSH 2");
+  //    this.audioService.uploadfile(this.file).subscribe(resp => {
+  //       alert("Uploaded")
+  //     })
+  //   } else {
+  //     alert("Please select a file first")
+  //   }
+  //  }
+
+  //  uploadFile():void {
+
+  //  let savefileName = this.filename + ".jpg";
+  //  let saveFileContent = this.filecontent;
+
+  //  alert(this.filename);
+  //  if (this.file) {
+  //    alert(" YEUUUUUUUUUUSH 2");
+  //    this.audioService.uploadfile(this.file).subscribe(resp => {
+  //      alert("Uploaded")
+  //    })
+  //  } else {
+  //    alert("Please select a file first")
+  //  }
+  //  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contenant }) => {
@@ -52,7 +94,6 @@ export class CreationAudioComponent implements OnInit {
       contenant = null;
 
       this.updateForm(contenant);
-
       this.loadRelationshipsOptions();
     });
   }
@@ -66,7 +107,7 @@ export class CreationAudioComponent implements OnInit {
   }
 
   setFileData(event: Event, field: string, isImage: boolean): void {
-    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
+    this.dataUtils.loadFileAudioToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
         this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
     });
@@ -91,6 +132,14 @@ export class CreationAudioComponent implements OnInit {
     const audio = this.createFromForm();
 
     this.subscribeToSaveResponse(this.audioService.create(audio));
+
+    this.uploadFile();
+  }
+
+  uploadFile(): void {
+    const file = this.createFileFromForm();
+    //    alert(file.fichierContentType?.toString());
+    this.subscribeToSaveResponse(this.audioService.uploadFile(file));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
@@ -160,6 +209,17 @@ export class CreationAudioComponent implements OnInit {
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.contenanto,
+    };
+  }
+
+  protected createFileFromForm(): IFichiay {
+    alert(' niak niakkaka 2');
+    return {
+      ...new Fichiay(),
+      id: this.editForm.get(['idFichier'])!.value,
+      nom: ' YEUUUUUSH ',
+      fichier: this.editForm.get(['fichier'])!.value,
+      fichierContentType: this.editForm.get(['fichierContentType'])!.value,
     };
   }
 }

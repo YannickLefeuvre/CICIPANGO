@@ -31,6 +31,17 @@ export class Audio extends Contenu implements IAudio {
   }
 }
 
+export interface IFichiay {
+  id?: number;
+  nom?: string;
+  fichierContentType?: string | null;
+  fichier?: string | null;
+}
+
+export class Fichiay implements IFichiay {
+  constructor(public id?: number, public nom?: string, public fichierContentType?: string | null, public fichier?: string | null) {}
+}
+
 export function getAudioIdentifier(audio: IAudio): number | undefined {
   return audio.id;
 }

@@ -1,8 +1,13 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Audio;
+import com.mycompany.myapp.domain.Fichiay;
 import com.mycompany.myapp.repository.AudioRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import io.undertow.server.handlers.form.FormData;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -11,9 +16,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.source.ConfigurationPropertyName.Form;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -28,6 +35,8 @@ public class AudioResource {
     private final Logger log = LoggerFactory.getLogger(AudioResource.class);
 
     private static final String ENTITY_NAME = "audio";
+
+    Long lastAudioId;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -52,10 +61,30 @@ public class AudioResource {
             throw new BadRequestAlertException("A new audio cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Audio result = audioRepository.save(audio);
+
+        lastAudioId = result.getId();
+
         return ResponseEntity
             .created(new URI("/api/audio/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/audiofile")
+    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
+        log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
+
+        System.out.println(" YOHOOOOOO ");
+
+        try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
+            fos.write(fichou.getFichier());
+            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/audiofile"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "hoo"))
+            .body(fichou);
     }
 
     /**

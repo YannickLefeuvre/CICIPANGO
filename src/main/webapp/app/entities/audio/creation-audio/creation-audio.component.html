@@ -2,9 +2,8 @@
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-film-heading" data-cy="FilmCreateUpdateHeading" jhiTranslate="cipangoApp.film.home.createOrEditLabel">
-        Create or edit a Film
+        Create or edit a Audio
       </h2>
-
       <div>
         <jhi-alert-error></jhi-alert-error>
 
@@ -12,7 +11,6 @@
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
-
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cipangoApp.contenu.nom" for="field_nom">Nom</label>
           <input type="text" class="form-control" name="nom" id="field_nom" data-cy="nom" formControlName="nom" />
@@ -32,6 +30,100 @@
             </small>
           </div>
         </div>
+
+        <!--
+
+      <div class="row mb-3">
+        <label class="form-label" >Fichié</label>
+        <div>
+          <img
+            [src]="'data:' + editForm.get('fichierContentType')!.value + ';base64,' + editForm.get('fichier')!.value"
+            style="max-height: 100px"
+            *ngIf="editForm.get('fichier')!.value"
+            alt="contenu image"
+          />
+          <div *ngIf="editForm.get('fichier')!.value" class="form-text text-danger clearfix">
+            <span class="pull-start">{{ editForm.get('fichierContentType')!.value }}, {{ byteSize(editForm.get('fichier')!.value) }}</span>
+            <button
+              type="button"
+              (click)="clearInputImage('fichier', 'fichierContentType', 'file_fichier')"
+              class="btn btn-secondary btn-xs pull-end"
+            >
+              <fa-icon icon="times"></fa-icon>
+            </button>
+          </div>
+          <input
+            type="file"
+            id="file_fichier"
+            data-cy="fichier"
+            (change)="setFileData($event, 'fichier', true)"
+            accept="image/*"
+            jhiTranslate="entity.action.addimage"
+          />
+        </div>
+        <input type="hidden" class="form-control" name="fichier" id="field_fichier" data-cy="fichier" formControlName="fichier" />
+        <input
+          type="hidden"
+          class="form-control"
+          name="fichierContentType"
+          id="field_fichierContentType"
+          formControlName="fichierContentType"
+        />
+      </div>
+      <button
+      type="submit"
+      id="upload-file"
+      data-cy="entityCreateFileButton"
+      [disabled]="editForm.invalid || isSaving"
+      class="btn btn-primary"
+      (click)="uploadFile()"
+      >
+      <fa-icon icon="save"></fa-icon>&nbsp;<span>UploadFile</span>
+    </button>
+
+    -->
+
+        <div class="row mb-3">
+          <label class="form-label">Fichié</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('fichierContentType')!.value + ';base64,' + editForm.get('fichier')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('fichier')!.value"
+            />
+            <div *ngIf="editForm.get('fichier')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('fichierContentType')!.value }}, {{ byteSize(editForm.get('fichier')!.value) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('fichier', 'fichierContentType', 'file_fichier')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_fichier" data-cy="fichier" (change)="setFileData($event, 'fichier', true)" />
+          </div>
+          <input type="hidden" class="form-control" name="fichier" id="field_fichier" data-cy="fichier" formControlName="fichier" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="fichierContentType"
+            id="field_fichierContentType"
+            formControlName="fichierContentType"
+          />
+        </div>
+        <button
+          type="submit"
+          id="upload-file"
+          data-cy="entityCreateFileButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+          (click)="uploadFile()"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>UploadFile</span>
+        </button>
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cipangoApp.contenu.icone" for="field_icone">Icone</label>
