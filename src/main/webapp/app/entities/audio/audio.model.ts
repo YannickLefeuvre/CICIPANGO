@@ -12,6 +12,7 @@ export interface IAudio {
   arriereplanContentType?: string | null;
   arriereplan?: string | null;
   contenant?: IContenant | null;
+  type?: string | null;
 }
 
 export class Audio extends Contenu implements IAudio {
@@ -25,7 +26,8 @@ export class Audio extends Contenu implements IAudio {
     public ordonnee?: number | null,
     public arriereplanContentType?: string | null,
     public arriereplan?: string | null,
-    public contenant?: IContenant | null
+    public contenant?: IContenant | null,
+    public type?: string | null
   ) {
     super(id, nom);
   }

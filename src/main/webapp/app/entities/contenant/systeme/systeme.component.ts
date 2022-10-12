@@ -53,6 +53,14 @@ export class SystemeComponent implements OnInit {
     }
   }
 
+  type(contenu: Contenu): string {
+    if (contenu.type != null) {
+      return contenu.type;
+    } else {
+      return 'naze';
+    }
+  }
+
   previousState(): void {
     window.history.back();
   }

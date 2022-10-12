@@ -27,6 +27,10 @@
       "fieldName": "arriereplan",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

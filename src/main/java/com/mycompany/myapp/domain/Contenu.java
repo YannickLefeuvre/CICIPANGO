@@ -48,6 +48,9 @@ public class Contenu implements Serializable {
     @Column(name = "arriereplan_content_type")
     private String arriereplanContentType;
 
+    @Column(name = "type")
+    private String type;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Contenant contenant;
@@ -166,6 +169,14 @@ public class Contenu implements Serializable {
         this.contenant = contenant;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Contenu contenant(Contenant contenant) {
         this.setContenant(contenant);
         return this;
@@ -202,6 +213,7 @@ public class Contenu implements Serializable {
             ", ordonnee=" + getOrdonnee() +
             ", arriereplan='" + getArriereplan() + "'" +
             ", arriereplanContentType='" + getArriereplanContentType() + "'" +
+            ", type='" + getType() + "'" +
             "}";
     }
 }

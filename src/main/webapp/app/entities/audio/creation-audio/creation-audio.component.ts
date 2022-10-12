@@ -209,11 +209,11 @@ export class CreationAudioComponent implements OnInit {
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.contenanto,
+      type: 'AUDIO',
     };
   }
 
   protected createFileFromForm(): IFichiay {
-    alert(' niak niakkaka 2');
     return {
       ...new Fichiay(),
       id: this.editForm.get(['idFichier'])!.value,

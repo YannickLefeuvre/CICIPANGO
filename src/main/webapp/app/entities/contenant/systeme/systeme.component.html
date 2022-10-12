@@ -1,5 +1,16 @@
 <div *ngFor="let contenu of contenant?.contenus">
   <li>{{ contenu.nom }}</li>
+  <div *ngIf="contenu.type == 'AUDIO'">
+    <button
+      type="submit"
+      [routerLink]="['/audio', contenant?.id, 'contempaudio']"
+      class="btn btn-primary btn-sm"
+      data-cy="entityEditButton"
+    >
+      <fa-icon icon="pencil-alt"></fa-icon>
+      <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">CLICK LE AUDIO PUTIN</span>
+    </button>
+  </div>
 </div>
 
 <p>YOHOOOOOO</p>

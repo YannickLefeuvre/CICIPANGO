@@ -10,6 +10,7 @@ export interface IContenu {
   arriereplanContentType?: string | null;
   arriereplan?: string | null;
   contenant?: IContenant | null;
+  type?: string | null;
 }
 
 export class Contenu implements IContenu {
@@ -22,7 +23,8 @@ export class Contenu implements IContenu {
     public ordonnee?: number | null,
     public arriereplanContentType?: string | null,
     public arriereplan?: string | null,
-    public contenant?: IContenant | null
+    public contenant?: IContenant | null,
+    public type?: string | null
   ) {}
 }
 
