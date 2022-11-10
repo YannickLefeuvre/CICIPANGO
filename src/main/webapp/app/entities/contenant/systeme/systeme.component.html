@@ -1,14 +1,26 @@
+<!-- 
+<button mat-button (click)="this.openDialog()">Open dialog</button>
+
+
+<mat-dialog-content class="mat-typography">vfcdxsz </mat-dialog-content>
+-->
+
 <div *ngFor="let contenu of contenant?.contenus">
   <li>{{ contenu.nom }}</li>
   <div *ngIf="contenu.type == 'AUDIO'">
+    <!--  
     <button
+     
       type="submit"
       [routerLink]="['/audio', contenant?.id, 'contempaudio']"
       class="btn btn-primary btn-sm"
       data-cy="entityEditButton"
-    >
+    >   </button>
+  -->
+
+    <button (click)="openAudioDialog(contenu)">
       <fa-icon icon="pencil-alt"></fa-icon>
-      <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">CLICK LE AUDIO PUTIN</span>
+      <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
     </button>
   </div>
 </div>

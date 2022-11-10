@@ -11,6 +11,9 @@ import { HttpResponse } from '@angular/common/http';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
+import { MatDialog } from '@angular/material/dialog';
+import { AudioContemplationComponent } from '../entities/audio/audio-contemplation/audio-contemplation.component';
+
 @Component({
   selector: 'jhi-home',
   templateUrl: './home.component.html',
@@ -28,7 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     protected contenantsService: ContenantService,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected dialogref: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +59,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   login(): void {
     this.router.navigate(['/login']);
+  }
+
+  openDialog(): void {
+    //    alert("CHIOOOOTE");
+    //    this.dialogref.open(AudioContemplationComponent)
+    this.dialogref.open(AudioContemplationComponent);
   }
 
   ngOnDestroy(): void {

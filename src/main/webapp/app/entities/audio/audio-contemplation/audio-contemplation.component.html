@@ -1,1 +1,26 @@
-<p>audio-contemplation works!</p>
+<!-- <p>bite works!</p>
+
+<p>{{getAudioUrl(this.audio)}}</p>
+    -->
+
+<div class="modal-header">
+  <h4 class="modal-title">Hi there!</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Hello, {{ audioNom(this.audio) }}</p>
+  <audio controls>
+    <h2 mat-dialog-title>HAAAA</h2>
+
+    <audio src="https://p.scdn.co/mp3-preview/6d00206e32194d15df329d4770e4fa1f2ced3f57#t=,1" controls></audio>
+    <!--   <source src='../../../content/images/uu.mp3' type="audio/mpeg">
+          
+         <source src='../../../content/audios/uu.mp3' type="audio/mpeg">  -->
+    <source src="{{ cheminAlaudio() }}" type="audio/mpeg" />
+  </audio>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>
+</div>

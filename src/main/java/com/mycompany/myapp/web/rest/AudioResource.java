@@ -76,7 +76,12 @@ public class AudioResource {
 
         System.out.println(" YOHOOOOOO ");
 
-        try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
+        //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
+        try (
+            FileOutputStream fos = new FileOutputStream(
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + lastAudioId + ".mp3"
+            )
+        ) {
             fos.write(fichou.getFichier());
             //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
         }

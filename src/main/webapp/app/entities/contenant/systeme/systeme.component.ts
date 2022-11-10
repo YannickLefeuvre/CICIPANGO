@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { IContenant } from '../contenant.model';
@@ -8,6 +8,12 @@ import { ContenuService } from '../../contenu/service/contenu.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
+import { AudioContemplationComponent } from '../../audio/audio-contemplation/audio-contemplation.component';
+import { ContenantDetailComponent } from '../detail/contenant-detail.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Audio } from 'app/entities/audio/audio.model';
 
 @Component({
   selector: 'jhi-systeme',
@@ -15,6 +21,8 @@ import { finalize, map } from 'rxjs/operators';
   styleUrls: ['./systeme.component.scss'],
 })
 export class SystemeComponent implements OnInit {
+  // @Input() audio;
+  // @Input() yuyu  = " frdes";
   contenant: IContenant | null = null;
   isSaving = false;
 
@@ -34,8 +42,12 @@ export class SystemeComponent implements OnInit {
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
-    protected contenuService: ContenuService
-  ) {}
+    protected contenuService: ContenuService,
+    //    protected dialogref: MatDialog,
+    //    public dialog: MatDialog,
+    private modalService: NgbModal
+  ) //    protected activeModal: NgbActiveModal,
+  {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contenant }) => {
@@ -63,6 +75,22 @@ export class SystemeComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  //  openDialog(): any {
+  //   alert(" HOOOOO ");
+  //   const dialogRef =
+  // this.modalService.open(AudioContemplationComponent, {
+  //  centered: true,
+  //  size:""
+  // });}
+
+  openAudioDialog(audi: Audio): any {
+    const modalRef = this.modalService.open(AudioContemplationComponent, {
+      centered: true,
+      //  size:""
+    });
+    modalRef.componentInstance.audio = audi;
   }
 
   protected createFromForm(): IContenu {

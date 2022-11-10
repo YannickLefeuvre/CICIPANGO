@@ -7,9 +7,10 @@ import { ContenantDeleteDialogComponent } from './delete/contenant-delete-dialog
 import { ContenantRoutingModule } from './route/contenant-routing.module';
 import { SystemeComponent } from './systeme/systeme.component';
 import { ContenantCreationComponent } from './creation/creation.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  imports: [SharedModule, ContenantRoutingModule],
+  imports: [SharedModule, ContenantRoutingModule, MatDialogModule],
   declarations: [
     ContenantComponent,
     ContenantDetailComponent,
@@ -19,5 +20,7 @@ import { ContenantCreationComponent } from './creation/creation.component';
     ContenantCreationComponent,
   ],
   entryComponents: [ContenantDeleteDialogComponent],
+
+  bootstrap: [SystemeComponent],
 })
 export class ContenantModule {}

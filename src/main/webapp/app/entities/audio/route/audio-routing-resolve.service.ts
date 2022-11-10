@@ -27,4 +27,23 @@ export class AudioRoutingResolveService implements Resolve<IAudio> {
     }
     return of(new Audio());
   }
+
+  resolveIDO(route: ActivatedRouteSnapshot): Observable<IAudio> | Observable<never> {
+    const id = route.params['uo'];
+    if (id) {
+      alert(' RATAY hyhy ');
+      return this.service.find(id).pipe(
+        mergeMap((audio: HttpResponse<Audio>) => {
+          if (audio.body) {
+            return of(audio.body);
+          } else {
+            alert(' RATAY BATAR ');
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }
+    return of(new Audio());
+  }
 }
