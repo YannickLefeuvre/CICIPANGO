@@ -1,0 +1,98 @@
+section {
+  display: table;
+}
+
+h1 {
+  color: rgb(0, 0, 0);
+  font-size: 50px;
+  text-align: center;
+}
+
+h2 {
+  color: blue;
+  font-size: 35px;
+}
+
+h3 {
+  color: red;
+  font-size: 35px;
+}
+
+h4 {
+  color: rgb(218, 4, 247);
+  font-size: 35px;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+li {
+  font-size: 25px;
+}
+
+a.aud {
+  color: #1100ff;
+  text-decoration: none;
+  font-size: 25px;
+}
+a.aud:link {
+  color: #1100ff;
+}
+a.aud:visited {
+  color: #0000ff;
+}
+a.aud:hover {
+  color: #ffcc00;
+}
+
+a.con {
+  color: #58b125;
+  text-decoration: none;
+  font-size: 25px;
+}
+a.aud:link {
+  color: #0c1109;
+}
+a.aud:visited {
+  color: #e7f0e2;
+}
+a.aud:hover {
+  color: #ffcc00;
+}

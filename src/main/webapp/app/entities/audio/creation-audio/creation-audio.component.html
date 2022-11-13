@@ -1,7 +1,8 @@
+<div>HYYYYYYYYYYYYYYYYYYYYYYYYYYYYY</div>
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-film-heading" data-cy="FilmCreateUpdateHeading" jhiTranslate="cipangoApp.film.home.createOrEditLabel">
+      <h2 id="jhi-audio-heading" data-cy="AudioCreateUpdateHeading" jhiTranslate="cipangoApp.audio.home.createOrEditLabel">
         Create or edit a Audio
       </h2>
       <div>
@@ -90,6 +91,7 @@
               [src]="'data:' + editForm.get('fichierContentType')!.value + ';base64,' + editForm.get('fichier')!.value"
               style="max-height: 100px"
               *ngIf="editForm.get('fichier')!.value"
+              alt="contenu image"
             />
             <div *ngIf="editForm.get('fichier')!.value" class="form-text text-danger clearfix">
               <span class="pull-start"
@@ -103,7 +105,7 @@
                 <fa-icon icon="times"></fa-icon>
               </button>
             </div>
-            <input type="file" id="file_fichier" data-cy="fichier" (change)="setFileData($event, 'fichier', true)" />
+            <input type="file" id="file_fichier" data-cy="fichier" (change)="setFileData($event, 'fichier', true)" accept="audio/*" />
           </div>
           <input type="hidden" class="form-control" name="fichier" id="field_fichier" data-cy="fichier" formControlName="fichier" />
           <input
@@ -114,16 +116,6 @@
             formControlName="fichierContentType"
           />
         </div>
-        <button
-          type="submit"
-          id="upload-file"
-          data-cy="entityCreateFileButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-          (click)="uploadFile()"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>UploadFile</span>
-        </button>
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cipangoApp.contenu.icone" for="field_icone">Icone</label>

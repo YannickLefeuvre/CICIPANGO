@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Audio } from 'app/entities/audio/audio.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'jhi-systeme',
@@ -45,9 +46,8 @@ export class SystemeComponent implements OnInit {
     protected contenuService: ContenuService,
     //    protected dialogref: MatDialog,
     //    public dialog: MatDialog,
-    private modalService: NgbModal
-  ) //    protected activeModal: NgbActiveModal,
-  {}
+    private modalService: NgbModal //    protected activeModal: NgbActiveModal,
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contenant }) => {
@@ -71,6 +71,15 @@ export class SystemeComponent implements OnInit {
     } else {
       return 'naze';
     }
+  }
+
+  nomContenant(): string {
+    if (this.contenant != null) {
+      if (this.contenant.nom != null) {
+        return this.contenant.nom;
+      }
+    }
+    return '';
   }
 
   previousState(): void {
