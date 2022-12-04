@@ -13,6 +13,18 @@
     {
       "fieldName": "description",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nbPhotos",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ext",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

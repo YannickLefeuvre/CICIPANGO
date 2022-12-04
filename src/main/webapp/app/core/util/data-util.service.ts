@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Fichiay, IFichiay } from 'app/entities/audio/audio.model';
 import { Observable, Observer } from 'rxjs';
 
 export type FileLoadErrorType = 'not.image' | 'could.not.extract';
@@ -121,6 +122,32 @@ export class DataUtils {
           params: { event },
         };
         observer.error(error);
+      }
+    });
+  }
+
+  loadFichiayToFichiasse(event: Event, fichiasse: IFichiay[]): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null;
+      if (eventTarget?.files?.[0]) {
+        //       const file: File = eventTarget.files[0];
+        //       for(var  file of eventTarget.files ){
+        for (let i = 0; i < eventTarget.files.length; i++) {
+          const fifi = new Fichiay();
+
+          this.toBase64(eventTarget.files[i], (base64Data: string) => {
+            if (eventTarget.files?.[0]) {
+              fifi.nom = 'YEUUUUSH';
+              fifi.fichier = base64Data;
+              fifi.fichierContentType = eventTarget.files[i].type;
+
+              observer.next();
+              observer.complete();
+            }
+          });
+
+          fichiasse[i] = fifi;
+        }
       }
     });
   }

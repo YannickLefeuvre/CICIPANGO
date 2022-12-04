@@ -38,10 +38,19 @@ export interface IFichiay {
   nom?: string;
   fichierContentType?: string | null;
   fichier?: string | null;
+  ext?: string | null;
+  nbSecret?: number | null;
 }
 
 export class Fichiay implements IFichiay {
-  constructor(public id?: number, public nom?: string, public fichierContentType?: string | null, public fichier?: string | null) {}
+  constructor(
+    public id?: number,
+    public nom?: string,
+    public fichierContentType?: string | null,
+    public fichier?: string | null,
+    public ext?: string | null,
+    public nbSecret?: number
+  ) {}
 }
 
 export function getAudioIdentifier(audio: IAudio): number | undefined {

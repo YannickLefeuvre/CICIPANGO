@@ -4,6 +4,11 @@
   "private": true,
   "description": "Description for CIPANGO",
   "license": "UNLICENSED",
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  },
   "scripts": {
     "app:start": "./mvnw",
     "backend:build-cache": "./mvnw dependency:go-offline",
@@ -94,7 +99,10 @@
     "bootstrap": "^5.2.2",
     "dayjs": "1.11.0",
     "file-saver": "^2.0.5",
+    "file-system": "^2.2.2",
     "filesaver": "^0.0.13",
+    "fs": "^0.0.1-security",
+    "get-all-files": "^4.1.0",
     "ng-bootstrap": "^1.1.16",
     "ngx-infinite-scroll": "13.0.1",
     "ngx-webstorage": "9.0.0",
@@ -111,7 +119,7 @@
     "@angular/compiler-cli": "13.3.1",
     "@angular/service-worker": "13.3.1",
     "@types/jest": "27.4.1",
-    "@types/node": "16.11.26",
+    "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
     "browser-sync": "2.27.9",

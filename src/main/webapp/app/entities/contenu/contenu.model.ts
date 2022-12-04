@@ -11,6 +11,7 @@ export interface IContenu {
   arriereplan?: string | null;
   contenant?: IContenant | null;
   type?: string | null;
+  ext?: string | null;
 }
 
 export class Contenu implements IContenu {
@@ -24,7 +25,8 @@ export class Contenu implements IContenu {
     public arriereplanContentType?: string | null,
     public arriereplan?: string | null,
     public contenant?: IContenant | null,
-    public type?: string | null
+    public type?: string | null,
+    public ext?: string | null
   ) {}
 }
 

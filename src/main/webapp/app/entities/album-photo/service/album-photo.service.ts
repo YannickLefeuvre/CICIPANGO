@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
@@ -13,6 +13,7 @@ export type EntityArrayResponseType = HttpResponse<IAlbumPhoto[]>;
 @Injectable({ providedIn: 'root' })
 export class AlbumPhotoService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/album-photos');
+  protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/album-photosfile');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -24,6 +25,11 @@ export class AlbumPhotoService {
     return this.http.put<IAlbumPhoto>(`${this.resourceUrl}/${getAlbumPhotoIdentifier(albumPhoto) as number}`, albumPhoto, {
       observe: 'response',
     });
+  }
+
+  uploadFile(fichiay: IFichiay): Observable<EntityResponseType> {
+    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
+    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
   }
 
   partialUpdate(albumPhoto: IAlbumPhoto): Observable<EntityResponseType> {

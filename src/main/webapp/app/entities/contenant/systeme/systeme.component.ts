@@ -9,11 +9,13 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
 import { AudioContemplationComponent } from '../../audio/audio-contemplation/audio-contemplation.component';
+import { AlbumPhotoContemplationComponent } from 'app/entities/album-photo/album-photo-contemplation/album-photo-contemplation.component';
 import { ContenantDetailComponent } from '../detail/contenant-detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Audio } from 'app/entities/audio/audio.model';
+import { AlbumPhoto } from 'app/entities/album-photo/album-photo.model';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -100,6 +102,14 @@ export class SystemeComponent implements OnInit {
       //  size:""
     });
     modalRef.componentInstance.audio = audi;
+  }
+
+  openAlbumPhotoDialog(albu: AlbumPhoto): any {
+    const modalRef = this.modalService.open(AlbumPhotoContemplationComponent, {
+      centered: true,
+      //  size:""
+    });
+    modalRef.componentInstance.album = albu;
   }
 
   protected createFromForm(): IContenu {

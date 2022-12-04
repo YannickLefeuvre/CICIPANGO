@@ -51,6 +51,12 @@ public class Contenu implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "ext")
+    private String ext;
+
+    @Transient
+    private int nbSecret;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Contenant contenant;
@@ -177,6 +183,22 @@ public class Contenu implements Serializable {
         this.type = type;
     }
 
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public int getNbSecret() {
+        return nbSecret;
+    }
+
+    public void setNbSecret(int nbSecret) {
+        this.nbSecret = nbSecret;
+    }
+
     public Contenu contenant(Contenant contenant) {
         this.setContenant(contenant);
         return this;
@@ -214,6 +236,8 @@ public class Contenu implements Serializable {
             ", arriereplan='" + getArriereplan() + "'" +
             ", arriereplanContentType='" + getArriereplanContentType() + "'" +
             ", type='" + getType() + "'" +
+            ", nbSecret='" + getNbSecret() + "'" +
+            ", ext='" + getExt() + "'" +
             "}";
     }
 }

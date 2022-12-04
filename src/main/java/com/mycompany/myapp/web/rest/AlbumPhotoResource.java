@@ -1,8 +1,12 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.AlbumPhoto;
+import com.mycompany.myapp.domain.Fichiay;
 import com.mycompany.myapp.repository.AlbumPhotoRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -29,6 +33,10 @@ public class AlbumPhotoResource {
 
     private static final String ENTITY_NAME = "albumPhoto";
 
+    Long lastAlbumPhotoId;
+    int numphoto;
+    int LastnbSecret;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -51,7 +59,17 @@ public class AlbumPhotoResource {
         if (albumPhoto.getId() != null) {
             throw new BadRequestAlertException("A new albumPhoto cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         AlbumPhoto result = albumPhotoRepository.save(albumPhoto);
+        this.LastnbSecret = result.getNbSecret();
+        this.lastAlbumPhotoId = result.getId();
+        numphoto = 0;
+
+        File theDir = new File("C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + this.lastAlbumPhotoId);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
+        }
+
         return ResponseEntity
             .created(new URI("/api/album-photos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -165,6 +183,43 @@ public class AlbumPhotoResource {
         log.debug("REST request to get AlbumPhoto : {}", id);
         Optional<AlbumPhoto> albumPhoto = albumPhotoRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(albumPhoto);
+    }
+
+    @PostMapping("/album-photosfile")
+    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
+        log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
+        numphoto++;
+
+        System.out.println(" YOHOOOOOO ");
+
+        if (fichou.getNbFichier() != this.LastnbSecret) {
+            throw new BadRequestAlertException(
+                "Nb Secrets pas égales:" + this.LastnbSecret + " DUDU " + fichou.getNbFichier(),
+                ENTITY_NAME,
+                "idinvalid"
+            );
+        }
+
+        //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
+        try (
+            FileOutputStream fos = new FileOutputStream(
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" +
+                lastAlbumPhotoId +
+                "\\bubu" +
+                lastAlbumPhotoId +
+                numphoto +
+                "." +
+                fichou.getExt()
+            )
+        ) {
+            fos.write(fichou.getFichier());
+            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/audiofile"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "hoo"))
+            .body(fichou);
     }
 
     /**

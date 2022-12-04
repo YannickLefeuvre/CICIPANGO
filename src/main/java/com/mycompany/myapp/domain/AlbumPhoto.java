@@ -11,15 +11,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "album_photo")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class AlbumPhoto implements Serializable {
+@PrimaryKeyJoinColumn(name = "ID")
+public class AlbumPhoto extends Contenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
 
     @Lob
     @Column(name = "images")
@@ -31,19 +26,17 @@ public class AlbumPhoto implements Serializable {
     @Column(name = "description")
     private String description;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    @Column(name = "urls")
+    private String nbPhotos;
 
-    public Long getId() {
-        return this.id;
-    }
+    //    @Column(name = "ext")
+    //    private String ext;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public AlbumPhoto id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public byte[] getImages() {
@@ -87,6 +80,22 @@ public class AlbumPhoto implements Serializable {
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
+    public String getNbPhotos() {
+        return nbPhotos;
+    }
+
+    public void setNbPhotos(String nbPhotos) {
+        this.nbPhotos = nbPhotos;
+    }
+
+    //	public String getExt() {
+    //		return ext;
+    //	}
+    //
+    //	public void setExt(String ext) {
+    //		this.ext = ext;
+    //	}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -95,7 +104,7 @@ public class AlbumPhoto implements Serializable {
         if (!(o instanceof AlbumPhoto)) {
             return false;
         }
-        return id != null && id.equals(((AlbumPhoto) o).id);
+        return this.getId() != null && this.getId().equals(((AlbumPhoto) o).getId());
     }
 
     @Override
@@ -112,6 +121,7 @@ public class AlbumPhoto implements Serializable {
             ", images='" + getImages() + "'" +
             ", imagesContentType='" + getImagesContentType() + "'" +
             ", description='" + getDescription() + "'" +
+            ", nbPhotos='" + getNbPhotos() + "'" +
             "}";
     }
 }

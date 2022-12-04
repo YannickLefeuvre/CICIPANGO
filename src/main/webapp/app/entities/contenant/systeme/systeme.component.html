@@ -12,13 +12,21 @@
   <li>{{ contenu.nom }}</li>
 
   <div *ngIf="contenu.type == 'AUDIO'">
-    <!-- 
     <button (click)="openAudioDialog(contenu)">
       <fa-icon icon="pencil-alt"></fa-icon>
       <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
     </button>
-  -->
+
     <a class="aud" (click)="openAudioDialog(contenu)">{{ contenu.nom }}</a>
+  </div>
+
+  <div *ngIf="contenu.type == 'ALBUMPHOTO'">
+    <button (click)="openAudioDialog(contenu)">
+      <fa-icon icon="pencil-alt"></fa-icon>
+      <span class="d-none d-md-inline" jhiTranslate="entity.action.edit"></span>
+    </button>
+
+    <a class="aud" (click)="openAlbumPhotoDialog(contenu)">{{ contenu.nom }}</a>
   </div>
 </div>
 
@@ -41,3 +49,5 @@
 <button type="button" class="button" [routerLink]="['/film', contenant?.id, 'addfilm']">nouvo Film</button>
 
 <button type="button" class="button" [routerLink]="['/audio', contenant?.id, 'addaudio']">nouvo audio</button>
+
+<button type="button" class="button" [routerLink]="['/album-photo', contenant?.id, 'addalbum']">nouvo album photo</button>

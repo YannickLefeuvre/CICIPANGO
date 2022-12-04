@@ -33,6 +33,10 @@ public class Fichiay implements Serializable {
 
     private String fichierContentType;
 
+    private String ext;
+
+    private int nbFichier;
+
     public Fichiay() {
         super();
     }
@@ -76,6 +80,22 @@ public class Fichiay implements Serializable {
         this.fichierContentType = iconeContentType;
     }
 
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public int getNbFichier() {
+        return nbFichier;
+    }
+
+    public void setNbFichier(int nbFichier) {
+        this.nbFichier = nbFichier;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -106,6 +126,11 @@ public class Fichiay implements Serializable {
             "'" +
             ", fichierContentType='" +
             getFichierContentType() +
+            "'" +
+            ", ext='" +
+            getExt() +
+            ", nbFichier='" +
+            getNbFichier() +
             "'" +
             "}"
         );

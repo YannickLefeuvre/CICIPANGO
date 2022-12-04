@@ -31,6 +31,10 @@
     {
       "fieldName": "type",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "nbSecret",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

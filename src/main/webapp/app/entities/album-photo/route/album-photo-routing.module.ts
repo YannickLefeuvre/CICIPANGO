@@ -6,6 +6,8 @@ import { AlbumPhotoComponent } from '../list/album-photo.component';
 import { AlbumPhotoDetailComponent } from '../detail/album-photo-detail.component';
 import { AlbumPhotoUpdateComponent } from '../update/album-photo-update.component';
 import { AlbumPhotoRoutingResolveService } from './album-photo-routing-resolve.service';
+import { CreationAlbumPhotoComponent } from '../creation-album-photo/creation-album-photo.component';
+import { ContenantRoutingResolveService } from '../../contenant/route/contenant-routing-resolve.service';
 
 const albumPhotoRoute: Routes = [
   {
@@ -34,6 +36,14 @@ const albumPhotoRoute: Routes = [
     component: AlbumPhotoUpdateComponent,
     resolve: {
       albumPhoto: AlbumPhotoRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/addalbum',
+    component: CreationAlbumPhotoComponent,
+    resolve: {
+      contenant: ContenantRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },
