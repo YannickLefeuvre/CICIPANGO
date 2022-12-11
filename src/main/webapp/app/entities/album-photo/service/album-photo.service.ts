@@ -5,9 +5,10 @@ import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IAlbumPhoto, getAlbumPhotoIdentifier } from '../album-photo.model';
+import { IAlbumPhoto, getAlbumPhotoIdentifier, IListeFichiers } from '../album-photo.model';
 
 export type EntityResponseType = HttpResponse<IAlbumPhoto>;
+export type FichierResponseType = HttpResponse<IListeFichiers>;
 export type EntityArrayResponseType = HttpResponse<IAlbumPhoto[]>;
 
 @Injectable({ providedIn: 'root' })
@@ -40,6 +41,10 @@ export class AlbumPhotoService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IAlbumPhoto>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findFichiers(id: number): Observable<FichierResponseType> {
+    return this.http.get<IListeFichiers>(`${this.resourceUrl}/fichiers/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

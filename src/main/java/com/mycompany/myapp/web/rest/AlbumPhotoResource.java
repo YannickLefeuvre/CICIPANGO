@@ -2,6 +2,7 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.AlbumPhoto;
 import com.mycompany.myapp.domain.Fichiay;
+import com.mycompany.myapp.domain.ListFichiers;
 import com.mycompany.myapp.repository.AlbumPhotoRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.io.File;
@@ -183,6 +184,22 @@ public class AlbumPhotoResource {
         log.debug("REST request to get AlbumPhoto : {}", id);
         Optional<AlbumPhoto> albumPhoto = albumPhotoRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(albumPhoto);
+    }
+
+    @GetMapping("/album-photos/fichiers/{id}")
+    public ResponseEntity<ListFichiers> getFichiersAlbum(@PathVariable Long id) {
+        log.debug("REST request to get les fichiers de l'AlbumPhoto : {}", id);
+        String[] nomsFichiers;
+        //      Optional<AlbumPhoto> albumPhoto = albumPhotoRepository.findById(id);
+        // new ListFichiers("huhu",   new String[] { "Apple", "Apricot", "Banana" }) ;
+
+        File f = new File("C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + id);
+
+        nomsFichiers = f.list();
+
+        Optional<ListFichiers> lust = Optional.of(new ListFichiers("bibi" + id.toString(), nomsFichiers));
+        System.out.println(" AGAGA " + lust.get().getNomDoss());
+        return ResponseUtil.wrapOrNotFound(lust);
     }
 
     @PostMapping("/album-photosfile")

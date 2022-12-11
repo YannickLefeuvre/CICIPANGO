@@ -44,6 +44,15 @@ export class AlbumPhoto extends Contenu implements IAlbumPhoto {
   }
 }
 
+export interface IListeFichiers {
+  nomDoss?: string;
+  nomsFichiers?: string[];
+}
+
+export class ListeFichiers implements IListeFichiers {
+  constructor(public nomDoss: string, public nomsFichiers: string[]) {}
+}
+
 export function getAlbumPhotoIdentifier(albumPhoto: IAlbumPhoto): number | undefined {
   return albumPhoto.id;
 }

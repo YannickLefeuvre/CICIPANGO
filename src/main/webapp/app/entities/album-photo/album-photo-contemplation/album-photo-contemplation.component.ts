@@ -1,6 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlbumPhoto } from '../album-photo.model';
+import { AlbumPhoto, IAlbumPhoto, IListeFichiers } from '../album-photo.model';
+import { AlbumPhotoService } from '../service/album-photo.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-album-photo-contemplation',
@@ -10,30 +12,54 @@ import { AlbumPhoto } from '../album-photo.model';
 export class AlbumPhotoContemplationComponent implements OnInit {
   nbphotos: number | null = null;
   album: AlbumPhoto | null = null;
-  fs = require('fs');
+  listFichiay?: IListeFichiers | null = null;
+  isLoading = false;
+  isOk = false;
 
   // fs = require("fs");
   chminsphotos: Array<string> | null = null;
 
-  constructor(public activeModal: NgbActiveModal, private ngZone: NgZone) {}
+  constructor(public activeModal: NgbActiveModal, private ngZone: NgZone, protected albumPhotoService: AlbumPhotoService) {}
+
+  loadAll(): void {
+    //   this.albumPhotoService.
+
+    //  this.listFichiay =this.albumPhotoService.findFichiers(15);
+
+    if (this.album?.id != null) {
+      this.albumPhotoService.findFichiers(this.album.id).subscribe({
+        next: (res: HttpResponse<IListeFichiers>) => {
+          this.listFichiay = res.body;
+          //      alert("HAAA");
+          this.remplissageArray();
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+    }
+
+    //   alert("HUUUU");
+
+    //    alert("HAAA");
+
+    //    alert(this.listFichiay?.nomDoss);
+    //    alert(this.listFichiay?.nomsFichiers);
+  }
 
   ngOnInit(): void {
-    this.remplissageArray();
-    console.log(NgZone.isInAngularZone());
+    // YAYA
+    this.loadAll();
   }
 
   remplissageArray(): void {
-    this.chminsphotos = new Array(this.nbPhoto());
-    if (this.album?.id != null && this.album.ext != null) {
-      const exts = this.album.ext.split(',');
-      for (let i = 0; i < this.nbPhoto(); i++) {
-        //     alert(" HYYYY ");
-        this.chminsphotos[i] =
-          '/content/albumphoto/bibi' + this.album.id.toString() + '/bubu' + this.album.id.toString() + (i + 1).toString() + '.' + exts[i];
-        //     alert( this.chminsphotos[i]);
-        //this.chminsphotos[i] = '../../../content/images/jhipster_family_member_0_head-192.png';
+    if (this.album?.id != null && this.listFichiay?.nomsFichiers != null) {
+      this.chminsphotos = new Array(this.listFichiay.nomsFichiers.length);
+      for (let i = 0; i < this.listFichiay.nomsFichiers.length; i++) {
+        this.chminsphotos[i] = '/content/albumphoto/bibi' + this.album.id.toString() + '/' + this.listFichiay.nomsFichiers[i];
       }
     }
+    console.log(NgZone.isInAngularZone());
   }
 
   nbPhoto(): number {

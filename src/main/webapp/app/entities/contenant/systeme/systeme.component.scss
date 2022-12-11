@@ -82,6 +82,21 @@ a.aud:hover {
   color: #ffcc00;
 }
 
+a.miam {
+  color: #198f46;
+  text-decoration: none;
+  font-size: 25px;
+}
+a.miam:link {
+  color: #198f46;
+}
+a.miam:visited {
+  color: #198f46;
+}
+a.miam:hover {
+  color: #ffcc00;
+}
+
 a.con {
   color: #58b125;
   text-decoration: none;
@@ -89,10 +104,4 @@ a.con {
 }
 a.aud:link {
   color: #0c1109;
-}
-a.aud:visited {
-  color: #e7f0e2;
-}
-a.aud:hover {
-  color: #ffcc00;
 }
