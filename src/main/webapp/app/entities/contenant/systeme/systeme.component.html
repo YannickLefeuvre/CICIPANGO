@@ -28,6 +28,10 @@
 
     <a class="miam" (click)="openAlbumPhotoDialog(contenu)">{{ contenu.nom }}</a>
   </div>
+
+  <div *ngIf="contenu.type == 'PHOTO'">
+    <a class="bu" (click)="openPhotoDialog(contenu)">{{ contenu.nom }}</a>
+  </div>
 </div>
 
 <br /><br />
@@ -51,3 +55,5 @@
 <button type="button" class="button" [routerLink]="['/audio', contenant?.id, 'addaudio']">nouvo audio</button>
 
 <button type="button" class="button" [routerLink]="['/album-photo', contenant?.id, 'addalbum']">nouvo album photo</button>
+
+<button type="button" class="button" [routerLink]="['/photo', contenant?.id, 'addphoto']">nouvelle photo</button>

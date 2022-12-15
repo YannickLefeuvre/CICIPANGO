@@ -6,6 +6,8 @@ import { PhotoComponent } from '../list/photo.component';
 import { PhotoDetailComponent } from '../detail/photo-detail.component';
 import { PhotoUpdateComponent } from '../update/photo-update.component';
 import { PhotoRoutingResolveService } from './photo-routing-resolve.service';
+import { PhotoCreationComponent } from '../photo-creation/photo-creation.component';
+import { ContenantRoutingResolveService } from '../../contenant/route/contenant-routing-resolve.service';
 
 const photoRoute: Routes = [
   {
@@ -34,6 +36,14 @@ const photoRoute: Routes = [
     component: PhotoUpdateComponent,
     resolve: {
       photo: PhotoRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/addphoto',
+    component: PhotoCreationComponent,
+    resolve: {
+      contenant: ContenantRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },

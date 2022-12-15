@@ -17,6 +17,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Audio } from 'app/entities/audio/audio.model';
 import { AlbumPhoto } from 'app/entities/album-photo/album-photo.model';
 import { MatButtonModule } from '@angular/material/button';
+import { Photo } from 'app/entities/photo/photo.model';
+import { PhotoContemplationComponent } from 'app/entities/photo/photo-contemplation/photo-contemplation.component';
 
 @Component({
   selector: 'jhi-systeme',
@@ -110,6 +112,14 @@ export class SystemeComponent implements OnInit {
       //  size:""
     });
     modalRef.componentInstance.album = albu;
+  }
+
+  openPhotoDialog(photo: Photo): any {
+    const modalRef = this.modalService.open(PhotoContemplationComponent, {
+      centered: true,
+      //  size:""
+    });
+    modalRef.componentInstance.photo = photo;
   }
 
   protected createFromForm(): IContenu {

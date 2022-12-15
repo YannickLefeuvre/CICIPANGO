@@ -23,6 +23,8 @@ export class CreationAudioComponent implements OnInit {
   contenanto = new Contenant();
   contenantsSharedCollection: IContenant[] = [];
   file: any = null;
+  nbSecret?: number;
+  ext?: string;
 
   editForm = this.fb.group({
     id: [],
@@ -38,6 +40,7 @@ export class CreationAudioComponent implements OnInit {
     idFichier: [],
     fichier: [],
     fichierContentType: [],
+    fichierExt: [],
   });
 
   constructor(
@@ -89,6 +92,7 @@ export class CreationAudioComponent implements OnInit {
   //  }
 
   ngOnInit(): void {
+    this.nbSecret = this.getRandomInt(100000000);
     this.activatedRoute.data.subscribe(({ contenant }) => {
       this.contenanto = contenant;
       contenant = null;
@@ -130,6 +134,10 @@ export class CreationAudioComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const audio = this.createFromForm();
+    const filu = this.createFileFromForm();
+    if (filu.ext != null) {
+      audio.ext = filu.ext;
+    }
 
     this.subscribeToSaveResponse(this.audioService.create(audio));
 
@@ -138,12 +146,17 @@ export class CreationAudioComponent implements OnInit {
 
   uploadFile(): void {
     const file = this.createFileFromForm();
+    file.nbSecret = this.nbSecret;
     //    alert(file.fichierContentType?.toString());
     this.subscribeToSaveResponse(this.audioService.uploadFile(file));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
     return item.id!;
+  }
+
+  getRandomInt(max): number {
+    return Math.floor(Math.random() * max);
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAudio>>): void {
@@ -210,6 +223,7 @@ export class CreationAudioComponent implements OnInit {
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.contenanto,
       type: 'AUDIO',
+      nbSecret: this.nbSecret,
     };
   }
 
@@ -220,6 +234,7 @@ export class CreationAudioComponent implements OnInit {
       nom: ' YEUUUUUSH ',
       fichier: this.editForm.get(['fichier'])!.value,
       fichierContentType: this.editForm.get(['fichierContentType'])!.value,
+      ext: this.editForm.get(['fichierExt'])!.value,
     };
   }
 }

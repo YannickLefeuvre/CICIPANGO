@@ -1,8 +1,13 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Fichiay;
+import com.mycompany.myapp.domain.ListFichiers;
 import com.mycompany.myapp.domain.Photo;
 import com.mycompany.myapp.repository.PhotoRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -29,6 +34,9 @@ public class PhotoResource {
 
     private static final String ENTITY_NAME = "photo";
 
+    Long lastAlbumPhotoId;
+    int LastnbSecret;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -52,10 +60,40 @@ public class PhotoResource {
             throw new BadRequestAlertException("A new photo cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Photo result = photoRepository.save(photo);
+        this.LastnbSecret = result.getNbSecret();
+        this.lastAlbumPhotoId = result.getId();
         return ResponseEntity
             .created(new URI("/api/photos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/photosfile")
+    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
+        log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
+
+        if (fichou.getNbFichier() != this.LastnbSecret) {
+            throw new BadRequestAlertException(
+                "Nb Secrets pas égales:" + this.LastnbSecret + " DUDU " + fichou.getNbFichier(),
+                ENTITY_NAME,
+                "idinvalid"
+            );
+        }
+
+        //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
+        try (
+            FileOutputStream fos = new FileOutputStream(
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\photos\\bibi" + lastAlbumPhotoId + "." + fichou.getExt()
+            )
+        ) {
+            fos.write(fichou.getFichier());
+            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/audiofile"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "hoo"))
+            .body(fichou);
     }
 
     /**

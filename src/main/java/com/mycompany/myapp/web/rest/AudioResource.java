@@ -37,6 +37,7 @@ public class AudioResource {
     private static final String ENTITY_NAME = "audio";
 
     Long lastAudioId;
+    int LastnbSecret;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -61,8 +62,8 @@ public class AudioResource {
             throw new BadRequestAlertException("A new audio cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Audio result = audioRepository.save(audio);
-
-        lastAudioId = result.getId();
+        this.LastnbSecret = result.getNbSecret();
+        this.lastAudioId = result.getId();
 
         return ResponseEntity
             .created(new URI("/api/audio/" + result.getId()))
@@ -75,11 +76,17 @@ public class AudioResource {
         log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
 
         System.out.println(" YOHOOOOOO ");
-
+        if (fichou.getNbFichier() != this.LastnbSecret) {
+            throw new BadRequestAlertException(
+                "Nb Secrets pas égales:" + this.LastnbSecret + " DUDU " + fichou.getNbFichier(),
+                ENTITY_NAME,
+                "idinvalid"
+            );
+        }
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
         try (
             FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + lastAudioId + ".mp3"
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + lastAudioId + "." + fichou.getExt()
             )
         ) {
             fos.write(fichou.getFichier());

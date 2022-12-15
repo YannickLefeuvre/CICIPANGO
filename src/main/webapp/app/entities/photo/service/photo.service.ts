@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPhoto, getPhotoIdentifier } from '../photo.model';
 
+export type FichiayResponseType = HttpResponse<IFichiay>;
 export type EntityResponseType = HttpResponse<IPhoto>;
 export type EntityArrayResponseType = HttpResponse<IPhoto[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/photos');
+  protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/photosfile');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -30,6 +32,11 @@ export class PhotoService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IPhoto>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  uploadFile(fichiay: IFichiay): Observable<FichiayResponseType> {
+    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
+    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

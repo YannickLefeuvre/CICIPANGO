@@ -43,9 +43,9 @@ export class AudioContemplationComponent implements OnInit {
     const result = '';
     const chmin = '../../../content/audios/bibu';
     if (this.audio != null) {
-      if (this.audio.id != null) {
+      if (this.audio.id != null && this.audio.ext != null) {
         //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));
-        return result.concat(chmin, this.audio.id.toString(), '.mp3');
+        return result.concat(chmin, this.audio.id.toString(), '.', this.audio.ext.toString());
       } else {
         return 'naze';
       }

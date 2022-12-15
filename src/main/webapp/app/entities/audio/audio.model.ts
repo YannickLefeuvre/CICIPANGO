@@ -13,6 +13,8 @@ export interface IAudio {
   arriereplan?: string | null;
   contenant?: IContenant | null;
   type?: string | null;
+  ext?: string | null;
+  nbSecret?: number | null;
 }
 
 export class Audio extends Contenu implements IAudio {
@@ -27,7 +29,9 @@ export class Audio extends Contenu implements IAudio {
     public arriereplanContentType?: string | null,
     public arriereplan?: string | null,
     public contenant?: IContenant | null,
-    public type?: string | null
+    public type?: string | null,
+    public ext?: string | null,
+    public nbSecret?: number | null
   ) {
     super(id, nom);
   }
@@ -49,7 +53,7 @@ export class Fichiay implements IFichiay {
     public fichierContentType?: string | null,
     public fichier?: string | null,
     public ext?: string | null,
-    public nbSecret?: number
+    public nbSecret?: number | null
   ) {}
 }
 

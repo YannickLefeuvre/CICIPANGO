@@ -106,10 +106,12 @@ export class DataUtils {
         //        }
 
         const fieldContentType: string = field + 'ContentType';
+        const fieldExt: string = field + 'Ext';
         this.toBase64(file, (base64Data: string) => {
           editForm.patchValue({
             [field]: base64Data,
             [fieldContentType]: file.type,
+            [fieldExt]: file.name.replace(/^.*\./, ''),
           });
           observer.next();
           observer.complete();
