@@ -39,6 +39,18 @@ export class AudioContemplationComponent implements OnInit {
     }
   }
 
+  audioDescription(audio: Audio | null): string {
+    if (audio != null) {
+      if (audio.description != null) {
+        return audio.description;
+      } else {
+        return 'naze';
+      }
+    } else {
+      return ' HAAAAAAAAAAAA ';
+    }
+  }
+
   cheminAlaudio(): string {
     const result = '';
     const chmin = '../../../content/audios/bibu';

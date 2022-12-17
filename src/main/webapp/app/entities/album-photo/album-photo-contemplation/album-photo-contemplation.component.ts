@@ -38,13 +38,6 @@ export class AlbumPhotoContemplationComponent implements OnInit {
         },
       });
     }
-
-    //   alert("HUUUU");
-
-    //    alert("HAAA");
-
-    //    alert(this.listFichiay?.nomDoss);
-    //    alert(this.listFichiay?.nomsFichiers);
   }
 
   ngOnInit(): void {
@@ -62,22 +55,31 @@ export class AlbumPhotoContemplationComponent implements OnInit {
     console.log(NgZone.isInAngularZone());
   }
 
+  albumNom(album: AlbumPhoto | null): string {
+    if (album != null) {
+      if (album.nom != null) {
+        return album.nom;
+      } else {
+        return 'naze';
+      }
+    } else {
+      return ' HAAAAAAAAAAAA ';
+    }
+  }
+
+  albumDescription(album: AlbumPhoto | null): string {
+    if (album != null) {
+      if (album.description != null) {
+        return album.description;
+      } else {
+        return 'naze';
+      }
+    } else {
+      return ' HAAAAAAAAAAAA ';
+    }
+  }
+
   nbPhoto(): number {
-    //    const fs = require('fs');
-    //   import fs = require('fs');
-
-    //    import 'fs' from 'fs';
-    //alert(this.album?.nbPhotos);
-    //alert("hyhu");
-
-    //alert("ham");
-    //this.fs.readdir("../../../content/albumphoto/bibi10553/", (err, files) => {
-    //  alert("hum");
-    //  files.forEach(file => {
-    //    alert(" miam ");
-    //  });
-    //});
-
     if (this.album?.nbPhotos != null) {
       return this.album.nbPhotos;
     } else {

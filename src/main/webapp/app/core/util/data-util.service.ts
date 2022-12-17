@@ -142,8 +142,7 @@ export class DataUtils {
               fifi.nom = 'YEUUUUSH';
               fifi.fichier = base64Data;
               fifi.fichierContentType = eventTarget.files[i].type;
-
-              observer.next();
+              (fifi.ext = eventTarget.files[i].name.replace(/^.*\./, '')), observer.next();
               observer.complete();
             }
           });

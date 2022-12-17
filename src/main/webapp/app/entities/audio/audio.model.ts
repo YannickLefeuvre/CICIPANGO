@@ -5,6 +5,7 @@ export interface IAudio {
   id?: number;
   nom?: string;
   url?: string;
+  description?: string | null;
   iconeContentType?: string | null;
   icone?: string | null;
   absisce?: number | null;
@@ -21,6 +22,7 @@ export class Audio extends Contenu implements IAudio {
   constructor(
     public id?: number,
     public nom?: string,
+    public description?: string | null,
     public url?: string,
     public iconeContentType?: string | null,
     public icone?: string | null,

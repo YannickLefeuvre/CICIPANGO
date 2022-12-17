@@ -23,9 +23,6 @@ public class Photo extends Contenu implements Serializable {
     @Column(name = "images_content_type")
     private String imagesContentType;
 
-    @Column(name = "description")
-    private String description;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Photo id(Long id) {
@@ -59,17 +56,9 @@ public class Photo extends Contenu implements Serializable {
         this.imagesContentType = imagesContentType;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
     public Photo description(String description) {
         this.setDescription(description);
         return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -98,7 +87,6 @@ public class Photo extends Contenu implements Serializable {
             "id=" + getId() +
             ", images='" + getImages() + "'" +
             ", imagesContentType='" + getImagesContentType() + "'" +
-            ", description='" + getDescription() + "'" +
             "}";
     }
 }

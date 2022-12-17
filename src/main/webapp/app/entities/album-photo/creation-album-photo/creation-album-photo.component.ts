@@ -29,6 +29,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nom: [],
+    description: [],
     urls: [],
     icone: [],
     iconeContentType: [],
@@ -143,9 +144,9 @@ export class CreationAlbumPhotoComponent implements OnInit {
       this.fichiasse[i].nbSecret = this.nbSecret;
 
       //     if(this.fichiasse[i].fichierContentType != null ){
-      const coupay = this.fichiasse[i].fichierContentType?.split('/');
+      const coupay = this.fichiasse[i].ext;
       if (coupay != null) {
-        this.fichiasse[i].ext = coupay[1];
+        this.fichiasse[i].ext = coupay;
         //      alert(coupay[1]);
       }
       this.subscribeToSaveResponse(this.albumPhotoService.uploadFile(this.fichiasse[i]));
@@ -159,10 +160,11 @@ export class CreationAlbumPhotoComponent implements OnInit {
       this.fichiasse[i].nbSecret = this.nbSecret;
 
       //     if(this.fichiasse[i].fichierContentType != null ){
-      const coupay = this.fichiasse[i].fichierContentType?.split('/');
+      const coupay = this.fichiasse[i].ext;
       if (coupay != null) {
-        ext += coupay[1] + ',';
+        ext += coupay + ',';
       }
+      //      alert(ext);
     }
     ext += ' ';
 
@@ -183,6 +185,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
     this.editForm.patchValue({
       id: albumPhoto.id,
       nom: albumPhoto.nom,
+      description: albumPhoto.description,
       icone: albumPhoto.icone,
       iconeContentType: albumPhoto.iconeContentType,
       absisce: albumPhoto.absisce,
@@ -233,6 +236,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
       ...new AlbumPhoto(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
+      description: this.editForm.get(['description'])!.value,
       iconeContentType: this.editForm.get(['iconeContentType'])!.value,
       icone: this.editForm.get(['icone'])!.value,
       absisce: this.editForm.get(['absisce'])!.value,
@@ -253,6 +257,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
       nom: ' YEUUUUUSH ',
       fichier: this.editForm.get(['fichier'])!.value,
       fichierContentType: this.editForm.get(['fichierContentType'])!.value,
+      ext: this.editForm.get(['fichierExt'])!.value,
     };
   }
 }

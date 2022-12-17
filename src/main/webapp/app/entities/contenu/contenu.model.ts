@@ -3,6 +3,7 @@ import { IContenant } from 'app/entities/contenant/contenant.model';
 export interface IContenu {
   id?: number;
   nom?: string;
+  description?: string | null;
   iconeContentType?: string | null;
   icone?: string | null;
   absisce?: number | null;
@@ -18,6 +19,7 @@ export class Contenu implements IContenu {
   constructor(
     public id?: number,
     public nom?: string,
+    public description?: string | null,
     public iconeContentType?: string | null,
     public icone?: string | null,
     public absisce?: number | null,

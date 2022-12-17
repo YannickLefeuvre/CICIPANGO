@@ -29,6 +29,7 @@ export class CreationAudioComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nom: [],
+    description: [],
     url: [],
     icone: [],
     iconeContentType: [],
@@ -132,12 +133,22 @@ export class CreationAudioComponent implements OnInit {
   }
 
   save(): void {
+    alert('YOUK');
+
     this.isSaving = true;
+    alert('YAK');
+
     const audio = this.createFromForm();
+    alert('YIK');
+
     const filu = this.createFileFromForm();
+    alert('YUK');
+
     if (filu.ext != null) {
       audio.ext = filu.ext;
     }
+
+    alert('HZAA');
 
     this.subscribeToSaveResponse(this.audioService.create(audio));
 
@@ -182,6 +193,7 @@ export class CreationAudioComponent implements OnInit {
     this.editForm.patchValue({
       id: audio.id,
       nom: audio.nom,
+      description: audio.description,
       url: audio.url,
       icone: audio.icone,
       iconeContentType: audio.iconeContentType,
@@ -214,6 +226,7 @@ export class CreationAudioComponent implements OnInit {
       ...new Audio(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
+      description: this.editForm.get(['description'])!.value,
       url: this.editForm.get(['url'])!.value,
       iconeContentType: this.editForm.get(['iconeContentType'])!.value,
       icone: this.editForm.get(['icone'])!.value,

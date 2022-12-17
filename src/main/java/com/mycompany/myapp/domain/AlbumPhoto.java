@@ -23,9 +23,6 @@ public class AlbumPhoto extends Contenu implements Serializable {
     @Column(name = "images_content_type")
     private String imagesContentType;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "urls")
     private String nbPhotos;
 
@@ -65,17 +62,9 @@ public class AlbumPhoto extends Contenu implements Serializable {
         this.imagesContentType = imagesContentType;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
     public AlbumPhoto description(String description) {
         this.setDescription(description);
         return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -120,7 +109,6 @@ public class AlbumPhoto extends Contenu implements Serializable {
             "id=" + getId() +
             ", images='" + getImages() + "'" +
             ", imagesContentType='" + getImagesContentType() + "'" +
-            ", description='" + getDescription() + "'" +
             ", nbPhotos='" + getNbPhotos() + "'" +
             "}";
     }

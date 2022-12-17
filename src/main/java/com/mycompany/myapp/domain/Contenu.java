@@ -28,6 +28,9 @@ public class Contenu implements Serializable {
     @Column(name = "nom", nullable = false)
     private String nom;
 
+    @Column(name = "description")
+    private String description;
+
     @Lob
     @Column(name = "icone")
     private byte[] icone;
@@ -199,6 +202,14 @@ public class Contenu implements Serializable {
         this.nbSecret = nbSecret;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Contenu contenant(Contenant contenant) {
         this.setContenant(contenant);
         return this;
@@ -229,6 +240,7 @@ public class Contenu implements Serializable {
         return "Contenu{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
+            ", description='" + getDescription() + "'" +
             ", icone='" + getIcone() + "'" +
             ", iconeContentType='" + getIconeContentType() + "'" +
             ", absisce=" + getAbsisce() +
