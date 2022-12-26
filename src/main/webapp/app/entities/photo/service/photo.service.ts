@@ -34,9 +34,8 @@ export class PhotoService {
     return this.http.get<IPhoto>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  uploadFile(fichiay: IFichiay): Observable<FichiayResponseType> {
-    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
-    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
+  uploadFile(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
+    return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiay, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

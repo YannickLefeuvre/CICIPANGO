@@ -25,6 +25,7 @@ export class PhotoCreationComponent implements OnInit {
   file: any = null;
   nbSecret?: number;
   ext?: string;
+  photus?: IPhoto | null;
 
   editForm = this.fb.group({
     id: [],
@@ -112,7 +113,11 @@ export class PhotoCreationComponent implements OnInit {
     window.history.back();
   }
 
-  save(): void {
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async save(): Promise<void> {
     this.isSaving = true;
     const photo = this.createFromForm();
     const filu = this.createFileFromForm();
@@ -120,16 +125,21 @@ export class PhotoCreationComponent implements OnInit {
       photo.ext = filu.ext;
     }
 
-    this.subscribeToSaveResponse(this.photoService.create(photo));
-    this.uploadFile();
+    //  this.subscribeToSaveResponse(this.photoService.create(photo));
+    this.subscribeToSaveResponso(this.photoService.create(photo));
+    while (this.photus?.id == null) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+
+    this.uploadFile(this.photus.id);
   }
 
-  uploadFile(): void {
+  uploadFile(id: number): void {
     const filu = this.createFileFromForm();
     filu.nbSecret = this.nbSecret;
 
     //    alert(file.fichierContentType?.toString());
-    this.subscribeFileToSaveResponse(this.photoService.uploadFile(filu));
+    this.subscribeFileToSaveResponse(this.photoService.uploadFile(filu, id));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
@@ -146,6 +156,15 @@ export class PhotoCreationComponent implements OnInit {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPhoto>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IPhoto>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: (res: HttpResponse<IPhoto>) => {
+        this.photus = res.body;
+      },
       error: () => this.onSaveError(),
     });
   }

@@ -21,11 +21,8 @@ export class AudioService {
     return this.http.post<IAudio>(this.resourceUrl, audio, { observe: 'response' });
   }
 
-  // uploadfile(file: File): Observable<HttpResponse<FormData>>{
-  //   uploadfile(Fichiay: Fichiay): Observable<HttpResponse<File>>{
-  uploadFile(fichiay: IFichiay): Observable<EntityResponseType> {
-    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
-    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
+  uploadFile(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
+    return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiay, { observe: 'response' });
   }
 
   update(audio: IAudio): Observable<EntityResponseType> {

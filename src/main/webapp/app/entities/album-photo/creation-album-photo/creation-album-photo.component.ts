@@ -25,6 +25,9 @@ export class CreationAlbumPhotoComponent implements OnInit {
   contenantsSharedCollection: IContenant[] = [];
   fichiasse = [new Fichiay(10)];
   nbSecret?: number;
+  albibo?: IAlbumPhoto | null;
+  nbFilesup = 0;
+  fichiayto = new Fichiay();
 
   editForm = this.fb.group({
     id: [],
@@ -136,21 +139,38 @@ export class CreationAlbumPhotoComponent implements OnInit {
     return item.id!;
   }
 
-  uploadFiles(): void {
-    //  const file = this.createFileFromForm();
-    //    alert(file.fichierContentType?.toString());
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async uploadFiles(): Promise<void> {
+    const album = this.createFromForm();
+
+    await this.subscribeToSaveResponso(this.albumPhotoService.create(album));
 
     for (let i = 0; i < this.fichiasse.length; i++) {
       this.fichiasse[i].nbSecret = this.nbSecret;
-
-      //     if(this.fichiasse[i].fichierContentType != null ){
+      //                  alert(this.fichiasse.length);
       const coupay = this.fichiasse[i].ext;
       if (coupay != null) {
         this.fichiasse[i].ext = coupay;
-        //      alert(coupay[1]);
       }
-      this.subscribeToSaveResponse(this.albumPhotoService.uploadFile(this.fichiasse[i]));
+
+      while (this.albibo?.id == null) {
+        await this.sleep(100); // pause for 100 milliseconds before checking again
+      }
+      while (this.nbFilesup < i) {
+        await this.sleep(100); // pause for 100 milliseconds before checking again
+      }
+
+      await this.subscribeToSaveResponse(this.albumPhotoService.uploadFile(this.fichiasse[i], this.albibo.id));
     }
+    while (this.nbFilesup < this.fichiasse.length) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+    //             alert(this.nbFilesup);
+    //        await this.sleep(10000);
+    this.previousState();
   }
 
   save(): void {
@@ -171,9 +191,12 @@ export class CreationAlbumPhotoComponent implements OnInit {
     //      alert(ext);
 
     this.isSaving = true;
-    const album = this.createFromForm();
-    album.ext = ext;
-    this.subscribeToSaveResponse(this.albumPhotoService.create(album));
+    //    const album = this.createFromForm();
+    //    album.ext = ext;
+    //   alert("HUUUUU")
+    //   const albu =  this.albumPhotoService.create(album);
+    //   this.subscribeToSaveResponso(this.albumPhotoService.create(album));
+    //    alert("  YOUP YOUP ");
     this.uploadFiles();
   }
 
@@ -200,14 +223,37 @@ export class CreationAlbumPhotoComponent implements OnInit {
     );
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IAlbumPhoto>>): any {
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IAlbumPhoto>>): any {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      //     next: () => this.onSaveSuccess(),
+      next: (res: HttpResponse<IAlbumPhoto>) => {
+        this.albibo = res.body;
+
+        //      alert("HAAA");
+        //  this.remplissageArray();
+        // this.onSaveSuccesso()
+      },
       error: () => this.onSaveError(),
     });
   }
 
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IFichiay>>): any {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: (res: HttpResponse<IFichiay>) => (this.nbFilesup = this.nbFilesup + 1),
+      //      alert("HAAA");
+      //  this.remplissageArray();
+      //},
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccesso(): void {
+    this.uploadFiles();
+    // this.previousState();
+  }
+
   protected onSaveSuccess(): void {
+    //   this.uploadFiles();
     this.previousState();
   }
 

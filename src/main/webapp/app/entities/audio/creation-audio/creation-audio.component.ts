@@ -12,6 +12,7 @@ import { ContenantService } from 'app/entities/contenant/service/contenant.servi
 import { UploadService } from './post-audio-service.service';
 import { IAudio, Audio, IFichiay, Fichiay } from '../audio.model';
 import { AudioService } from '../service/audio.service';
+import { IPhoto, Photo } from 'app/entities/photo/photo.model';
 
 @Component({
   selector: 'jhi-creation-audio',
@@ -25,6 +26,7 @@ export class CreationAudioComponent implements OnInit {
   file: any = null;
   nbSecret?: number;
   ext?: string;
+  audius?: IAudio | null;
 
   editForm = this.fb.group({
     id: [],
@@ -132,34 +134,31 @@ export class CreationAudioComponent implements OnInit {
     window.history.back();
   }
 
-  save(): void {
-    alert('YOUK');
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
+  async save(): Promise<void> {
     this.isSaving = true;
-    alert('YAK');
-
     const audio = this.createFromForm();
-    alert('YIK');
-
     const filu = this.createFileFromForm();
-    alert('YUK');
-
     if (filu.ext != null) {
       audio.ext = filu.ext;
     }
-
-    alert('HZAA');
-
-    this.subscribeToSaveResponse(this.audioService.create(audio));
-
-    this.uploadFile();
+    //   alert("YOOOK");
+    this.subscribeToSaveResponso(this.audioService.create(audio));
+    while (this.audius?.id == null) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+    //   alert(this.photus.id);
+    this.uploadFile(this.audius.id);
   }
 
-  uploadFile(): void {
+  uploadFile(id: number): void {
     const file = this.createFileFromForm();
     file.nbSecret = this.nbSecret;
     //    alert(file.fichierContentType?.toString());
-    this.subscribeToSaveResponse(this.audioService.uploadFile(file));
+    this.subscribeToSaveResponse(this.audioService.uploadFile(file, id));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
@@ -173,6 +172,15 @@ export class CreationAudioComponent implements OnInit {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAudio>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IAudio>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: (res: HttpResponse<IPhoto>) => {
+        this.audius = res.body;
+      },
       error: () => this.onSaveError(),
     });
   }

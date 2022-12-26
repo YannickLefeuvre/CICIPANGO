@@ -198,16 +198,19 @@ public class AlbumPhotoResource {
         nomsFichiers = f.list();
 
         Optional<ListFichiers> lust = Optional.of(new ListFichiers("bibi" + id.toString(), nomsFichiers));
-        System.out.println(" AGAGA " + lust.get().getNomDoss());
+        System.out.println(" AGAGA " + lust.get().getNomsFichiers());
         return ResponseUtil.wrapOrNotFound(lust);
     }
 
-    @PostMapping("/album-photosfile")
-    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
-        log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
+    @PostMapping("/album-photosfile/{id}")
+    public ResponseEntity<Fichiay> createAudioFile(
+        @RequestBody Fichiay fichou,
+        @PathVariable(value = "id", required = false) final Long id
+    ) throws URISyntaxException, IOException {
+        log.info("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
         numphoto++;
 
-        System.out.println(" YOHOOOOOO ");
+        log.info(" YOHOOOOOO " + id);
 
         if (fichou.getNbFichier() != this.LastnbSecret) {
             throw new BadRequestAlertException(
@@ -220,13 +223,7 @@ public class AlbumPhotoResource {
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
         try (
             FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" +
-                lastAlbumPhotoId +
-                "\\bubu" +
-                lastAlbumPhotoId +
-                numphoto +
-                "." +
-                fichou.getExt()
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + id + "\\bubu" + id + numphoto + "." + fichou.getExt()
             )
         ) {
             fos.write(fichou.getFichier());

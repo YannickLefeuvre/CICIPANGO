@@ -28,9 +28,8 @@ export class AlbumPhotoService {
     });
   }
 
-  uploadFile(fichiay: IFichiay): Observable<EntityResponseType> {
-    //   alert(" YAYUUUUUUU HYYYYYYYYYYY");
-    return this.http.post<IFichiay>(this.resourceUrlFile, fichiay, { observe: 'response' });
+  uploadFile(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
+    return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiay, { observe: 'response' });
   }
 
   partialUpdate(albumPhoto: IAlbumPhoto): Observable<EntityResponseType> {

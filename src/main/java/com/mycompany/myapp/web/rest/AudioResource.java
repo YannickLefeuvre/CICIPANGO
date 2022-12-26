@@ -71,8 +71,11 @@ public class AudioResource {
             .body(result);
     }
 
-    @PostMapping("/audiofile")
-    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
+    @PostMapping("/audiofile/{id}")
+    public ResponseEntity<Fichiay> createAudioFile(
+        @RequestBody Fichiay fichou,
+        @PathVariable(value = "id", required = false) final Long id
+    ) throws URISyntaxException, IOException {
         log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
 
         System.out.println(" YOHOOOOOO ");
@@ -86,7 +89,7 @@ public class AudioResource {
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
         try (
             FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + lastAudioId + "." + fichou.getExt()
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + id + "." + fichou.getExt()
             )
         ) {
             fos.write(fichou.getFichier());

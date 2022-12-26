@@ -68,8 +68,11 @@ public class PhotoResource {
             .body(result);
     }
 
-    @PostMapping("/photosfile")
-    public ResponseEntity<Fichiay> createAudioFile(@RequestBody Fichiay fichou) throws URISyntaxException, IOException {
+    @PostMapping("/photosfile/{id}")
+    public ResponseEntity<Fichiay> createAudioFile(
+        @RequestBody Fichiay fichou,
+        @PathVariable(value = "id", required = false) final Long id
+    ) throws URISyntaxException, IOException {
         log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
 
         if (fichou.getNbFichier() != this.LastnbSecret) {
@@ -83,7 +86,7 @@ public class PhotoResource {
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
         try (
             FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\photos\\bibi" + lastAlbumPhotoId + "." + fichou.getExt()
+                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\photos\\bibi" + id + "." + fichou.getExt()
             )
         ) {
             fos.write(fichou.getFichier());

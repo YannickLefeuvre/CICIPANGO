@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumPhoto, IAlbumPhoto, IListeFichiers } from '../album-photo.model';
 import { AlbumPhotoService } from '../service/album-photo.service';
 import { HttpResponse } from '@angular/common/http';
+import { layer } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'jhi-album-photo-contemplation',
@@ -30,6 +31,7 @@ export class AlbumPhotoContemplationComponent implements OnInit {
       this.albumPhotoService.findFichiers(this.album.id).subscribe({
         next: (res: HttpResponse<IListeFichiers>) => {
           this.listFichiay = res.body;
+          //          alert(this.listFichiay?.nomsFichiers);
           //      alert("HAAA");
           this.remplissageArray();
         },
@@ -42,6 +44,7 @@ export class AlbumPhotoContemplationComponent implements OnInit {
 
   ngOnInit(): void {
     // YAYA
+    //  alert(" YOUK  ");
     this.loadAll();
   }
 
@@ -52,6 +55,7 @@ export class AlbumPhotoContemplationComponent implements OnInit {
         this.chminsphotos[i] = '/content/albumphoto/bibi' + this.album.id.toString() + '/' + this.listFichiay.nomsFichiers[i];
       }
     }
+
     console.log(NgZone.isInAngularZone());
   }
 
@@ -90,15 +94,15 @@ export class AlbumPhotoContemplationComponent implements OnInit {
   chminphoto(index: number): string {
     const result = '';
     let chmin = '../../../content/audios/albumphoto/bibi';
-    alert('GRTRGRT');
+    //   alert('GRTRGRT');
     if (this.album != null) {
       if (this.album.id != null) {
-        alert('HYYYYYYYYYYYYYYYY');
+        //       alert('HYYYYYYYYYYYYYYYY');
 
         //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));
         chmin = result.concat(chmin, this.album.id.toString(), '/bubu', this.album.id.toString(), index.toString());
 
-        alert(chmin);
+        //     alert(chmin);
         return chmin;
       } else {
         return 'naze';
