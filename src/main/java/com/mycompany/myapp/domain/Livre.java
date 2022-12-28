@@ -11,15 +11,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "livre")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Livre implements Serializable {
+@PrimaryKeyJoinColumn(name = "ID")
+public class Livre extends Contenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
 
     @Lob
     @Column(name = "images")
@@ -33,17 +28,9 @@ public class Livre implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
-        return this.id;
-    }
-
     public Livre id(Long id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public byte[] getImages() {
@@ -95,7 +82,7 @@ public class Livre implements Serializable {
         if (!(o instanceof Livre)) {
             return false;
         }
-        return id != null && id.equals(((Livre) o).id);
+        return this.getId() != null && this.getId().equals(((Livre) o).getId());
     }
 
     @Override

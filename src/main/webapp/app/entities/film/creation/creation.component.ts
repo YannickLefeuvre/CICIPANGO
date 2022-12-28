@@ -35,6 +35,7 @@ export class CreationComponent implements OnInit {
     ordonnee: [],
     arriereplan: [],
     arriereplanContentType: [],
+    texte: [],
     contenant: [],
   });
 
@@ -91,7 +92,8 @@ export class CreationComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const film = this.createFromForm();
-
+    //   alert("yahou");
+    //   alert(film.nom);
     this.subscribeToSaveResponse(this.filmService.create(film));
   }
 
@@ -165,6 +167,8 @@ export class CreationComponent implements OnInit {
       ordonnee: this.editForm.get(['ordonnee'])!.value,
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
+      type: 'FILM',
+      texte: this.editForm.get(['texte'])!.value,
       contenant: this.contenanto,
     };
   }

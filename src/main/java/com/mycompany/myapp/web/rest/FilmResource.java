@@ -55,11 +55,6 @@ public class FilmResource {
             throw new BadRequestAlertException("A new film cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        try (FileOutputStream fos = new FileOutputStream("C:\\temp\\uwuuuu.png")) {
-            fos.write(film.getIcone());
-            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
-        }
-
         Film result = filmRepository.save(film);
         return ResponseEntity
             .created(new URI("/api/films/" + result.getId()))

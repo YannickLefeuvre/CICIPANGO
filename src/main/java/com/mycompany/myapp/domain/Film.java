@@ -17,15 +17,15 @@ public class Film extends Contenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Column(name = "texte")
+    private String texte;
+
     @Lob
     @Column(name = "images")
     private byte[] images;
 
     @Column(name = "images_content_type")
     private String imagesContentType;
-
-    @Column(name = "description")
-    private String description;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -65,17 +65,17 @@ public class Film extends Contenu implements Serializable {
         this.imagesContentType = imagesContentType;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getTexte() {
+        return texte;
+    }
+
+    public void setTexte(String texte) {
+        this.texte = texte;
     }
 
     public Film description(String description) {
         this.setDescription(description);
         return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -103,6 +103,7 @@ public class Film extends Contenu implements Serializable {
         return "Film{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
+            ", texte='" + getTexte() + "'" +
             ", images='" + getImages() + "'" +
             ", imagesContentType='" + getImagesContentType() + "'" +
             ", description='" + getDescription() + "'" +

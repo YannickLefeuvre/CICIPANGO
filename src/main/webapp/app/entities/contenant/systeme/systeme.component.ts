@@ -19,6 +19,8 @@ import { AlbumPhoto } from 'app/entities/album-photo/album-photo.model';
 import { MatButtonModule } from '@angular/material/button';
 import { Photo } from 'app/entities/photo/photo.model';
 import { PhotoContemplationComponent } from 'app/entities/photo/photo-contemplation/photo-contemplation.component';
+import { Film } from 'app/entities/film/film.model';
+import { FilmContemplationComponent } from 'app/entities/film/film-contemplation/film-contemplation.component';
 
 @Component({
   selector: 'jhi-systeme',
@@ -120,6 +122,14 @@ export class SystemeComponent implements OnInit {
       //  size:""
     });
     modalRef.componentInstance.photo = photo;
+  }
+
+  openFilmDialog(film: Film): any {
+    const modalRef = this.modalService.open(FilmContemplationComponent, {
+      centered: true,
+      //  size:""
+    });
+    modalRef.componentInstance.film = film;
   }
 
   protected createFromForm(): IContenu {

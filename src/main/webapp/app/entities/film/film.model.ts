@@ -14,6 +14,8 @@ export interface IFilm {
   arriereplanContentType?: string | null;
   arriereplan?: string | null;
   contenant?: IContenant | null;
+  type?: string | null;
+  texte?: string | null;
 }
 
 export class Film extends Contenu implements IFilm {
@@ -29,9 +31,11 @@ export class Film extends Contenu implements IFilm {
     public ordonnee?: number | null,
     public arriereplanContentType?: string | null,
     public arriereplan?: string | null,
-    public contenant?: IContenant | null
+    public contenant?: IContenant | null,
+    public type?: string | null,
+    public texte?: string | null
   ) {
-    super(id, nom);
+    super(id, nom, description);
   }
 }
 
