@@ -27,6 +27,7 @@ import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SystemeComponent } from './entities/contenant/systeme/systeme.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { SystemeComponent } from './entities/contenant/systeme/systeme.component
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,
     MatDialogModule,
+    MatMenuModule,
   ],
   providers: [
     Title,

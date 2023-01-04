@@ -2,8 +2,10 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.Contenu;
+import com.mycompany.myapp.domain.Lien;
 import com.mycompany.myapp.repository.ContenantRepository;
 import com.mycompany.myapp.repository.ContenuRepository;
+import com.mycompany.myapp.repository.LienRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,11 +43,14 @@ public class ContenantResource {
 
     private final ContenuRepository contenuRepository;
 
+    private final LienRepository lienripository;
+
     private final ContenantRepository contenantRepository;
 
-    public ContenantResource(ContenantRepository contenantRepository, ContenuRepository contenuRepository) {
+    public ContenantResource(ContenantRepository contenantRepository, ContenuRepository contenuRepository, LienRepository lienripository) {
         this.contenantRepository = contenantRepository;
         this.contenuRepository = contenuRepository;
+        this.lienripository = lienripository;
     }
 
     /**
@@ -207,14 +212,25 @@ public class ContenantResource {
         Optional<Contenant> contenant = contenantRepository.findById(id);
 
         List<Contenu> cn = new ArrayList<>();
+        List<Lien> cl = new ArrayList<>();
         List<Contenant> cna = new ArrayList<>();
 
         cn = contenuRepository.findAll();
+
+        cl = lienripository.findAll();
         cna = contenantRepository.findAll();
         // RAJOUT YAYA
         for (Contenu cu : cn) {
             if (cu.getContenant() != null && cu.getContenant().getId() == id) {
                 contenant.get().addContenus(cu);
+            }
+        }
+
+        // RAJOUT YAYA
+        for (Lien cu : cl) {
+            if (cu.getContenant() != null && cu.getContenant().getId() == id && cu.getVilleOrigine().getId() == id) {
+                log.debug("YAYAAAAAAAAA  + ", cu.getVilleOrigine().getId().toString() + " + LALA +  ");
+                contenant.get().addLiens(cu);
             }
         }
 

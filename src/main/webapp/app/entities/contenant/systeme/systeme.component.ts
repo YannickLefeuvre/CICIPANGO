@@ -21,6 +21,8 @@ import { Photo } from 'app/entities/photo/photo.model';
 import { PhotoContemplationComponent } from 'app/entities/photo/photo-contemplation/photo-contemplation.component';
 import { Film } from 'app/entities/film/film.model';
 import { FilmContemplationComponent } from 'app/entities/film/film-contemplation/film-contemplation.component';
+import { ILien, Lien } from 'app/entities/lien/lien.model';
+import { LienService } from 'app/entities/lien/service/lien.service';
 
 @Component({
   selector: 'jhi-systeme',
@@ -32,6 +34,7 @@ export class SystemeComponent implements OnInit {
   // @Input() yuyu  = " frdes";
   contenant: IContenant | null = null;
   isSaving = false;
+  @Input() monInput: any;
 
   editForm = this.fb.group({
     id: [],
@@ -50,15 +53,51 @@ export class SystemeComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder,
     protected contenuService: ContenuService,
+    protected lienService: LienService,
     //    protected dialogref: MatDialog,
     //    public dialog: MatDialog,
     private modalService: NgbModal //    protected activeModal: NgbActiveModal,
-  ) {}
+  ) {
+    //  activatedRoute.params.subscribe(val => {
+    //    alert(val);
+    activatedRoute.data.subscribe(({ contenant }) => {
+      this.contenant = contenant;
+      //    });
+      this.loadLiens();
+    });
+  }
 
   ngOnInit(): void {
+    //    alert("YO");
     this.activatedRoute.data.subscribe(({ contenant }) => {
       this.contenant = contenant;
     });
+    this.loadLiens();
+  }
+
+  ngOnChanges(): void {
+    // Récupération des données à chaque fois que l'input "monInput" est modifié
+    this.loadLiens();
+  }
+
+  loadLiens(): void {
+    //    alert("KIKI");
+    if (this.contenant?.liens != null) {
+      //      alert("COUCOU");
+      for (let i = 0; i < this.contenant.liens.length; i++) {
+        //     this.contenant.liens[i] = this.lienService.
+        this.lienService.find(this.contenant.liens[i].id ?? 0).subscribe({
+          next: (res: HttpResponse<ILien>) => {
+            if (this.contenant?.liens != null) {
+              this.contenant.liens[i] = res.body as ILien;
+            }
+          },
+          error: () => {
+            this.isSaving = false;
+          },
+        });
+      }
+    }
   }
 
   save(): void {
@@ -86,6 +125,29 @@ export class SystemeComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  trackId(_index: number, item: ILien): number {
+    return item.id!;
+  }
+
+  villeCibleLien(lien: Lien): string {
+    if (lien.villeCible?.nom != null) {
+      return lien.villeCible.nom;
+    }
+
+    return '';
+  }
+
+  nbLiens(): number {
+    if (this.contenant != null) {
+      if (this.contenant.liens != null) {
+        return this.contenant.liens.length;
+      } else {
+        return -1;
+      }
+    }
+    return -2;
   }
 
   previousState(): void {

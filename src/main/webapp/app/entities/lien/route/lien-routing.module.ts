@@ -6,6 +6,8 @@ import { LienComponent } from '../list/lien.component';
 import { LienDetailComponent } from '../detail/lien-detail.component';
 import { LienUpdateComponent } from '../update/lien-update.component';
 import { LienRoutingResolveService } from './lien-routing-resolve.service';
+import { LienCreationComponent } from '../lien-creation/lien-creation.component';
+import { ContenantRoutingResolveService } from 'app/entities/contenant/route/contenant-routing-resolve.service';
 
 const lienRoute: Routes = [
   {
@@ -34,6 +36,14 @@ const lienRoute: Routes = [
     component: LienUpdateComponent,
     resolve: {
       lien: LienRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/addlien',
+    component: LienCreationComponent,
+    resolve: {
+      contenant: ContenantRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
   },

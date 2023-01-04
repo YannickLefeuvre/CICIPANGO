@@ -30,6 +30,14 @@
 
 <br /><br />
 
+<h4>LES LIENS DU CONTENANT</h4>
+
+<div *ngFor="let lien of contenant?.liens">
+  <a class="con" [routerLink]="['/contenant', lien.villeCible?.id, 'systeme']">{{ lien.nom }} : {{ villeCibleLien(lien) }}</a>
+</div>
+
+<br /><br />
+
 <h3>LES CONTENANTS DU CONTENANT</h3>
 
 <div *ngFor="let contenant of contenant?.contenants">
@@ -43,6 +51,8 @@
 <h2>JE CRAY UN TRUC</h2>
 
 <button type="button" class="button" [routerLink]="['/contenant', contenant?.id, 'add']">nouvo Contenant</button>
+
+<button type="button" class="button" [routerLink]="['/lien', contenant?.id, 'addlien']">nouvo Lien</button>
 
 <button type="button" class="button" [routerLink]="['/film', contenant?.id, 'addfilm']">nouvo Film</button>
 

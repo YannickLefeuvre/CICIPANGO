@@ -7,10 +7,9 @@ import { ContenantDeleteDialogComponent } from './delete/contenant-delete-dialog
 import { ContenantRoutingModule } from './route/contenant-routing.module';
 import { SystemeComponent } from './systeme/systeme.component';
 import { ContenantCreationComponent } from './creation/creation.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  imports: [SharedModule, ContenantRoutingModule, MatDialogModule],
+  imports: [SharedModule, ContenantRoutingModule],
   declarations: [
     ContenantComponent,
     ContenantDetailComponent,
