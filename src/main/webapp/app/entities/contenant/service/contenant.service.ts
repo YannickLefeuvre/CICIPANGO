@@ -26,6 +26,13 @@ export class ContenantService {
     });
   }
 
+  addVues(contenant: IContenant): Observable<EntityResponseType> {
+    //    alert(`${this.resourceUrl}/${getContenantIdentifier(contenant) as number}/vues` + " KOUKOUKOU ");
+    return this.http.put<IContenant>(`${this.resourceUrl}/${getContenantIdentifier(contenant) as number}/vues`, contenant, {
+      observe: 'response',
+    });
+  }
+
   partialUpdate(contenant: IContenant): Observable<EntityResponseType> {
     return this.http.patch<IContenant>(`${this.resourceUrl}/${getContenantIdentifier(contenant) as number}`, contenant, {
       observe: 'response',

@@ -17,6 +17,7 @@ export interface IContenant {
   lienOrigine?: ILien | null;
   lienCible?: ILien | null;
   contenant?: IContenant | null;
+  vues?: number | null;
 }
 
 export class Contenant implements IContenant {
@@ -35,7 +36,8 @@ export class Contenant implements IContenant {
     public contenants?: IContenant[] | null,
     public lienOrigine?: ILien | null,
     public lienCible?: ILien | null,
-    public contenant?: IContenant | null
+    public contenant?: IContenant | null,
+    public vues?: number | null
   ) {
     this.isCapital = this.isCapital ?? false;
   }

@@ -1,3 +1,4 @@
 <div *ngFor="let contenant of contenants">
-  <a [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+  <a (click)="addContenantVue(contenant)" [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+  <div>Vues: {{ showVues(contenant) }}</div>
 </div>

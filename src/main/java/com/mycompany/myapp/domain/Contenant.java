@@ -53,6 +53,9 @@ public class Contenant implements Serializable {
     @Column(name = "arriereplan_content_type")
     private String arriereplanContentType;
 
+    @Column(name = "vues")
+    private Integer vues;
+
     @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
@@ -69,12 +72,12 @@ public class Contenant implements Serializable {
     private Set<Contenant> contenants = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
-    @OneToOne(mappedBy = "villeOrigine")
-    private Lien lienOrigine;
+    @OneToMany(mappedBy = "villeOrigine")
+    private Set<Lien> liensOrigine;
 
     @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
-    @OneToOne(mappedBy = "villeCible")
-    private Lien lienCible;
+    @OneToMany(mappedBy = "villeCible")
+    private Set<Lien> liensCible;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
@@ -199,6 +202,14 @@ public class Contenant implements Serializable {
         this.arriereplanContentType = arriereplanContentType;
     }
 
+    public Integer getVues() {
+        return vues;
+    }
+
+    public void setVues(Integer vues) {
+        this.vues = vues;
+    }
+
     public Set<Lien> getLiens() {
         return this.liens;
     }
@@ -292,41 +303,49 @@ public class Contenant implements Serializable {
         return this;
     }
 
-    public Lien getLienOrigine() {
-        return this.lienOrigine;
+    public Set<Lien> getLienOrigine() {
+        return this.liensOrigine;
     }
 
-    public void setLienOrigine(Lien lien) {
-        if (this.lienOrigine != null) {
-            this.lienOrigine.setVilleOrigine(null);
+    public void setLienOrigine(Set<Lien> liens) {
+        if (this.liensOrigine != null) {
+            for (Lien lien : this.liensOrigine) {
+                lien.setVilleOrigine(null);
+            }
         }
-        if (lien != null) {
-            lien.setVilleOrigine(this);
+        if (liens != null) {
+            for (Lien lien : liens) {
+                lien.setVilleOrigine(this);
+            }
         }
-        this.lienOrigine = lien;
+        this.liensOrigine = liens;
     }
 
-    public Contenant lienOrigine(Lien lien) {
-        this.setLienOrigine(lien);
+    public Contenant lienOrigine(Set<Lien> liens) {
+        this.setLienOrigine(liens);
         return this;
     }
 
-    public Lien getLienCible() {
-        return this.lienCible;
+    public Set<Lien> getLienCible() {
+        return this.liensCible;
     }
 
-    public void setLienCible(Lien lien) {
-        if (this.lienCible != null) {
-            this.lienCible.setVilleCible(null);
+    public void setLienCible(Set<Lien> liens) {
+        if (this.liensCible != null) {
+            for (Lien lien : this.liensCible) {
+                lien.setVilleCible(null);
+            }
         }
-        if (lien != null) {
-            lien.setVilleCible(this);
+        if (liens != null) {
+            for (Lien lien : liens) {
+                lien.setVilleCible(this);
+            }
         }
-        this.lienCible = lien;
+        this.liensCible = liens;
     }
 
-    public Contenant lienCible(Lien lien) {
-        this.setLienCible(lien);
+    public Contenant lienCible(Set<Lien> liens) {
+        this.setLienCible(liens);
         return this;
     }
 
@@ -370,6 +389,7 @@ public class Contenant implements Serializable {
 		return "Contenant{" + "id=" + getId() + ", nom='" + getNom() + "'" + ", isCapital='" + getIsCapital() + "'"
 				+ ", icone='" + getIcone() + "'" + ", iconeContentType='" + getIconeContentType() + "'" + ", absisce="
 				+ getAbsisce() + ", ordonnee=" + getOrdonnee() + ", arriereplan='" + getArriereplan() + "'"
-				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" + "}";
+				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" +
+				", vues='" + getVues() + "'" +"}";
 	}
 }

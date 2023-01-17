@@ -66,6 +66,7 @@ public class ContenantResource {
         if (contenant.getId() != null) {
             throw new BadRequestAlertException("A new contenant cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        contenant.setVues(0);
         Contenant result = contenantRepository.save(contenant);
         return ResponseEntity
             .created(new URI("/api/contenants/" + result.getId()))
@@ -171,6 +172,35 @@ public class ContenantResource {
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contenant.getId().toString())
         );
+    }
+
+    @PutMapping("/contenants/{id}/vues")
+    public ResponseEntity<Contenant> addVue(
+        @PathVariable(value = "id", required = false) final Long id,
+        @Valid @RequestBody Contenant contenant
+    ) throws URISyntaxException {
+        log.debug("Ajout d'une bonne vue : {}, {}", id, contenant);
+        log.info(" HEEEEEEEEEEEEYYYYYYYYY ");
+        if (contenant.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, contenant.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!contenantRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        if (contenant.getVues() != null) {
+            contenant.setVues(contenant.getVues() + 1);
+        }
+
+        Contenant result = contenantRepository.save(contenant);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, contenant.getId().toString()))
+            .body(result);
     }
 
     /**

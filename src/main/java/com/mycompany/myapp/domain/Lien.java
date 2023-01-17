@@ -48,13 +48,11 @@ public class Lien implements Serializable {
     private String arriereplanContentType;
 
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
     private Contenant villeOrigine;
 
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
     private Contenant villeCible;
 
     @ManyToOne

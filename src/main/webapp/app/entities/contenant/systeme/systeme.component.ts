@@ -127,6 +127,24 @@ export class SystemeComponent implements OnInit {
     return '';
   }
 
+  nomContenantDuContenant(): string {
+    if (this.contenant != null) {
+      if (this.contenant.contenant != null) {
+        return this.contenant.contenant.nom ?? '';
+      }
+    }
+    return '';
+  }
+
+  idContenantDuContenant(): number {
+    if (this.contenant != null) {
+      if (this.contenant.contenant != null) {
+        return this.contenant.contenant.id ?? 0;
+      }
+    }
+    return 0;
+  }
+
   trackId(_index: number, item: ILien): number {
     return item.id!;
   }

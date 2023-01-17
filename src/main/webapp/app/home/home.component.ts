@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { IContenant } from '../entities/contenant/contenant.model';
+import { Observable, Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { Contenant, IContenant } from '../entities/contenant/contenant.model';
 import { ContenantService } from '../entities/contenant/service/contenant.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataUtils } from 'app/core/util/data-util.service';
@@ -20,6 +20,7 @@ import { AudioContemplationComponent } from '../entities/audio/audio-contemplati
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  count = 0;
   account: Account | null = null;
   contenants?: IContenant[];
   isLoading = false;
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     protected contenantsService: ContenantService,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
-    protected dialogref: MatDialog
+    protected dialogref: MatDialog,
+    protected contenantService: ContenantService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
+  }
+
+  addContenantVue(concon: Contenant): void {
+    this.subscribeToSaveResponse(this.contenantService.addVues(concon));
+  }
+
+  showVues(concon: Contenant): string {
+    if (concon.vues != null) {
+      return concon.vues.toString();
+    } else {
+      return '-1';
+    }
   }
 
   loadAllContenant(): void {
@@ -70,5 +84,28 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  clickCount(): void {
+    this.count = this.count + 1;
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IContenant>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveFinalize(): void {
+    //      alert("Passay !!");
+  }
+
+  protected onSaveSuccess(): void {
+    //      alert("YOUPI");
+  }
+
+  protected onSaveError(): void {
+    //      alert("TROP NAZE");
   }
 }
