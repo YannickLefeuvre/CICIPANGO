@@ -52,7 +52,9 @@ public class AudioResource {
      * {@code POST  /audio} : Create a new audio.
      *
      * @param audio the audio to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new audio, or with status {@code 400 (Bad Request)} if the audio has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new audio, or with status {@code 400 (Bad Request)} if the
+     *         audio has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/audio")
@@ -86,14 +88,13 @@ public class AudioResource {
                 "idinvalid"
             );
         }
-        //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
-        try (
-            FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\audios\\bibu" + id + "." + fichou.getExt()
-            )
-        ) {
+        // try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" +
+        // lastAudioId + ".txt")) {
+        try (FileOutputStream fos = new FileOutputStream("C:\\resources\\content\\audios\\bibu" + id + "." + fichou.getExt())) {
             fos.write(fichou.getFichier());
-            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
+            // fos.close(); There is no more need for this line since you had created the
+            // instance of "fos" inside the try. And this will automatically close the
+            // OutputStream
         }
 
         return ResponseEntity
@@ -105,11 +106,12 @@ public class AudioResource {
     /**
      * {@code PUT  /audio/:id} : Updates an existing audio.
      *
-     * @param id the id of the audio to save.
+     * @param id    the id of the audio to save.
      * @param audio the audio to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated audio,
-     * or with status {@code 400 (Bad Request)} if the audio is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the audio couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated audio, or with status {@code 400 (Bad Request)} if the
+     *         audio is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the audio couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/audio/{id}")
@@ -135,14 +137,16 @@ public class AudioResource {
     }
 
     /**
-     * {@code PATCH  /audio/:id} : Partial updates given fields of an existing audio, field will ignore if it is null
+     * {@code PATCH  /audio/:id} : Partial updates given fields of an existing
+     * audio, field will ignore if it is null
      *
-     * @param id the id of the audio to save.
+     * @param id    the id of the audio to save.
      * @param audio the audio to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated audio,
-     * or with status {@code 400 (Bad Request)} if the audio is not valid,
-     * or with status {@code 404 (Not Found)} if the audio is not found,
-     * or with status {@code 500 (Internal Server Error)} if the audio couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated audio, or with status {@code 400 (Bad Request)} if the
+     *         audio is not valid, or with status {@code 404 (Not Found)} if the
+     *         audio is not found, or with status
+     *         {@code 500 (Internal Server Error)} if the audio couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/audio/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -180,7 +184,8 @@ public class AudioResource {
     /**
      * {@code GET  /audio} : get all the audio.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of audio in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of audio in body.
      */
     @GetMapping("/audio")
     public List<Audio> getAllAudio() {
@@ -192,7 +197,8 @@ public class AudioResource {
      * {@code GET  /audio/:id} : get the "id" audio.
      *
      * @param id the id of the audio to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the audio, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the audio, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/audio/{id}")
     public ResponseEntity<Audio> getAudio(@PathVariable Long id) {

@@ -84,11 +84,7 @@ public class PhotoResource {
         }
 
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
-        try (
-            FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\photos\\bibi" + id + "." + fichou.getExt()
-            )
-        ) {
+        try (FileOutputStream fos = new FileOutputStream("C:\\resources\\content\\photos\\bibi" + id + "." + fichou.getExt())) {
             fos.write(fichou.getFichier());
             //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
         }

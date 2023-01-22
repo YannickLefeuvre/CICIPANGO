@@ -52,7 +52,8 @@ export class AlbumPhotoContemplationComponent implements OnInit {
     if (this.album?.id != null && this.listFichiay?.nomsFichiers != null) {
       this.chminsphotos = new Array(this.listFichiay.nomsFichiers.length);
       for (let i = 0; i < this.listFichiay.nomsFichiers.length; i++) {
-        this.chminsphotos[i] = '/content/albumphoto/bibi' + this.album.id.toString() + '/' + this.listFichiay.nomsFichiers[i];
+        this.chminsphotos[i] =
+          'src/main/webapp/content/albumphoto/bibi' + this.album.id.toString() + '/' + this.listFichiay.nomsFichiers[i];
       }
     }
 

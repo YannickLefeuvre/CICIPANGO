@@ -66,7 +66,7 @@ public class AlbumPhotoResource {
         this.lastAlbumPhotoId = result.getId();
         numphoto = 0;
 
-        File theDir = new File("C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + this.lastAlbumPhotoId);
+        File theDir = new File("C:\\resources\\content\\albumphoto\\bibi" + this.lastAlbumPhotoId);
         if (!theDir.exists()) {
             theDir.mkdirs();
         }
@@ -193,7 +193,7 @@ public class AlbumPhotoResource {
         //      Optional<AlbumPhoto> albumPhoto = albumPhotoRepository.findById(id);
         // new ListFichiers("huhu",   new String[] { "Apple", "Apricot", "Banana" }) ;
 
-        File f = new File("C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + id);
+        File f = new File("C:\\resources\\content\\albumphoto\\bibi" + id);
 
         nomsFichiers = f.list();
 
@@ -223,7 +223,7 @@ public class AlbumPhotoResource {
         //       try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" + lastAudioId + ".txt")) {
         try (
             FileOutputStream fos = new FileOutputStream(
-                "C:\\dev\\cicipango\\src\\main\\webapp\\content\\albumphoto\\bibi" + id + "\\bubu" + id + numphoto + "." + fichou.getExt()
+                "C:\\resources\\content\\albumphoto\\bibi" + id + "\\bubu" + id + numphoto + "." + fichou.getExt()
             )
         ) {
             fos.write(fichou.getFichier());

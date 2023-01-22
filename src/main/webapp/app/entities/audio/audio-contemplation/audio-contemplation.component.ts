@@ -53,7 +53,7 @@ export class AudioContemplationComponent implements OnInit {
 
   cheminAlaudio(): string {
     const result = '';
-    const chmin = '../../../content/audios/bibu';
+    const chmin = 'src/main/webapp/content/audios/bibu';
     if (this.audio != null) {
       if (this.audio.id != null && this.audio.ext != null) {
         //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));

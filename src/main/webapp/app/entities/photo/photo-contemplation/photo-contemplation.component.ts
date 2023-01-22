@@ -30,7 +30,7 @@ export class PhotoContemplationComponent implements OnInit {
 
   cheminPhoto(): string {
     const result = '';
-    const chmin = '../../../content/photos/bibi';
+    const chmin = 'src/main/webapp/content/photos/bibi';
     if (this.photo != null) {
       if (this.photo.id != null && this.photo.ext != null) {
         //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));
