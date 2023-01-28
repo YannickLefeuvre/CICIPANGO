@@ -90,6 +90,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.count = this.count + 1;
   }
 
+  siContenantAContenant(contenant: Contenant): boolean {
+    if (contenant.contenant == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  nomAccount(): string {
+    return this.account?.firstName ?? 'yaya';
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IContenant>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),

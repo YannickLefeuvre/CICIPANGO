@@ -1,5 +1,7 @@
 import { ILien } from 'app/entities/lien/lien.model';
 import { IContenu } from 'app/entities/contenu/contenu.model';
+import { IUser } from '../user/user.model';
+import { Account } from 'app/core/auth/account.model';
 
 export interface IContenant {
   id?: number;
@@ -18,6 +20,7 @@ export interface IContenant {
   lienCible?: ILien | null;
   contenant?: IContenant | null;
   vues?: number | null;
+  proprietaire?: Account | null;
 }
 
 export class Contenant implements IContenant {
@@ -37,7 +40,8 @@ export class Contenant implements IContenant {
     public lienOrigine?: ILien | null,
     public lienCible?: ILien | null,
     public contenant?: IContenant | null,
-    public vues?: number | null
+    public vues?: number | null,
+    public proprietaire?: Account | null
   ) {
     this.isCapital = this.isCapital ?? false;
   }

@@ -1,6 +1,7 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mycompany.myapp.config.Constants;
 import java.io.Serializable;
 import java.time.Instant;
@@ -81,6 +82,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+
+    //Rajouter OneToMany à contenant
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
+    @OneToMany(mappedBy = "proprietaire")
+    private Set<Contenant> contenantsPropriete;
 
     @JsonIgnore
     @ManyToMany
@@ -197,6 +203,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
+
+    //    public User(Set<Contenant> contenantsPropriete) {
+    //		super();
+    //		this.contenantsPropriete = contenantsPropriete;
+    //	}
 
     @Override
     public boolean equals(Object o) {

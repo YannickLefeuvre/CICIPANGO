@@ -1,4 +1,7 @@
+<div>{{ nomAccount() }}</div>
 <div *ngFor="let contenant of contenants">
-  <a (click)="addContenantVue(contenant)" [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
-  <div>Vues: {{ showVues(contenant) }}</div>
+  <div *ngIf="siContenantAContenant(contenant)">
+    <a (click)="addContenantVue(contenant)" [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+    <div>Vues: {{ showVues(contenant) }}</div>
+  </div>
 </div>

@@ -75,6 +75,11 @@ public class Contenant implements Serializable {
     @OneToMany(mappedBy = "villeOrigine")
     private Set<Lien> liensOrigine;
 
+    // rajouter ManyToOne user
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "authorities" }, allowSetters = true)
+    private User proprietaire;
+
     @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
     @OneToMany(mappedBy = "villeCible")
     private Set<Lien> liensCible;
@@ -276,6 +281,14 @@ public class Contenant implements Serializable {
         return this.contenants;
     }
 
+    public User getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(User proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
     public void setContenants(Set<Contenant> contenants) {
         if (this.contenants != null) {
             this.contenants.forEach(i -> i.setContenant(null));
@@ -389,7 +402,6 @@ public class Contenant implements Serializable {
 		return "Contenant{" + "id=" + getId() + ", nom='" + getNom() + "'" + ", isCapital='" + getIsCapital() + "'"
 				+ ", icone='" + getIcone() + "'" + ", iconeContentType='" + getIconeContentType() + "'" + ", absisce="
 				+ getAbsisce() + ", ordonnee=" + getOrdonnee() + ", arriereplan='" + getArriereplan() + "'"
-				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" +
-				", vues='" + getVues() + "'" +"}";
+				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" + ", vues='" + getVues() + "'" + "}";
 	}
 }

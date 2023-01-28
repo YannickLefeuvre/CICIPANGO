@@ -2,14 +2,16 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 
 import { IContenant, Contenant } from '../contenant.model';
 import { ContenantService } from '../service/contenant.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-creation',
@@ -18,6 +20,7 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 export class ContenantCreationComponent implements OnInit {
   isSaving = false;
   contenanto = new Contenant();
+  account: Account | null = null;
 
   contenantsSharedCollection: IContenant[] = [];
 
@@ -34,7 +37,10 @@ export class ContenantCreationComponent implements OnInit {
     contenant: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected contenantService: ContenantService,
@@ -51,6 +57,11 @@ export class ContenantCreationComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
 
     this.loadRelationshipsOptions();
   }
@@ -87,8 +98,6 @@ export class ContenantCreationComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const contenant = this.createFromForm();
-    alert(contenant.id);
-
     this.subscribeToSaveResponse(this.contenantService.create(contenant));
   }
 
@@ -148,6 +157,7 @@ export class ContenantCreationComponent implements OnInit {
   }
 
   protected createFromForm(): IContenant {
+    alert(this.account?.firstName);
     return {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
@@ -160,6 +170,7 @@ export class ContenantCreationComponent implements OnInit {
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.contenanto,
+      proprietaire: this.account,
       //      contenus: this.editForm.get(['contenus'])!.value,
     };
   }

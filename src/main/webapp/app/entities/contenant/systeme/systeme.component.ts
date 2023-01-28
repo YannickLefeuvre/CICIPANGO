@@ -127,6 +127,10 @@ export class SystemeComponent implements OnInit {
     return '';
   }
 
+  proprioContenant(): string {
+    return this.contenant?.proprietaire?.firstName ?? 'BIBICHE';
+  }
+
   nomContenantDuContenant(): string {
     if (this.contenant != null) {
       if (this.contenant.contenant != null) {
