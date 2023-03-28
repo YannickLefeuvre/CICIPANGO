@@ -1,6 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
+import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.repository.ContenantRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.service.MailService;
@@ -41,10 +43,18 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final ContenantRepository contenantRepository;
+
+    public AccountResource(
+        UserRepository userRepository,
+        UserService userService,
+        MailService mailService,
+        ContenantRepository contenantRepository
+    ) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.contenantRepository = contenantRepository;
     }
 
     /**
@@ -99,10 +109,24 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        return userService
-            .getUserWithAuthorities()
-            .map(AdminUserDTO::new)
-            .orElseThrow(() -> new AccountResourceException("User could not be found"));
+        log.debug(" ON Y PASSE !!! ");
+        User uso = userService.getUserWithAuthorities().get();
+
+        List<Contenant> cna = new ArrayList<>();
+        Set<Contenant> tutu = new HashSet<>(0);
+        cna = contenantRepository.findAll();
+        Optional<User> usi = userService.getUserWithAuthorities();
+        usi.get().setContenantsPropriete(tutu);
+        for (Contenant conte : cna) {
+            if (conte.getProprietaire() == null || conte.getProprietaire().getId() == null) {
+                log.debug("AUTENTouFFF");
+            } else if (conte.getProprietaire().getId() == usi.get().getId()) {
+                usi.get().getContenantsPropriete().add(conte);
+                log.debug("HOURA");
+            }
+        }
+
+        return usi.map(AdminUserDTO::new).orElseThrow(() -> new AccountResourceException("User could not be found"));
     }
 
     /**

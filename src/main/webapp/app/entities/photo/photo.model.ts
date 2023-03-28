@@ -1,3 +1,4 @@
+import { Account } from 'app/core/auth/account.model';
 import { Contenu } from '../contenu/contenu.model';
 import { IContenant } from 'app/entities/contenant/contenant.model';
 
@@ -17,6 +18,7 @@ export interface IPhoto {
   type?: string | null;
   nbSecret?: number | null;
   ext?: string | null;
+  createur?: Account | null;
 }
 
 export class Photo extends Contenu implements IPhoto {
@@ -35,7 +37,8 @@ export class Photo extends Contenu implements IPhoto {
     public contenant?: IContenant | null,
     public type?: string | null,
     public nbSecret?: number | null,
-    public ext?: string | null
+    public ext?: string | null,
+    public createur?: Account | null
   ) {
     super(id, nom);
   }

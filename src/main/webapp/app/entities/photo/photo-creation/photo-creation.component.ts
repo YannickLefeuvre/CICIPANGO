@@ -3,8 +3,8 @@ import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
@@ -12,6 +12,8 @@ import { ContenantService } from 'app/entities/contenant/service/contenant.servi
 import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { PhotoService } from '../service/photo.service';
 import { IPhoto, Photo } from '../photo.model';
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-photo-creation',
@@ -26,11 +28,13 @@ export class PhotoCreationComponent implements OnInit {
   nbSecret?: number;
   ext?: string;
   photus?: IPhoto | null;
+  account: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
     nom: [],
     url: [],
+    description: [],
     icone: [],
     iconeContentType: [],
     absisce: [],
@@ -44,7 +48,10 @@ export class PhotoCreationComponent implements OnInit {
     fichierExt: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected photoService: PhotoService,
@@ -71,6 +78,11 @@ export class PhotoCreationComponent implements OnInit {
       this.updateForm(contenant);
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
   }
 
   byteSize(base64String: string): string {
@@ -218,6 +230,7 @@ export class PhotoCreationComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
       //      url: this.editForm.get(['url'])!.value,
+      description: this.editForm.get(['description'])!.value,
       iconeContentType: this.editForm.get(['iconeContentType'])!.value,
       icone: this.editForm.get(['icone'])!.value,
       absisce: this.editForm.get(['absisce'])!.value,
@@ -227,6 +240,7 @@ export class PhotoCreationComponent implements OnInit {
       contenant: this.contenanto,
       type: 'PHOTO',
       nbSecret: this.nbSecret,
+      createur: this.account,
     };
   }
 

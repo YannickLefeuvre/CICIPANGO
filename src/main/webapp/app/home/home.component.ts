@@ -59,7 +59,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadAllContenant(): void {
     this.isLoading = true;
-
     this.contenantsService.query().subscribe({
       next: (res: HttpResponse<IContenant[]>) => {
         this.isLoading = false;

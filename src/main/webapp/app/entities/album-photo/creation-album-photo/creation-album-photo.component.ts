@@ -3,8 +3,8 @@ import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
@@ -12,6 +12,8 @@ import { ContenantService } from 'app/entities/contenant/service/contenant.servi
 import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { AlbumPhoto, IAlbumPhoto } from '../album-photo.model';
 import { AlbumPhotoService } from '../service/album-photo.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-creation-album-photo',
@@ -28,6 +30,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
   albibo?: IAlbumPhoto | null;
   nbFilesup = 0;
   fichiayto = new Fichiay();
+  account: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -43,7 +46,10 @@ export class CreationAlbumPhotoComponent implements OnInit {
     contenant: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected albumPhotoService: AlbumPhotoService,
@@ -63,6 +69,11 @@ export class CreationAlbumPhotoComponent implements OnInit {
       this.updateForm(contenant);
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
   }
 
   public onFilechange(event: any): void {
@@ -293,6 +304,7 @@ export class CreationAlbumPhotoComponent implements OnInit {
       type: 'ALBUMPHOTO',
       nbPhotos: this.fichiasse.length,
       nbSecret: this.nbSecret,
+      createur: this.account,
     };
   }
 

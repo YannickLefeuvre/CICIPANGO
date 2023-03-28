@@ -1,3 +1,4 @@
+import { Account } from 'app/core/auth/account.model';
 import { Contenu } from '../contenu/contenu.model';
 import { IContenant } from 'app/entities/contenant/contenant.model';
 
@@ -16,6 +17,7 @@ export interface IAudio {
   type?: string | null;
   ext?: string | null;
   nbSecret?: number | null;
+  createur?: Account | null;
 }
 
 export class Audio extends Contenu implements IAudio {
@@ -33,7 +35,8 @@ export class Audio extends Contenu implements IAudio {
     public contenant?: IContenant | null,
     public type?: string | null,
     public ext?: string | null,
-    public nbSecret?: number | null
+    public nbSecret?: number | null,
+    public createur?: Account | null
   ) {
     super(id, nom);
   }

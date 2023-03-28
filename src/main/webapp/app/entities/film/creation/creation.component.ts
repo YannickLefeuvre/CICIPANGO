@@ -2,8 +2,8 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 
 import { IFilm, Film } from '../film.model';
 import { FilmService } from '../service/film.service';
@@ -12,6 +12,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
 import { ContenantService } from 'app/entities/contenant/service/contenant.service';
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-creation',
@@ -22,6 +24,7 @@ export class CreationComponent implements OnInit {
   isSaving = false;
   contenanto = new Contenant();
   contenantsSharedCollection: IContenant[] = [];
+  account: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -39,7 +42,10 @@ export class CreationComponent implements OnInit {
     contenant: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected filmService: FilmService,
@@ -58,6 +64,11 @@ export class CreationComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
   }
 
   byteSize(base64String: string): string {
@@ -170,6 +181,7 @@ export class CreationComponent implements OnInit {
       type: 'FILM',
       texte: this.editForm.get(['texte'])!.value,
       contenant: this.contenanto,
+      createur: this.account,
     };
   }
 }

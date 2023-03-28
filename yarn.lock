@@ -8062,6 +8062,13 @@
   dependencies:
     "moment" "2.18.1"
 
+"ngb-modal@^2.0.3":
+  "integrity" "sha512-/EFdvLEPwnzvW9wR34AOtbPs3NC5Tjmo0Sx/UHqEpGJNfSJ4z6dUN+H4OuW9m51JtCYdjCXkbeQQo6nCYhA3CA=="
+  "resolved" "https://registry.npmjs.org/ngb-modal/-/ngb-modal-2.0.3.tgz"
+  "version" "2.0.3"
+  dependencies:
+    "tslib" "^1.9.0"
+
 "ngx-infinite-scroll@13.0.1":
   "integrity" "sha512-B0E5gxnM/ljM76ap/cb9SYI7RUDBK3bNRPY3W+j+ynkrDtJWzyVgVp0Diit4HqnTUskOYmRctwfP/CVznH4v9A=="
   "resolved" "https://registry.npmjs.org/ngx-infinite-scroll/-/ngx-infinite-scroll-13.0.1.tgz"

@@ -1,0 +1,5 @@
+<p>YAAAAAAAAAA</p>
+
+<div *ngFor="let contenant of account?.contenantsPropriete">
+  <a [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+</div>

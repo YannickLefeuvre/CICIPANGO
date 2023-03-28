@@ -71,7 +71,7 @@ public class Contenant implements Serializable {
     @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
     private Set<Contenant> contenants = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "villeOrigine", "villeCibleRz", "contenant" }, allowSetters = true)
     @OneToMany(mappedBy = "villeOrigine")
     private Set<Lien> liensOrigine;
 

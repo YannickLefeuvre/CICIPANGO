@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,6 +63,10 @@ public class AlbumPhotoResource {
         }
 
         AlbumPhoto result = albumPhotoRepository.save(albumPhoto);
+
+        Date date = new Date();
+        albumPhoto.setDate_creation(date);
+
         this.LastnbSecret = result.getNbSecret();
         this.lastAlbumPhotoId = result.getId();
         numphoto = 0;

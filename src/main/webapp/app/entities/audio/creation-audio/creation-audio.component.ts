@@ -3,8 +3,8 @@ import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
@@ -13,6 +13,8 @@ import { UploadService } from './post-audio-service.service';
 import { IAudio, Audio, IFichiay, Fichiay } from '../audio.model';
 import { AudioService } from '../service/audio.service';
 import { IPhoto, Photo } from 'app/entities/photo/photo.model';
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-creation-audio',
@@ -27,6 +29,7 @@ export class CreationAudioComponent implements OnInit {
   nbSecret?: number;
   ext?: string;
   audius?: IAudio | null;
+  account: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -46,7 +49,10 @@ export class CreationAudioComponent implements OnInit {
     fichierExt: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected audioService: AudioService,
@@ -103,6 +109,11 @@ export class CreationAudioComponent implements OnInit {
       this.updateForm(contenant);
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
   }
 
   byteSize(base64String: string): string {
@@ -245,6 +256,7 @@ export class CreationAudioComponent implements OnInit {
       contenant: this.contenanto,
       type: 'AUDIO',
       nbSecret: this.nbSecret,
+      createur: this.account,
     };
   }
 

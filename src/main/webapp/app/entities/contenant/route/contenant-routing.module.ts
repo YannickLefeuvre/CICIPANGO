@@ -53,7 +53,6 @@ const contenantRoute: Routes = [
     resolve: {
       contenant: ContenantRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
   },
 ];
 

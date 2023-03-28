@@ -1,6 +1,7 @@
 import { Contenu } from '../contenu/contenu.model';
 import { IContenant } from 'app/entities/contenant/contenant.model';
 import { Fichiay } from '../audio/audio.model';
+import { Account } from 'app/core/auth/account.model';
 
 export interface IAlbumPhoto {
   id?: number;
@@ -19,6 +20,8 @@ export interface IAlbumPhoto {
   nbPhotos?: number | null;
   nbSecret?: number | null;
   ext?: string | null;
+  createur?: Account | null;
+  cheminsPhotos?: string[] | null;
 }
 
 export class AlbumPhoto extends Contenu implements IAlbumPhoto {
@@ -38,7 +41,9 @@ export class AlbumPhoto extends Contenu implements IAlbumPhoto {
     public type?: string | null,
     public nbPhotos?: number | null,
     public nbSecret?: number | null,
-    public ext?: string | null
+    public ext?: string | null,
+    public createur?: Account | null,
+    public cheminsPhotos?: string[] | null
   ) {
     super(id, nom);
   }

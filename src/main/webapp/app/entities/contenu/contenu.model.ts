@@ -1,3 +1,4 @@
+import { Account } from 'app/core/auth/account.model';
 import { IContenant } from 'app/entities/contenant/contenant.model';
 
 export interface IContenu {
@@ -13,6 +14,8 @@ export interface IContenu {
   contenant?: IContenant | null;
   type?: string | null;
   ext?: string | null;
+  date_creation?: Date | null;
+  createur?: Account | null;
 }
 
 export class Contenu implements IContenu {
@@ -28,7 +31,9 @@ export class Contenu implements IContenu {
     public arriereplan?: string | null,
     public contenant?: IContenant | null,
     public type?: string | null,
-    public ext?: string | null
+    public ext?: string | null,
+    public date_creation?: Date | null,
+    public createur?: Account | null
   ) {}
 }
 

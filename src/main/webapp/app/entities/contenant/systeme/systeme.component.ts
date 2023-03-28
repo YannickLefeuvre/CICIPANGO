@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUtils } from 'app/core/util/data-util.service';
-import { IContenant } from '../contenant.model';
+import { Contenant, IContenant } from '../contenant.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IContenu, Contenu } from '../../contenu/contenu.model';
 import { ContenuService } from '../../contenu/service/contenu.service';
@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Audio } from 'app/entities/audio/audio.model';
-import { AlbumPhoto } from 'app/entities/album-photo/album-photo.model';
+import { AlbumPhoto, IListeFichiers, ListeFichiers } from 'app/entities/album-photo/album-photo.model';
 import { MatButtonModule } from '@angular/material/button';
 import { Photo } from 'app/entities/photo/photo.model';
 import { PhotoContemplationComponent } from 'app/entities/photo/photo-contemplation/photo-contemplation.component';
@@ -23,6 +23,7 @@ import { Film } from 'app/entities/film/film.model';
 import { FilmContemplationComponent } from 'app/entities/film/film-contemplation/film-contemplation.component';
 import { ILien, Lien } from 'app/entities/lien/lien.model';
 import { LienService } from 'app/entities/lien/service/lien.service';
+import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.service';
 
 @Component({
   selector: 'jhi-systeme',
@@ -56,6 +57,7 @@ export class SystemeComponent implements OnInit {
     protected lienService: LienService,
     //    protected dialogref: MatDialog,
     //    public dialog: MatDialog,
+    protected albumPhotoService: AlbumPhotoService,
     private modalService: NgbModal //    protected activeModal: NgbActiveModal,
   ) {
     //  activatedRoute.params.subscribe(val => {
@@ -73,6 +75,7 @@ export class SystemeComponent implements OnInit {
       this.contenant = contenant;
     });
     this.loadLiens();
+    this.loadToff();
   }
 
   ngOnChanges(): void {
@@ -114,7 +117,7 @@ export class SystemeComponent implements OnInit {
     if (contenu.type != null) {
       return contenu.type;
     } else {
-      return 'naze';
+      return '';
     }
   }
 
@@ -128,7 +131,7 @@ export class SystemeComponent implements OnInit {
   }
 
   proprioContenant(): string {
-    return this.contenant?.proprietaire?.firstName ?? 'BIBICHE';
+    return this.contenant?.proprietaire?.firstName ?? '';
   }
 
   nomContenantDuContenant(): string {
@@ -206,6 +209,55 @@ export class SystemeComponent implements OnInit {
       //  size:""
     });
     modalRef.componentInstance.photo = photo;
+  }
+
+  cheminPhoto(photo: Photo): string {
+    const result = '';
+    const chmin = 'src/main/webapp/content/photos/bibi';
+    if (photo.id != null && photo.ext != null) {
+      //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));
+      return result.concat(chmin, photo.id.toString(), '.', photo.ext);
+    } else {
+      return 'naze';
+    }
+  }
+
+  loadToff(): void {
+    if (this.contenant?.contenus?.length != null) {
+      for (let i = 0; i < this.contenant.contenus.length; i++) {
+        if (this.contenant.contenus[i].type === 'ALBUMPHOTO') {
+          this.trouveChemin(this.contenant.contenus[i]);
+        }
+      }
+    }
+  }
+
+  trouveChemin(album: AlbumPhoto): void {
+    this.albumPhotoService.findFichiers(album.id ?? 0).subscribe({
+      next: (res: HttpResponse<IListeFichiers>) => {
+        //   album.cheminsPhotos = res.body?.nomsFichiers;
+        this.ajouterCheminAlbumPhoto(album, res.body);
+      },
+      error: () => {
+        this.isSaving = false;
+      },
+    });
+  }
+
+  ajouterCheminAlbumPhoto(album: AlbumPhoto, liste: IListeFichiers | null): void {
+    album.cheminsPhotos = liste?.nomsFichiers;
+  }
+
+  cheminAlbum(album: AlbumPhoto): string {
+    if (album.cheminsPhotos != null) {
+      return (
+        'src/main/webapp/content/albumphoto/bibi' +
+        (album.id ?? 0).toString() +
+        '/' +
+        album.cheminsPhotos[Math.floor(Math.random() * album.cheminsPhotos.length)]
+      );
+    }
+    return 'null';
   }
 
   openFilmDialog(film: Film): any {

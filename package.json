@@ -104,6 +104,7 @@
     "fs": "^0.0.1-security",
     "get-all-files": "^4.1.0",
     "ng-bootstrap": "^1.1.16",
+    "ngb-modal": "^2.0.3",
     "ngx-infinite-scroll": "13.0.1",
     "ngx-webstorage": "9.0.0",
     "rxjs": "7.5.5",

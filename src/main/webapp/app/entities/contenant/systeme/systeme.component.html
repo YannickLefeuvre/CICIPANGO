@@ -14,19 +14,45 @@
 
 <div *ngFor="let contenu of contenant?.contenus">
   <div *ngIf="contenu.type == 'AUDIO'">
-    <a class="aud" (click)="openAudioDialog(contenu)">{{ contenu.nom }}</a>
+    <a class="aud" (click)="openAudioDialog(contenu)"
+      >{{ contenu.nom }}
+      <span>
+        {{ contenu.description }}
+      </span>
+    </a>
+    <div>{{ contenu.date_creation }}</div>
   </div>
 
   <div *ngIf="contenu.type == 'ALBUMPHOTO'">
-    <a class="miam" (click)="openAlbumPhotoDialog(contenu)">{{ contenu.nom }}</a>
+    <a class="miam" (click)="openAlbumPhotoDialog(contenu)"
+      >{{ contenu.nom
+      }}<span
+        ><img src="{{ cheminAlbum(contenu) }}" width="300px" height="260px" />
+        {{ contenu.description }}
+      </span></a
+    >
+    <div>{{ contenu.date_creation }}</div>
   </div>
 
   <div *ngIf="contenu.type == 'PHOTO'">
-    <a class="bu" (click)="openPhotoDialog(contenu)">{{ contenu.nom }}</a>
+    <a class="bu" (click)="openPhotoDialog(contenu)"
+      >{{ contenu.nom }}
+      <span
+        ><img src="{{ cheminPhoto(contenu) }}" width="300px" height="260px" />
+        {{ contenu.description }}
+      </span></a
+    >
+    <div>{{ contenu.date_creation }}</div>
   </div>
 
   <div *ngIf="contenu.type == 'FILM'">
-    <a class="film" (click)="openFilmDialog(contenu)">{{ contenu.nom }}</a>
+    <a class="film" (click)="openFilmDialog(contenu)"
+      >{{ contenu.nom }}
+      <span>
+        {{ contenu.description }}
+      </span>
+    </a>
+    <div>{{ contenu.date_creation }}</div>
   </div>
 </div>
 

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,6 +55,9 @@ public class FilmResource {
         if (film.getId() != null) {
             throw new BadRequestAlertException("A new film cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        Date date = new Date();
+        film.setDate_creation(date);
 
         Film result = filmRepository.save(film);
         return ResponseEntity

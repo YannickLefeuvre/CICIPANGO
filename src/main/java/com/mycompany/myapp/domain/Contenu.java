@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -56,6 +57,13 @@ public class Contenu implements Serializable {
 
     @Column(name = "ext")
     private String ext;
+
+    @Column(name = "date_creation")
+    private Date date_creation;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "authorities" }, allowSetters = true)
+    private User createur;
 
     @Transient
     private int nbSecret;
@@ -186,6 +194,14 @@ public class Contenu implements Serializable {
         this.type = type;
     }
 
+    public User getCreateur() {
+        return createur;
+    }
+
+    public void setCreateur(User createur) {
+        this.createur = createur;
+    }
+
     public String getExt() {
         return ext;
     }
@@ -208,6 +224,14 @@ public class Contenu implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getDate_creation() {
+        return date_creation;
+    }
+
+    public void setDate_creation(Date date_creation) {
+        this.date_creation = date_creation;
     }
 
     public Contenu contenant(Contenant contenant) {

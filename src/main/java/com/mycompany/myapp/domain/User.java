@@ -88,6 +88,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(mappedBy = "proprietaire")
     private Set<Contenant> contenantsPropriete;
 
+    //Rajouter OneToMany à contenant
+    @JsonIgnoreProperties(value = { "liens", "contenus", "contenants", "lienOrigine", "lienCible", "contenant" }, allowSetters = true)
+    @OneToMany(mappedBy = "createur")
+    private Set<Contenu> contenusCrees;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -204,10 +209,21 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
-    //    public User(Set<Contenant> contenantsPropriete) {
-    //		super();
-    //		this.contenantsPropriete = contenantsPropriete;
-    //	}
+    public Set<Contenu> getContenusCrees() {
+        return contenusCrees;
+    }
+
+    public void setContenusCrees(Set<Contenu> contenusCrees) {
+        this.contenusCrees = contenusCrees;
+    }
+
+    public Set<Contenant> getContenantsPropriete() {
+        return contenantsPropriete;
+    }
+
+    public void setContenantsPropriete(Set<Contenant> contenantsPropriete) {
+        this.contenantsPropriete = contenantsPropriete;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,8 +2,10 @@ package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.config.Constants;
 import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.AuthorityRepository;
+import com.mycompany.myapp.repository.ContenantRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
@@ -41,16 +43,20 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
+    private final ContenantRepository contenantRepository;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        ContenantRepository contenantRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.contenantRepository = contenantRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -283,7 +289,22 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneWithAuthoritiesByLogin(login);
+        //modif yaya
+        List<Contenant> cna = new ArrayList<>();
+        Set<Contenant> tutu = new HashSet<>(0);
+        cna = contenantRepository.findAll();
+        Optional<User> usi = userRepository.findOneWithAuthoritiesByLogin(login);
+        usi.get().setContenantsPropriete(tutu);
+        for (Contenant conte : cna) {
+            if (conte.getProprietaire() == null || conte.getProprietaire().getLogin() == null) {
+                log.debug("AUTENTouFFF");
+            } else if (conte.getProprietaire().getLogin() == login) {
+                usi.get().getContenantsPropriete().add(conte);
+            }
+            log.debug("AUTENTIFFF");
+        }
+
+        return usi;
     }
 
     @Transactional(readOnly = true)

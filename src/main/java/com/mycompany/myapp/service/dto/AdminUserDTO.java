@@ -2,6 +2,7 @@ package com.mycompany.myapp.service.dto;
 
 import com.mycompany.myapp.config.Constants;
 import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.User;
 import java.time.Instant;
 import java.util.Set;
@@ -48,6 +49,8 @@ public class AdminUserDTO {
 
     private Set<String> authorities;
 
+    private Set<Contenant> contenantsPropriete;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -66,6 +69,7 @@ public class AdminUserDTO {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.contenantsPropriete = user.getContenantsPropriete();
     }
 
     public Long getId() {
@@ -170,6 +174,14 @@ public class AdminUserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<Contenant> getContenantsPropriete() {
+        return contenantsPropriete;
+    }
+
+    public void setContenantsPropriete(Set<Contenant> contenantsPropriete) {
+        this.contenantsPropriete = contenantsPropriete;
     }
 
     // prettier-ignore

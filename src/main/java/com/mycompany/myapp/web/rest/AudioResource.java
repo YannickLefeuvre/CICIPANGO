@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,6 +64,9 @@ public class AudioResource {
         if (audio.getId() != null) {
             throw new BadRequestAlertException("A new audio cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Date date = new Date();
+        audio.setDate_creation(date);
+
         Audio result = audioRepository.save(audio);
         this.LastnbSecret = result.getNbSecret();
         this.lastAudioId = result.getId();
