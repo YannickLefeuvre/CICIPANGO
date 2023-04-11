@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
@@ -23,7 +23,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   count = 0;
   account: Account | null = null;
   contenants?: IContenant[];
+  contenantaffichay?: IContenant[];
   isLoading = false;
+  arrX = [300, 700, 1100, 1200];
+  arrY = [200, 800, 200, 500];
 
   private readonly destroy$ = new Subject<void>();
 
@@ -34,7 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
     protected dialogref: MatDialog,
-    protected contenantService: ContenantService
+    protected contenantService: ContenantService,
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadAllContenant(): void {
     this.isLoading = true;
-    this.contenantsService.query().subscribe({
+    this.contenantsService.query('contenant-is-null').subscribe({
       next: (res: HttpResponse<IContenant[]>) => {
         this.isLoading = false;
         this.contenants = res.body ?? [];
@@ -68,6 +72,21 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
+  }
+
+  filtrerContenants(): void {
+    if (
+      this.contenants != null
+      //&& (this.contenantaffichay != null)
+    ) {
+      //    alert("ghgh");
+      for (let i = 0; i < this.contenants.length; i++) {
+        if (!this.siContenantAContenant(this.contenants[i])) {
+          delete this.contenants[i];
+          //     this.contenantaffichay[j] = this.contenants[i];
+        }
+      }
+    }
   }
 
   login(): void {
@@ -98,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   nomAccount(): string {
-    return this.account?.firstName ?? 'yaya';
+    return this.account?.firstName ?? '';
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IContenant>>): void {

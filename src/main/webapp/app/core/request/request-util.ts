@@ -10,6 +10,10 @@ export const createRequestOption = (req?: any): HttpParams => {
       }
     });
 
+    if (req === 'contenant-is-null') {
+      options = options.set('contnantnull', 'contenant-is-null');
+    }
+
     if (req.sort) {
       req.sort.forEach((val: string) => {
         options = options.append('sort', val);

@@ -180,7 +180,6 @@ public class ContenantResource {
         @Valid @RequestBody Contenant contenant
     ) throws URISyntaxException {
         log.debug("Ajout d'une bonne vue : {}, {}", id, contenant);
-        log.info(" HEEEEEEEEEEEEYYYYYYYYY ");
         if (contenant.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -210,8 +209,9 @@ public class ContenantResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of contenants in body.
      */
     @GetMapping("/contenants")
-    public List<Contenant> getAllContenants(@RequestParam(required = false) String filter) {
-        if ("lienorigine-is-null".equals(filter)) {
+    public List<Contenant> getAllContenants(@RequestParam(required = false) String contnantnull) {
+        log.info("mina " + contnantnull);
+        if ("lienorigine-is-null".equals(contnantnull)) {
             log.debug("REST request to get all Contenants where lienOrigine is null");
             return StreamSupport
                 .stream(contenantRepository.findAll().spliterator(), false)
@@ -219,13 +219,22 @@ public class ContenantResource {
                 .collect(Collectors.toList());
         }
 
-        if ("liencible-is-null".equals(filter)) {
+        if ("liencible-is-null".equals(contnantnull)) {
             log.debug("REST request to get all Contenants where lienCible is null");
             return StreamSupport
                 .stream(contenantRepository.findAll().spliterator(), false)
                 .filter(contenant -> contenant.getLienCible() == null)
                 .collect(Collectors.toList());
         }
+        if ("contenant-is-null".equals(contnantnull)) {
+            log.info("mino");
+            log.debug("REST request to get all Contenants where lienOrigine is null");
+            return StreamSupport
+                .stream(contenantRepository.findAll().spliterator(), false)
+                .filter(contenant -> contenant.getContenant() == null)
+                .collect(Collectors.toList());
+        }
+
         log.debug("REST request to get all Contenants");
         return contenantRepository.findAll();
     }

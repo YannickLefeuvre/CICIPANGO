@@ -9,7 +9,37 @@ Main page styles
   background: url('../../content/images/jhipster_family_member_3.svg') no-repeat center top;
   background-size: contain;
 }
+div.decal {
+  position: fixed;
+  left: 400px;
+}
 
+.dot {
+  height: 50px;
+  width: 50px;
+  background-color: #259416;
+  border-radius: 50%;
+}
+
+.ma-classe {
+  position: absolute;
+}
+
+div.perso {
+  position: fixed;
+  top: 120px;
+  left: 400px;
+  width: 300px;
+  border: 3px solid #73ad21;
+}
+
+div.fixed {
+  position: fixed;
+  top: 120px;
+  left: 400px;
+  width: 300px;
+  border: 3px solid #73ad21;
+}
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
   only screen and (-moz-min-device-pixel-ratio: 2),

@@ -1,0 +1,38 @@
+.bibu {
+  display: flex;
+  position: relative; /* pour positionner navbar par rapport à son emplacement initial */
+  height: 100vh; /* pour que navbar prenne toute la hauteur de la fenêtre */
+  width: 200px; /* pour définir la largeur de navbar */
+  background-color: #ffffff; /* pour définir la couleur de fond de navbar */
+}
+div.b {
+  position: absolute;
+  left: auto;
+  width: 100px;
+  height: 120px;
+  border: 3px solid blue;
+}
+
+div.decal {
+  left: 200px;
+  display: flex;
+  //  justify-content: space-between;
+  position: absolute;
+  color: #ffffff;
+  background-color: #ffffff;
+}
+
+.containero {
+  display: flex;
+  justify-content: space-between;
+}
+
+.elementus {
+  color: #ffffff;
+  background-color: #ffffff;
+}
+
+.element-2 {
+  width: 50%;
+  background-color: #ffffff;
+}
