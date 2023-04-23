@@ -24,6 +24,14 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cipangoApp.contenant.description" for="field_description">Description</label>
+          <input type="text" class="form-control" name="description" id="field_description" data-cy="nom" formControlName="description" />
+          <div
+            *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)"
+          ></div>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cipangoApp.contenant.isCapital" for="field_isCapital">Is Capital</label>
           <input type="checkbox" class="form-check" name="isCapital" id="field_isCapital" data-cy="isCapital" formControlName="isCapital" />
           <div *ngIf="editForm.get('isCapital')!.invalid && (editForm.get('isCapital')!.dirty || editForm.get('isCapital')!.touched)">

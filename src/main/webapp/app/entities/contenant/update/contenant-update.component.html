@@ -1,166 +1,126 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-contenant-heading" data-cy="ContenantCreateUpdateHeading" jhiTranslate="cipangoApp.contenant.home.createOrEditLabel">
-        Create or edit a Contenant
-      </h2>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+  <h2>Nouveau Système</h2>
 
+  <div class="rectangle">
+    <jhi-alert-error></jhi-alert-error>
+
+    <div class="nom">
+      <label class="lala" formControlName="nom">Nom du système</label><br />
+      <input type="text" placeholder="..." class="inpuput" />
+    </div>
+    <br />
+
+    <div class="nom">
+      <label class="lala">Une description ?</label><br />
+      <input type="text" class="inpuputdescri" placeholder="..." formControlName="description" />
+      <div
+        *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)"
+      ></div>
+      <br />
+    </div>
+
+    <div class="barre"></div>
+
+    <div class="images">
+      <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+      <label class="lala">Icone</label>
+      <label class="form-label" jhiTranslate="cipangoApp.contenant.icone" for="field_icone">Icone</label>
       <div>
-        <jhi-alert-error></jhi-alert-error>
-
-        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        <img
+          [src]="'data:' + editForm.get('iconeContentType')!.value + ';base64,' + editForm.get('icone')!.value"
+          style="max-height: 100px"
+          *ngIf="editForm.get('icone')!.value"
+          alt="contenant image"
+        />
+        <div *ngIf="editForm.get('icone')!.value" class="form-text text-danger clearfix">
+          <span class="pull-start">{{ editForm.get('iconeContentType')!.value }}, {{ byteSize(editForm.get('icone')!.value) }}</span>
+          <button
+            type="button"
+            (click)="clearInputImage('icone', 'iconeContentType', 'file_icone')"
+            class="btn btn-secondary btn-xs pull-end"
+          >
+            <fa-icon icon="times"></fa-icon>
+          </button>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.nom" for="field_nom">Nom</label>
-          <input type="text" class="form-control" name="nom" id="field_nom" data-cy="nom" formControlName="nom" />
-          <div *ngIf="editForm.get('nom')!.invalid && (editForm.get('nom')!.dirty || editForm.get('nom')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('nom')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+        <br />
+        <!--
+            <img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+            -->
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.isCapital" for="field_isCapital">Is Capital</label>
-          <input type="checkbox" class="form-check" name="isCapital" id="field_isCapital" data-cy="isCapital" formControlName="isCapital" />
-          <div *ngIf="editForm.get('isCapital')!.invalid && (editForm.get('isCapital')!.dirty || editForm.get('isCapital')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('isCapital')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.icone" for="field_icone">Icone</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('iconeContentType')!.value + ';base64,' + editForm.get('icone')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('icone')!.value"
-              alt="contenant image"
-            />
-            <div *ngIf="editForm.get('icone')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start">{{ editForm.get('iconeContentType')!.value }}, {{ byteSize(editForm.get('icone')!.value) }}</span>
-              <button
-                type="button"
-                (click)="clearInputImage('icone', 'iconeContentType', 'file_icone')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
-            </div>
-            <input
-              type="file"
-              id="file_icone"
-              data-cy="icone"
-              (change)="setFileData($event, 'icone', true)"
-              accept="image/*"
-              jhiTranslate="entity.action.addimage"
-            />
-          </div>
-          <input type="hidden" class="form-control" name="icone" id="field_icone" data-cy="icone" formControlName="icone" />
-          <input
-            type="hidden"
-            class="form-control"
-            name="iconeContentType"
-            id="field_iconeContentType"
-            formControlName="iconeContentType"
-          />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.absisce" for="field_absisce">Absisce</label>
-          <input type="number" class="form-control" name="absisce" id="field_absisce" data-cy="absisce" formControlName="absisce" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.ordonnee" for="field_ordonnee">Ordonnee</label>
-          <input type="number" class="form-control" name="ordonnee" id="field_ordonnee" data-cy="ordonnee" formControlName="ordonnee" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.arriereplan" for="field_arriereplan">Arriereplan</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('arriereplanContentType')!.value + ';base64,' + editForm.get('arriereplan')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('arriereplan')!.value"
-              alt="contenant image"
-            />
-            <div *ngIf="editForm.get('arriereplan')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start"
-                >{{ editForm.get('arriereplanContentType')!.value }}, {{ byteSize(editForm.get('arriereplan')!.value) }}</span
-              >
-              <button
-                type="button"
-                (click)="clearInputImage('arriereplan', 'arriereplanContentType', 'file_arriereplan')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
-            </div>
-            <input
-              type="file"
-              id="file_arriereplan"
-              data-cy="arriereplan"
-              (change)="setFileData($event, 'arriereplan', true)"
-              accept="image/*"
-              jhiTranslate="entity.action.addimage"
-            />
-          </div>
-          <input
-            type="hidden"
-            class="form-control"
-            name="arriereplan"
-            id="field_arriereplan"
-            data-cy="arriereplan"
-            formControlName="arriereplan"
-          />
-          <input
-            type="hidden"
-            class="form-control"
-            name="arriereplanContentType"
-            id="field_arriereplanContentType"
-            formControlName="arriereplanContentType"
-          />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cipangoApp.contenant.contenant" for="field_contenant">Contenant</label>
-          <select class="form-control" id="field_contenant" data-cy="contenant" name="contenant" formControlName="contenant">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="contenantOption.id === editForm.get('contenant')!.value?.id ? editForm.get('contenant')!.value : contenantOption"
-              *ngFor="let contenantOption of contenantsSharedCollection; trackBy: trackContenantById"
-            >
-              {{ contenantOption.id }}
-            </option>
-          </select>
-        </div>
+        <input
+          type="file"
+          id="file_icone"
+          data-cy="icone"
+          (change)="setFileData($event, 'icone', true)"
+          accept="image/*"
+          jhiTranslate="entity.action.addimage"
+        />
       </div>
+      <input type="hidden" class="form-control" name="icone" id="field_icone" data-cy="icone" formControlName="icone" />
+      <input type="hidden" class="form-control" name="iconeContentType" id="field_iconeContentType" formControlName="iconeContentType" />
 
+      <label class="form-label" jhiTranslate="cipangoApp.contenant.arriereplan" for="field_arriereplan">Arriereplan</label>
       <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
+        <img
+          [src]="'data:' + editForm.get('arriereplanContentType')!.value + ';base64,' + editForm.get('arriereplan')!.value"
+          style="max-height: 100px"
+          *ngIf="editForm.get('arriereplan')!.value"
+          alt="contenant image"
+        />
+        <div *ngIf="editForm.get('arriereplan')!.value" class="form-text text-danger clearfix">
+          <span class="pull-start"
+            >{{ editForm.get('arriereplanContentType')!.value }}, {{ byteSize(editForm.get('arriereplan')!.value) }}</span
+          >
+          <button
+            type="button"
+            (click)="clearInputImage('arriereplan', 'arriereplanContentType', 'file_arriereplan')"
+            class="btn btn-secondary btn-xs pull-end"
+          >
+            <fa-icon icon="times"></fa-icon>
+          </button>
+        </div>
+        <input
+          type="file"
+          id="file_arriereplan"
+          data-cy="arriereplan"
+          (change)="setFileData($event, 'arriereplan', true)"
+          accept="image/*"
+          jhiTranslate="entity.action.addimage"
+        />
       </div>
-    </form>
+      <input
+        type="hidden"
+        class="form-control"
+        name="arriereplan"
+        id="field_arriereplan"
+        data-cy="arriereplan"
+        formControlName="arriereplan"
+      />
+      <input
+        type="hidden"
+        class="form-control"
+        name="arriereplanContentType"
+        id="field_arriereplanContentType"
+        formControlName="arriereplanContentType"
+      />
+    </div>
   </div>
-</div>
+
+  <div>
+    <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+
+    <button
+      type="submit"
+      id="save-entity"
+      data-cy="entityCreateSaveButton"
+      [disabled]="editForm.invalid || isSaving"
+      class="btn btn-primary"
+    >
+      <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
+  </div>
+</form>

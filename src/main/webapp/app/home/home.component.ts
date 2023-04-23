@@ -74,21 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  filtrerContenants(): void {
-    if (
-      this.contenants != null
-      //&& (this.contenantaffichay != null)
-    ) {
-      //    alert("ghgh");
-      for (let i = 0; i < this.contenants.length; i++) {
-        if (!this.siContenantAContenant(this.contenants[i])) {
-          delete this.contenants[i];
-          //     this.contenantaffichay[j] = this.contenants[i];
-        }
-      }
-    }
-  }
-
   login(): void {
     this.router.navigate(['/login']);
   }

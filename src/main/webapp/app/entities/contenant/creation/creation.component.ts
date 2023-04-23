@@ -27,6 +27,7 @@ export class ContenantCreationComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nom: [null, [Validators.required]],
+    description: [],
     isCapital: [null, [Validators.required]],
     icone: [],
     iconeContentType: [],
@@ -162,6 +163,7 @@ export class ContenantCreationComponent implements OnInit {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
+      description: this.editForm.get(['description'])!.value,
       isCapital: this.editForm.get(['isCapital'])!.value,
       iconeContentType: this.editForm.get(['iconeContentType'])!.value,
       icone: this.editForm.get(['icone'])!.value,

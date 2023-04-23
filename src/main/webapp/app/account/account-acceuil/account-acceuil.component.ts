@@ -13,6 +13,11 @@ import { finalize, map, takeUntil } from 'rxjs/operators';
 export class AccountAcceuilComponent implements OnInit {
   account: Account | null = null;
   contenants: Contenant[] | null = null;
+  ccreations = '#ffffff';
+  cvoyages = '#ffffff';
+  cnouveau = '#ffffff';
+  creationactifs = true;
+  voyagesactifs = false;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -23,5 +28,27 @@ export class AccountAcceuilComponent implements OnInit {
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
+  }
+
+  swithLaccreations(): void {
+    this.ccreations = '#c71d1d';
+    this.cvoyages = '#ffffff';
+    this.cnouveau = '#ffffff';
+    this.creationactifs = true;
+    this.voyagesactifs = false;
+  }
+
+  swithLacvoyages(): void {
+    this.ccreations = '#ffffff';
+    this.cvoyages = '#c71d1d';
+    this.cnouveau = '#ffffff';
+    this.creationactifs = false;
+    this.voyagesactifs = true;
+  }
+
+  swithLacnouveau(): void {
+    this.ccreations = '#ffffff';
+    this.cvoyages = '#ffffff';
+    this.cnouveau = '#c71d1d';
   }
 }

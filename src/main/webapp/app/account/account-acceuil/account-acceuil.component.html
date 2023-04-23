@@ -1,5 +1,30 @@
-<p>YAAAAAAAAAA</p>
+<h1 class="titre">{{ account?.firstName }}</h1>
+<button
+  [style.top.px]="300"
+  [style.left.px]="000"
+  [style.background-color]="ccreations"
+  (click)="swithLaccreations()"
+  class="button-6"
+  role="button"
+>
+  mes création
+</button>
+<button
+  [style.top.px]="300"
+  [style.left.px]="950"
+  [style.background-color]="cnouveau"
+  (click)="swithLacnouveau()"
+  class="button-6"
+  role="button"
+>
+  Mes Voyages
+</button>
 
-<div *ngFor="let contenant of account?.contenantsPropriete">
-  <a [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+<div class="contient" *ngIf="creationactifs == true">
+  <div *ngFor="let contenant of account?.contenantsPropriete">
+    <li [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</li>
+  </div>
+  <li><button [routerLink]="['/contenant', 'new']" role="button">Nouveau Système</button></li>
 </div>
+
+<div class="barre"></div>

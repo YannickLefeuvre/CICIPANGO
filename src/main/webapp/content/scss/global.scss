@@ -11,6 +11,7 @@ h1,
 h2,
 h3,
 h4 {
+  color: #533f03;
   font-weight: 300;
 }
 
@@ -221,11 +222,5 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 }
 
 /* navbar.component.scss */
-.navbar {
-  ul.navbar-nav {
-    .nav-item {
-      margin-left: 0.5em;
-    }
-  }
-}
+
 /* jhipster-needle-scss-add-main JHipster will add new css style */

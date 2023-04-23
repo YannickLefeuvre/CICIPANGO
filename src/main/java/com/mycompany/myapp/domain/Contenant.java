@@ -37,6 +37,9 @@ public class Contenant implements Serializable {
     @Column(name = "icone")
     private byte[] icone;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "icone_content_type")
     private String iconeContentType;
 
@@ -289,6 +292,14 @@ public class Contenant implements Serializable {
         this.proprietaire = proprietaire;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setContenants(Set<Contenant> contenants) {
         if (this.contenants != null) {
             this.contenants.forEach(i -> i.setContenant(null));
@@ -400,7 +411,7 @@ public class Contenant implements Serializable {
 	@Override
 	public String toString() {
 		return "Contenant{" + "id=" + getId() + ", nom='" + getNom() + "'" + ", isCapital='" + getIsCapital() + "'"
-				+ ", icone='" + getIcone() + "'" + ", iconeContentType='" + getIconeContentType() + "'" + ", absisce="
+				+ ", icone='" + getIcone() + ", description='" + getDescription() + "'" + ", iconeContentType='" + getIconeContentType() + "'" + ", absisce="
 				+ getAbsisce() + ", ordonnee=" + getOrdonnee() + ", arriereplan='" + getArriereplan() + "'"
 				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" + ", vues='" + getVues() + "'" + "}";
 	}

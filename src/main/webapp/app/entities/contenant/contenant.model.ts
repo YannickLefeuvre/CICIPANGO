@@ -6,6 +6,7 @@ import { Account } from 'app/core/auth/account.model';
 export interface IContenant {
   id?: number;
   nom?: string;
+  description?: string;
   isCapital?: boolean;
   iconeContentType?: string | null;
   icone?: string | null;
@@ -27,6 +28,7 @@ export class Contenant implements IContenant {
   constructor(
     public id?: number,
     public nom?: string,
+    public description?: string,
     public isCapital?: boolean,
     public iconeContentType?: string | null,
     public icone?: string | null,

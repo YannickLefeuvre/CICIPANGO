@@ -2,38 +2,42 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 
 import { IContenant, Contenant } from '../contenant.model';
 import { ContenantService } from '../service/contenant.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-contenant-update',
   templateUrl: './contenant-update.component.html',
+  styleUrls: ['./contenant-update.component.scss'],
 })
 export class ContenantUpdateComponent implements OnInit {
   isSaving = false;
+  account: Account | null = null;
 
   contenantsSharedCollection: IContenant[] = [];
 
   editForm = this.fb.group({
     id: [],
     nom: [null, [Validators.required]],
-    isCapital: [null, [Validators.required]],
+    description: [],
     icone: [],
     iconeContentType: [],
-    absisce: [],
-    ordonnee: [],
     arriereplan: [],
     arriereplanContentType: [],
-    contenant: [],
   });
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
+    protected accountService: AccountService,
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected contenantService: ContenantService,
@@ -48,6 +52,11 @@ export class ContenantUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
 
     this.loadRelationshipsOptions();
   }
@@ -95,6 +104,24 @@ export class ContenantUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  //drag&drop
+
+  allowDrop(ev): void {
+    ev.preventDefault();
+  }
+
+  drag(ev): void {
+    ev.dataTransfer.setData('text', ev.target.id);
+  }
+
+  drop(ev): void {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData('text');
+    ev.target.appendChild(document.getElementById(data));
+  }
+
+  //drag&drop
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IContenant>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -125,7 +152,6 @@ export class ContenantUpdateComponent implements OnInit {
       ordonnee: contenant.ordonnee,
       arriereplan: contenant.arriereplan,
       arriereplanContentType: contenant.arriereplanContentType,
-      contenant: contenant.contenant,
     });
 
     this.contenantsSharedCollection = this.contenantService.addContenantToCollectionIfMissing(
@@ -151,15 +177,11 @@ export class ContenantUpdateComponent implements OnInit {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
-      isCapital: this.editForm.get(['isCapital'])!.value,
       iconeContentType: this.editForm.get(['iconeContentType'])!.value,
       icone: this.editForm.get(['icone'])!.value,
-      absisce: this.editForm.get(['absisce'])!.value,
-      ordonnee: this.editForm.get(['ordonnee'])!.value,
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
-      contenant: this.editForm.get(['contenant'])!.value,
-      //      contenus: this.editForm.get(['contenus'])!.value,
+      proprietaire: this.account,
     };
   }
 }

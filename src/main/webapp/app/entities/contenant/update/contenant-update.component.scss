@@ -1,0 +1,117 @@
+$form-bg: #dbd3a3;
+$form-shadow: #ffa580;
+$form-primary-highlight: #95a4ff;
+$form-secondary-highlight: #ffc8ff;
+$font-size: 14pt;
+$font-face: 'Fjalla One';
+$font-color: #2a293e;
+
+label.lala {
+  color: #000000;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.rectangle {
+  height: 700px;
+  width: 1600px;
+  background-color: $form-bg;
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  color: azure;
+  border-radius: 10px;
+  border: 5px solid rgb(16, 58, 23);
+}
+
+.nom {
+  position: relative;
+  top: 20px;
+  left: 50px;
+  width: 400px;
+}
+
+.puputnom {
+  //  top: 50px;
+  border-radius: 10px;
+  //   background-color: #a8a8a8;
+  //   color: azure;
+}
+
+.puputdesri {
+  position: relative;
+  //  top: 50px;
+  left: 50px;
+  height: 200px;
+  width: 600px;
+  border-radius: 10px;
+  //   background-color: #a8a8a8;
+  //   color: azure;
+}
+
+#div1 {
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+}
+
+.inpuput {
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  min-width: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputdescri {
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  min-width: 250px;
+  min-height: 450px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputdescri:focus {
+  border-bottom: 5px solid $form-shadow;
+}
+
+input:focus {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.barre {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 500px;
+  width: 5px;
+  background-color: #000000; /* couleur de fond de la barre */
+}
+
+.images {
+  position: absolute;
+  top: 20px;
+  left: 600px;
+  width: 400px;
+}
