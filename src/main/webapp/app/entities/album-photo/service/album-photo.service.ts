@@ -5,7 +5,11 @@ import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IAlbumPhoto, getAlbumPhotoIdentifier, IListeFichiers } from '../album-photo.model';
+import { IAlbumPhoto, getAlbumPhotoIdentifier, IListeFichiers, AlbumPhoto } from '../album-photo.model';
+import { Contenant } from 'app/entities/contenant/contenant.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Account } from 'app/core/auth/account.model';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 
 export type EntityResponseType = HttpResponse<IAlbumPhoto>;
 export type FichierResponseType = HttpResponse<IListeFichiers>;
@@ -13,6 +17,9 @@ export type EntityArrayResponseType = HttpResponse<IAlbumPhoto[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AlbumPhotoService {
+  albibo?: IAlbumPhoto | null;
+  nbFilesup = 0;
+
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/album-photos');
   protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/album-photosfile');
 
@@ -73,5 +80,97 @@ export class AlbumPhotoService {
       return [...albumPhotosToAdd, ...albumPhotoCollection];
     }
     return albumPhotoCollection;
+  }
+
+  // SAVE
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  saveAlbum(contenantu: Contenant, fichiasse: Fichiay[], contenuForm: FormGroup, account: Account | null): void {
+    if (account == null) {
+      return;
+    }
+    let ext = '';
+    for (let i = 0; i < fichiasse.length; i++) {
+      const coupay = fichiasse[i].ext;
+      if (coupay != null) {
+        ext += coupay + ',';
+      }
+    }
+    ext += ' ';
+    this.uploadFiles(contenantu, contenuForm, fichiasse, account);
+  }
+
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async uploadFiles(contenantu: Contenant, contenuForm: FormGroup, fichiasse: Fichiay[], account: Account): Promise<void> {
+    alert('pass');
+    const album = this.createAlbumFromForm(contenantu, contenuForm, fichiasse, account);
+    alert('pass2 ');
+    await this.subscribeToSaveResponso(this.create(album));
+    alert(fichiasse.length);
+    for (let i = 0; i < fichiasse.length; i++) {
+      //                  alert(this.fichiasse.length);
+
+      alert('pass');
+      const coupay = fichiasse[i].ext;
+      if (coupay != null) {
+        fichiasse[i].ext = coupay;
+      }
+
+      while (this.albibo?.id == null) {
+        await this.sleep(100); // pause for 100 milliseconds before checking again
+      }
+      while (this.nbFilesup < i) {
+        await this.sleep(100); // pause for 100 milliseconds before checking again
+      }
+
+      await this.subscribeToSaveResponseAlbum(this.uploadFile(fichiasse[i], this.albibo.id));
+    }
+    while (this.nbFilesup < fichiasse.length) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+    //             alert(this.nbFilesup);
+    //        await this.sleep(10000);
+    this.previousState();
+  }
+
+  protected subscribeToSaveResponseAlbum(result: Observable<HttpResponse<IFichiay>>): any {
+    result.pipe().subscribe({
+      next: (res: HttpResponse<IFichiay>) => (this.nbFilesup = this.nbFilesup + 1),
+
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IAlbumPhoto>>): any {
+    result.pipe().subscribe({
+      //     next: () => this.onSaveSuccess(),
+      next: (res: HttpResponse<IAlbumPhoto>) => {
+        this.albibo = res.body;
+      },
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected createAlbumFromForm(contenanto: Contenant, contenuForm: FormGroup, fichiasse: Fichiay[], account: Account): IAlbumPhoto {
+    return {
+      ...new AlbumPhoto(),
+      //    id: this.contenuForm.get(['id'])!.value,
+      nom: contenuForm.get(['nom'])!.value,
+      description: contenuForm.get(['description'])!.value,
+      contenant: contenanto,
+      type: 'ALBUMPHOTO',
+      nbPhotos: fichiasse.length,
+      createur: account,
+    };
   }
 }

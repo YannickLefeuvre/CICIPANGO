@@ -8069,6 +8069,13 @@
   dependencies:
     "tslib" "^1.9.0"
 
+"ngx-dropzone@^3.1.0":
+  "integrity" "sha512-5RBaEl07QUcY6sv/BBPyIxN6nbWY/KqTGheEKgbuGS0N1QPFY7NJUo8+X3fYUwQgLS+wjJeqPiR37dd0YNDtWA=="
+  "resolved" "https://registry.npmjs.org/ngx-dropzone/-/ngx-dropzone-3.1.0.tgz"
+  "version" "3.1.0"
+  dependencies:
+    "tslib" "^2.0.0"
+
 "ngx-infinite-scroll@13.0.1":
   "integrity" "sha512-B0E5gxnM/ljM76ap/cb9SYI7RUDBK3bNRPY3W+j+ynkrDtJWzyVgVp0Diit4HqnTUskOYmRctwfP/CVznH4v9A=="
   "resolved" "https://registry.npmjs.org/ngx-infinite-scroll/-/ngx-infinite-scroll-13.0.1.tgz"

@@ -12,6 +12,11 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { Fichiay, IAudio, IFichiay } from 'app/entities/audio/audio.model';
+import { AlbumPhoto, IAlbumPhoto } from 'app/entities/album-photo/album-photo.model';
+import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.service';
+import { AudioService } from 'app/entities/audio/service/audio.service';
 
 @Component({
   selector: 'jhi-contenant-update',
@@ -21,6 +26,15 @@ import { Account } from 'app/core/auth/account.model';
 export class ContenantUpdateComponent implements OnInit {
   isSaving = false;
   account: Account | null = null;
+  squareLeft = 0;
+  ajout = false;
+  intervalId: any;
+  radioOptionSelected = '';
+  typeContenu = ['Audio', 'Image', 'Texte', 'Album'];
+  fichiasse = [new Fichiay(10)];
+  albibo?: IAlbumPhoto | null;
+  nbFilesup = 0;
+  contenant: Contenant | null = null;
 
   contenantsSharedCollection: IContenant[] = [];
 
@@ -34,6 +48,22 @@ export class ContenantUpdateComponent implements OnInit {
     arriereplanContentType: [],
   });
 
+  contenuForm = this.fb.group({
+    id: [],
+    nom: [null, [Validators.required]],
+    description: [],
+    icone: [],
+    iconeContentType: [],
+    arriereplan: [],
+    arriereplanContentType: [],
+    texte: [],
+    contenant: [],
+    idFichier: [],
+    fichier: [],
+    fichierContentType: [],
+    fichierExt: [],
+  });
+
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -43,6 +73,8 @@ export class ContenantUpdateComponent implements OnInit {
     protected contenantService: ContenantService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
+    protected albumPhotoService: AlbumPhotoService,
+    protected audioservice: AudioService,
     protected fb: FormBuilder
   ) {}
 
@@ -76,6 +108,27 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
+  NgsetFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
+    this.dataUtils.ngLoadFileToForm(event, this.editForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
+    });
+  }
+
+  NgsetContenuFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
+    this.dataUtils.ngLoadFileToForm(event, this.contenuForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
+    });
+  }
+
+  NgsetAudioFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
+    this.dataUtils.NgLoadFileAudioToForm(event, this.contenuForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
+    });
+  }
+
   clearInputImage(field: string, fieldContentType: string, idInput: string): void {
     this.editForm.patchValue({
       [field]: null,
@@ -93,17 +146,40 @@ export class ContenantUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const contenant = this.createFromForm();
-    if (contenant.id !== undefined) {
-      this.subscribeToSaveResponse(this.contenantService.update(contenant));
-    } else {
-      this.subscribeToSaveResponse(this.contenantService.create(contenant));
-    }
+    this.subscribeToSaveResponse(this.contenantService.create(contenant));
   }
 
   trackContenantById(_index: number, item: IContenant): number {
     return item.id!;
   }
 
+  saveContenu(contenantu: Contenant | null): void {
+    if (contenantu == null) {
+      return;
+    }
+
+    switch (this.radioOptionSelected) {
+      //      case "Texte": {
+      //         return "Ton truc c'est l'écriture ? Entre ta nouvelle, essaie, poésie, ...";
+      //         break;
+      //      }
+      case 'Audio': {
+        this.audioservice.saveAudio(contenantu, this.contenuForm, this.account);
+        break;
+      }
+      //      case "Image": {
+      //        return "Photographe dans l'âme ? Montre ton plus grand chef d'oeuvre";
+      //        break;
+      //    }
+      case 'Album': {
+        this.albumPhotoService.saveAlbum(contenantu, this.fichiasse, this.contenuForm, this.account);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
   //drag&drop
 
   allowDrop(ev): void {
@@ -120,11 +196,99 @@ export class ContenantUpdateComponent implements OnInit {
     ev.target.appendChild(document.getElementById(data));
   }
 
+  onFileSelected(event: any): void {
+    const files: File[] = event.addedFiles;
+    // Faites quelque chose avec les fichiers sélectionnés, comme les télécharger sur un serveur
+  }
+
+  startMoving(): void {
+    let total = 0;
+
+    this.intervalId = setInterval(() => {
+      this.squareLeft -= 70; // déplacement de 10 pixels vers la droite à chaque itération
+      total -= 400;
+      //      if(total<=2000){
+      //        this.stopMoving();
+      //      }
+    }, 10); // délai de 50 millisecondes entre chaque itération
+  }
+
+  stopMoving(): void {
+    clearInterval(this.intervalId);
+  }
+
+  ajoutContenant(): void {
+    this.ajout = true;
+  }
+
+  optionChoisie(): string {
+    switch (this.radioOptionSelected) {
+      case 'Texte': {
+        return "Ton truc c'est l'écriture ? Entre ta nouvelle, essaie, poésie, ...";
+        break;
+      }
+      case 'Audio': {
+        return "Une voix d'ange ? Fais en profiter tous le monde";
+        break;
+      }
+      case 'Image': {
+        return "Photographe dans l'âme ? Montre ton plus grand chef d'oeuvre";
+        break;
+      }
+      case 'Album': {
+        return "Une inséparable collection d'image ?";
+        break;
+      }
+      default: {
+        return '';
+        break;
+      }
+    }
+  }
+
   //drag&drop
+
+  setFilesData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
+    this.dataUtils.NgLoadFichiayToFichiasse(event, this.fichiasse).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
+    });
+  }
+
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IAlbumPhoto>>): any {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      //     next: () => this.onSaveSuccess(),
+      next: (res: HttpResponse<IAlbumPhoto>) => {
+        this.albibo = res.body;
+      },
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponseAlbum(result: Observable<HttpResponse<IFichiay>>): any {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: (res: HttpResponse<IFichiay>) => (this.nbFilesup = this.nbFilesup + 1),
+
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected createFileFromForm(): IFichiay {
+    return {
+      ...new Fichiay(),
+      id: this.contenuForm.get(['idFichier'])!.value,
+      nom: ' YEUUUUUSH ',
+      fichier: this.contenuForm.get(['fichier'])!.value,
+      fichierContentType: this.contenuForm.get(['fichierContentType'])!.value,
+      ext: this.contenuForm.get(['fichierExt'])!.value,
+    };
+  }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IContenant>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      //YAYA
+
+      next: (res: HttpResponse<IContenant>) => this.saveContenu(res.body),
       error: () => this.onSaveError(),
     });
   }

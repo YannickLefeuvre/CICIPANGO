@@ -1,28 +1,56 @@
-$form-bg: #dbd3a3;
-$form-shadow: #ffa580;
+$form-bg: #d8c689;
+//$form-shadow: #ffa580;
+$form-shadow: #ff8a5c;
 $form-primary-highlight: #95a4ff;
 $form-secondary-highlight: #ffc8ff;
 $font-size: 14pt;
 $font-face: 'Fjalla One';
 $font-color: #2a293e;
+$couleurDetails: #000000;
+$couleurFrom: #2a293e;
+$couleurUpload: #2a293e;
+$taille: 100px;
+$taillepetit: 75px;
+
+.titre {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  width: 1400px;
+}
 
 label.lala {
-  color: #000000;
+  color: $couleurDetails;
   text-decoration: none;
-  font-size: 20px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+label.lolo {
+  color: $couleurDetails;
+  position: absolute;
+  left: 0px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .rectangle {
   height: 700px;
-  width: 1600px;
+  width: 1400px;
   background-color: $form-bg;
   position: absolute;
   top: 100px;
   left: 0px;
   color: azure;
   border-radius: 10px;
-  border: 5px solid rgb(16, 58, 23);
+  border: 5px solid rgb(0, 0, 0);
 }
 
 .nom {
@@ -46,6 +74,7 @@ label.lala {
   height: 200px;
   width: 600px;
   border-radius: 10px;
+
   //   background-color: #a8a8a8;
   //   color: azure;
 }
@@ -55,6 +84,26 @@ label.lala {
   height: 70px;
   padding: 10px;
   border: 1px solid #aaaaaa;
+}
+
+.zoneGlissay {
+  width: 500px;
+  height: 250px;
+  top: 20px;
+  position: relative;
+  text-align: center;
+  background-color: #d8c689;
+  border: 3px dashed #000000;
+  //  border: 1px solid #aaaaaa;
+}
+
+.zoneGlissay:hover {
+  .upload {
+    width: auto;
+    height: $taillepetit;
+  }
+
+  border: 3px dashed $form-shadow;
 }
 
 .inpuput {
@@ -96,7 +145,15 @@ label.lala {
   border-bottom: 5px solid $form-shadow;
 }
 
+.inpuputdescri:hover {
+  border-bottom: 5px solid $form-shadow;
+}
+
 input:focus {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.inpuput:hover {
   border-bottom: 5px solid $form-shadow;
 }
 
@@ -111,7 +168,164 @@ input:focus {
 
 .images {
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 600px;
   width: 400px;
+  text-align: center;
+}
+
+.mamage {
+  width: auto; /* La largeur maximale est définie à 100% de la largeur de son conteneur */
+  height: 200px; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
+  text-align: center;
+  position: relative;
+  left: 10px;
+}
+
+.barre2 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 1200px;
+  width: 5px;
+  background-color: #000000; /* couleur de fond de la barre */
+}
+
+.barre3 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 620px;
+  width: 5px;
+  background-color: #000000; /* couleur de fond de la barre */
+}
+
+label.plus {
+  color: #000000;
+  text-decoration: none;
+  font-size: larger;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.upload {
+  width: auto;
+  height: $taille;
+}
+
+.next {
+  position: absolute;
+  left: 1250px;
+  height: 100px;
+  top: 290px;
+  width: auto;
+}
+
+.next:hover {
+  top: 295px;
+  height: 90px;
+  width: auto;
+}
+
+// PREMIER CONTENU
+
+.titreContenu {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  top: 40px;
+  left: 1500px;
+  width: 1400px;
+}
+
+.rectangleContenu {
+  height: 700px;
+  width: 1300px;
+  background-color: $form-bg;
+  position: absolute;
+  top: 100px;
+  left: 1500px;
+  color: azure;
+  border-radius: 10px;
+  border: 5px solid rgb(0, 0, 0);
+}
+
+.rectangleDescri {
+  position: absolute;
+  left: 200px;
+  top: 40px;
+  height: 200px;
+  width: 400px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #000000;
+}
+
+.boutbout {
+  height: 20px;
+  width: 20px;
+}
+
+.checkbox {
+  color: #000000;
+  position: relative;
+  left: 40px;
+  top: 40px;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.inpuputcontenu {
+  top: 50px;
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 50px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenudescri {
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 200px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.fichiersContenus {
+  position: absolute;
+  top: 10px;
+  left: 700px;
+  width: 400px;
+  text-align: center;
+}
+
+.espace {
+  position: absolute;
+  left: 100px;
+  width: 1300px;
+  border: 5px solid rgb(255, 255, 255);
 }

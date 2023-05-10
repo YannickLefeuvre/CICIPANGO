@@ -7,9 +7,12 @@ import { ContenantDeleteDialogComponent } from './delete/contenant-delete-dialog
 import { ContenantRoutingModule } from './route/contenant-routing.module';
 import { SystemeComponent } from './systeme/systeme.component';
 import { ContenantCreationComponent } from './creation/creation.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @NgModule({
-  imports: [SharedModule, ContenantRoutingModule],
+  imports: [SharedModule, ContenantRoutingModule, NgxDropzoneModule, MatIconModule],
   declarations: [
     ContenantComponent,
     ContenantDetailComponent,
@@ -18,6 +21,7 @@ import { ContenantCreationComponent } from './creation/creation.component';
     SystemeComponent,
     ContenantCreationComponent,
   ],
+  providers: [MatIconRegistry],
   entryComponents: [ContenantDeleteDialogComponent],
 
   bootstrap: [SystemeComponent],

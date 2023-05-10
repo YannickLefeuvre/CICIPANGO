@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Fichiay, IFichiay } from 'app/entities/audio/audio.model';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { Observable, Observer } from 'rxjs';
 
 export type FileLoadErrorType = 'not.image' | 'could.not.extract';
@@ -92,6 +93,56 @@ export class DataUtils {
     });
   }
 
+  ngLoadFileToForm(event: NgxDropzoneChangeEvent, editForm: FormGroup, field: string, isImage: boolean): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      const file: File = event.addedFiles[0];
+      if (isImage && !file.type.startsWith('image/')) {
+        const error: FileLoadError = {
+          message: `File was expected to be an image but was found to be '${file.type}'`,
+          key: 'not.image',
+          params: { fileType: file.type },
+        };
+        observer.error(error);
+      } else {
+        const fieldContentType: string = field + 'ContentType';
+        this.toBase64(file, (base64Data: string) => {
+          editForm.patchValue({
+            [field]: base64Data,
+            [fieldContentType]: file.type,
+          });
+          observer.next();
+          observer.complete();
+        });
+      }
+    });
+  }
+
+  NgLoadFileAudioToForm(event: NgxDropzoneChangeEvent, editForm: FormGroup, field: string, isImage: boolean): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      const file: File = event.addedFiles[0];
+
+      const fileExtension = file.name.replace(/^.*\./, '');
+      // YAYA rajouter formats
+      //       if(fileExtension === "mp3"){
+      //       alert(" YUYUUUUUUU ");
+      //       alert(file.name);
+      //        }
+
+      const fieldContentType: string = field + 'ContentType';
+      const fieldExt: string = field + 'Ext';
+      this.toBase64(file, (base64Data: string) => {
+        editForm.patchValue({
+          [field]: base64Data,
+          [fieldContentType]: file.type,
+          [fieldExt]: file.name.replace(/^.*\./, ''),
+        });
+        observer.next();
+        observer.complete();
+      });
+      //        }
+    });
+  }
+
   loadFileAudioToForm(event: Event, editForm: FormGroup, field: string, isImage: boolean): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null;
@@ -124,6 +175,27 @@ export class DataUtils {
           params: { event },
         };
         observer.error(error);
+      }
+    });
+  }
+
+  NgLoadFichiayToFichiasse(event: NgxDropzoneChangeEvent, fichiasse: IFichiay[]): Observable<void> {
+    return new Observable((observer: Observer<void>) => {
+      //      const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null;
+      const files: File[] = event.addedFiles;
+      //       const file: File = eventTarget.files[0];
+      //       for(var  file of eventTarget.files ){
+      for (let i = 0; i < files.length; i++) {
+        const fifi = new Fichiay();
+
+        this.toBase64(files[i], (base64Data: string) => {
+          fifi.nom = 'YEUUUUSH';
+          fifi.fichier = base64Data;
+          fifi.fichierContentType = files[i].type;
+          (fifi.ext = files[i].name.replace(/^.*\./, '')), observer.next();
+          observer.complete();
+        });
+        fichiasse[i] = fifi;
       }
     });
   }
