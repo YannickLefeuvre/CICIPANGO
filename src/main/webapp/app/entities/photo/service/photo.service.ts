@@ -5,14 +5,19 @@ import { IFichiay, Fichiay } from '../../audio/audio.model';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IPhoto, getPhotoIdentifier } from '../photo.model';
-
+import { IPhoto, Photo, getPhotoIdentifier } from '../photo.model';
+import { finalize, map, takeUntil } from 'rxjs/operators';
+import { Contenant, IContenant } from 'app/entities/contenant/contenant.model';
+import { FormGroup } from '@angular/forms';
+import { Account } from 'app/core/auth/account.model';
 export type FichiayResponseType = HttpResponse<IFichiay>;
 export type EntityResponseType = HttpResponse<IPhoto>;
 export type EntityArrayResponseType = HttpResponse<IPhoto[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
+  photus?: IPhoto | null;
+
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/photos');
   protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/photosfile');
 
@@ -62,5 +67,94 @@ export class PhotoService {
       return [...photosToAdd, ...photoCollection];
     }
     return photoCollection;
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async savePhoto(contenantu: Contenant, contenuForm: FormGroup, account: Account | null): Promise<void> {
+    if (account == null) {
+      return;
+    }
+    alert('HA');
+    const photo = this.createFromForm(contenuForm, contenantu, account);
+    const filu = this.createFileFromForm(contenuForm);
+    alert(filu.ext);
+    alert(photo.ext);
+    if (filu.ext != null) {
+      alert('HO');
+      photo.ext = filu.ext;
+    }
+    this.subscribeToSaveResponso(this.create(photo));
+    while (this.photus?.id == null) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+    this.uploadFichiay(this.photus.id, contenuForm);
+  }
+
+  uploadFichiay(id: number, fichiayForm: FormGroup): void {
+    const file = this.createFileFromForm(fichiayForm);
+    //    alert(file.fichierContentType?.toString());
+    this.subscribeToSaveResponse(this.uploadFile(file, id));
+  }
+
+  trackContenantById(_index: number, item: IContenant): number {
+    return item.id!;
+  }
+
+  getRandomInt(max): number {
+    return Math.floor(Math.random() * max);
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPhoto>>): void {
+    result.pipe().subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponso(result: Observable<HttpResponse<IPhoto>>): void {
+    result.pipe().subscribe({
+      next: (res: HttpResponse<IPhoto>) => {
+        this.photus = res.body;
+      },
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    this.previousState();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected createFromForm(contenuForm: FormGroup, contenanto: Contenant, account: Account): IPhoto {
+    return {
+      ...new Photo(),
+      //     id: contenuForm.get(['id'])!.value,
+      nom: contenuForm.get(['nom'])!.value,
+      description: contenuForm.get(['description'])!.value,
+      contenant: contenanto,
+      type: 'PHOTO',
+      createur: account,
+    };
+  }
+
+  protected createFileFromForm(fichiayForm: FormGroup): IFichiay {
+    return {
+      ...new Fichiay(),
+      id: fichiayForm.get(['idFichier'])!.value,
+      nom: ' YEUUUUUSH ',
+      fichier: fichiayForm.get(['fichier'])!.value,
+      fichierContentType: fichiayForm.get(['fichierContentType'])!.value,
+      ext: fichiayForm.get(['fichierExt'])!.value,
+    };
   }
 }

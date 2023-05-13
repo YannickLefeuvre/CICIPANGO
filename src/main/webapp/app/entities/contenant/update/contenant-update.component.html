@@ -2,20 +2,33 @@
 
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
   <div class="rectangle" [style.left.px]="squareLeft">
+    <jhi-alert-error></jhi-alert-error>
+
+    <!--
     <div class="barre"></div>
+          -->
     <div class="barre2"></div>
+
     <a>
       <img src="src/main/webapp/content/symbos/next.png" (click)="ajoutContenant()" class="next" />
     </a>
 
     <div class="nom">
+      <!--
+      <div class="erreuro" *ngIf="editForm.get('nom')!.invalid && (editForm.get('nom')!.dirty || editForm.get('nom')!.touched)">
+        <div class="alert" *ngIf="editForm.get('nom')?.errors?.required">
+          Ce champ est obligatoire
+        </div>
+      </div>
+      -->
+
       <label class="lala">Nom du système</label><br />
       <input type="text" name="nom" id="field_nom" data-cy="nom" formControlName="nom" placeholder="..." class="inpuput" />
     </div>
     <br />
 
     <div class="nom">
-      <label class="lala">Une description ?</label><br />
+      <label class="lala">Explique ton idée</label><br />
       <textarea
         type="text"
         name="description"
@@ -33,7 +46,7 @@
 
     <div class="images">
       <label class="lolo">Icone</label><br />
-      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'icone', true)">
+      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'icone', true, editForm)">
         <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value == null" class="plus">
           <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
         </ngx-dropzone-label>
@@ -52,7 +65,7 @@
       <br />
       <br />
       <label class="lolo">Arrière plan</label><br />
-      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'arriereplan', true)">
+      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'arriereplan', true, editForm)">
         <ngx-dropzone-label *ngIf="editForm.get('arriereplanContentType')!.value == null" class="plus">
           <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
         </ngx-dropzone-label>
@@ -147,8 +160,8 @@
               type="file"
               id="file_fichier"
               data-cy="fichier"
-              (change)="NgsetFileData($event, 'fichier', true)"
-              accept="audio/*"
+              (change)="NgsetAudioFileData($event, 'fichier', true)"
+              accept="image/*"
             >
               <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value == null" class="plus"> </ngx-dropzone-label>
 
@@ -167,7 +180,7 @@
               placeholder="..."
               formControlName="texte"
             ></textarea>
-            <div *ngIf="editForm.get('texte')!.invalid && (editForm.get('texte')!.dirty || editForm.get('texte')!.touched)"></div>
+            <div *ngIf="contenuForm.get('texte')!.invalid && (contenuForm.get('texte')!.dirty || contenuForm.get('texte')!.touched)"></div>
           </ng-container>
 
           <ng-container *ngSwitchCase="'Album'">

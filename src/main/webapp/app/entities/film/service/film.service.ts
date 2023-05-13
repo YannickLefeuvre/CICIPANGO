@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IFilm, getFilmIdentifier } from '../film.model';
+import { Film, IFilm, getFilmIdentifier } from '../film.model';
+import { Contenant } from 'app/entities/contenant/contenant.model';
+import { Account } from 'app/core/auth/account.model';
 
 export type EntityResponseType = HttpResponse<IFilm>;
 export type EntityArrayResponseType = HttpResponse<IFilm[]>;
@@ -56,5 +60,47 @@ export class FilmService {
       return [...filmsToAdd, ...filmCollection];
     }
     return filmCollection;
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  saveTexte(contenantu: Contenant, contenuForm: FormGroup, account: Account | null): void {
+    if (account == null) {
+      return;
+    }
+    const film = this.createFromForm(contenuForm, contenantu, account);
+    //   alert("yahou");
+    //   alert(film.nom);
+    this.subscribeToSaveResponse(this.create(film));
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IFilm>>): void {
+    result.pipe().subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    this.previousState();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected createFromForm(contenuForm: FormGroup, contenanto: Contenant, account: Account): IFilm {
+    return {
+      ...new Film(),
+      id: contenuForm.get(['id'])!.value,
+      nom: contenuForm.get(['nom'])!.value,
+      description: contenuForm.get(['description'])!.value,
+      type: 'FILM',
+      texte: contenuForm.get(['texte'])!.value,
+      contenant: contenanto,
+      createur: account,
+    };
   }
 }

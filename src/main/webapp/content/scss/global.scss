@@ -224,3 +224,13 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 /* navbar.component.scss */
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* --------------------------------------------------------------
+scss perso YAYA
+*/
+
+.alert {
+  --bs-text-opacity: 1;
+  font-size: 20px;
+  color: rgb(255, 0, 0);
+}

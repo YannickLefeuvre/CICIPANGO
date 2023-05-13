@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 import { IContenant, Contenant } from '../contenant.model';
 import { ContenantService } from '../service/contenant.service';
@@ -17,6 +18,8 @@ import { Fichiay, IAudio, IFichiay } from 'app/entities/audio/audio.model';
 import { AlbumPhoto, IAlbumPhoto } from 'app/entities/album-photo/album-photo.model';
 import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.service';
 import { AudioService } from 'app/entities/audio/service/audio.service';
+import { PhotoService } from 'app/entities/photo/service/photo.service';
+import { FilmService } from 'app/entities/film/service/film.service';
 
 @Component({
   selector: 'jhi-contenant-update',
@@ -75,6 +78,8 @@ export class ContenantUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected albumPhotoService: AlbumPhotoService,
     protected audioservice: AudioService,
+    protected photoservice: PhotoService,
+    protected filmservice: FilmService,
     protected fb: FormBuilder
   ) {}
 
@@ -108,15 +113,8 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
-  NgsetFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
-    this.dataUtils.ngLoadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
-    });
-  }
-
-  NgsetContenuFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
-    this.dataUtils.ngLoadFileToForm(event, this.contenuForm, field, isImage).subscribe({
+  NgsetFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean, fichiayForm: FormGroup): void {
+    this.dataUtils.ngLoadFileToForm(event, fichiayForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
         this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
     });
@@ -159,18 +157,18 @@ export class ContenantUpdateComponent implements OnInit {
     }
 
     switch (this.radioOptionSelected) {
-      //      case "Texte": {
-      //         return "Ton truc c'est l'écriture ? Entre ta nouvelle, essaie, poésie, ...";
-      //         break;
-      //      }
+      case 'Texte': {
+        this.filmservice.saveTexte(contenantu, this.contenuForm, this.account);
+        break;
+      }
       case 'Audio': {
         this.audioservice.saveAudio(contenantu, this.contenuForm, this.account);
         break;
       }
-      //      case "Image": {
-      //        return "Photographe dans l'âme ? Montre ton plus grand chef d'oeuvre";
-      //        break;
-      //    }
+      case 'Image': {
+        this.photoservice.savePhoto(contenantu, this.contenuForm, this.account);
+        break;
+      }
       case 'Album': {
         this.albumPhotoService.saveAlbum(contenantu, this.fichiasse, this.contenuForm, this.account);
         break;
