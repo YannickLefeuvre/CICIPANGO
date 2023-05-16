@@ -117,16 +117,9 @@ export class DataUtils {
     });
   }
 
-  NgLoadFileAudioToForm(event: NgxDropzoneChangeEvent, editForm: FormGroup, field: string, isImage: boolean): Observable<void> {
+  NgLoadFileAudioToForm(event: NgxDropzoneChangeEvent, editForm: FormGroup, field: string): Observable<void> {
     return new Observable((observer: Observer<void>) => {
       const file: File = event.addedFiles[0];
-
-      const fileExtension = file.name.replace(/^.*\./, '');
-      // YAYA rajouter formats
-      //       if(fileExtension === "mp3"){
-      //       alert(" YUYUUUUUUU ");
-      //       alert(file.name);
-      //        }
 
       const fieldContentType: string = field + 'ContentType';
       const fieldExt: string = field + 'Ext';

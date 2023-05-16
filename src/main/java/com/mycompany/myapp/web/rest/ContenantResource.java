@@ -2,11 +2,14 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.Contenu;
+import com.mycompany.myapp.domain.Fichiay;
 import com.mycompany.myapp.domain.Lien;
 import com.mycompany.myapp.repository.ContenantRepository;
 import com.mycompany.myapp.repository.ContenuRepository;
 import com.mycompany.myapp.repository.LienRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -296,5 +299,48 @@ public class ContenantResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/contenantfileicone/{id}")
+    public ResponseEntity<Fichiay> createAudioFileIcone(
+        @RequestBody Fichiay fichou,
+        @PathVariable(value = "id", required = false) final Long id
+    ) throws URISyntaxException, IOException {
+        log.debug("YPASSAT ICONE  + " + fichou.getNom());
+        // try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" +
+        // lastAudioId + ".txt")) {
+        try (FileOutputStream fos = new FileOutputStream("C:\\resources\\content\\contenants\\icone\\ico" + id + "." + fichou.getExt())) {
+            fos.write(fichou.getFichier());
+            // fos.close(); There is no more need for this line since you had created the
+            // instance of "fos" inside the try. And this will automatically close the
+            // OutputStream
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/contenantfileicone"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "hoo"))
+            .body(fichou);
+    }
+
+    @PostMapping("/contenantfilearriereplan/{id}")
+    public ResponseEntity<Fichiay> createAudioFileAP(
+        @RequestBody Fichiay fichou,
+        @PathVariable(value = "id", required = false) final Long id
+    ) throws URISyntaxException, IOException {
+        // try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" +
+        // lastAudioId + ".txt")) {
+        try (
+            FileOutputStream fos = new FileOutputStream("C:\\resources\\content\\contenants\\arriereplans\\ap" + id + "." + fichou.getExt())
+        ) {
+            fos.write(fichou.getFichier());
+            // fos.close(); There is no more need for this line since you had created the
+            // instance of "fos" inside the try. And this will automatically close the
+            // OutputStream
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/contenantfilearriereplan"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "hoo"))
+            .body(fichou);
     }
 }

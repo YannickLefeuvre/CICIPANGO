@@ -81,13 +81,9 @@ export class PhotoService {
     if (account == null) {
       return;
     }
-    alert('HA');
     const photo = this.createFromForm(contenuForm, contenantu, account);
     const filu = this.createFileFromForm(contenuForm);
-    alert(filu.ext);
-    alert(photo.ext);
     if (filu.ext != null) {
-      alert('HO');
       photo.ext = filu.ext;
     }
     this.subscribeToSaveResponso(this.create(photo));
@@ -97,7 +93,23 @@ export class PhotoService {
     this.uploadFichiay(this.photus.id, contenuForm);
   }
 
-  uploadFichiay(id: number, fichiayForm: FormGroup): void {
+  savePhotoMieux(contenantu: Contenant, contenuForm: FormGroup, account: Account | null): void {
+    if (account == null) {
+      return;
+    }
+
+    const photo = this.createFromForm(contenuForm, contenantu, account);
+    const filu = this.createFileFromForm(contenuForm);
+    if (filu.ext != null) {
+      photo.ext = filu.ext;
+    }
+    this.subscribeToSaveResponsoMieux(this.create(photo), contenuForm);
+  }
+
+  uploadFichiay(id: number | undefined, fichiayForm: FormGroup): void {
+    if (id === undefined) {
+      return;
+    }
     const file = this.createFileFromForm(fichiayForm);
     //    alert(file.fichierContentType?.toString());
     this.subscribeToSaveResponse(this.uploadFile(file, id));
@@ -109,6 +121,15 @@ export class PhotoService {
 
   getRandomInt(max): number {
     return Math.floor(Math.random() * max);
+  }
+
+  protected subscribeToSaveResponsoMieux(result: Observable<HttpResponse<IPhoto>>, formGroup: FormGroup): void {
+    result.pipe().subscribe({
+      next: (res: HttpResponse<IPhoto>) => {
+        this.uploadFichiay(res.body?.id, formGroup);
+      },
+      error: () => this.onSaveError(),
+    });
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPhoto>>): void {

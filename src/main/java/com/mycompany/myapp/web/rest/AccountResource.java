@@ -109,7 +109,6 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        log.debug(" ON Y PASSE !!! ");
         User uso = userService.getUserWithAuthorities().get();
 
         List<Contenant> cna = new ArrayList<>();
@@ -122,7 +121,6 @@ public class AccountResource {
                 log.debug("AUTENTouFFF");
             } else if (conte.getProprietaire().getId() == usi.get().getId()) {
                 usi.get().getContenantsPropriete().add(conte);
-                log.debug("HOURA");
             }
         }
 

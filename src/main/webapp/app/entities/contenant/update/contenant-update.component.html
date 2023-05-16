@@ -46,7 +46,7 @@
 
     <div class="images">
       <label class="lolo">Icone</label><br />
-      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'icone', true, editForm)">
+      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetAudioFileData($event, 'fichiericone', editForm)">
         <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value == null" class="plus">
           <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
         </ngx-dropzone-label>
@@ -65,7 +65,12 @@
       <br />
       <br />
       <label class="lolo">Arrière plan</label><br />
-      <ngx-dropzone [multiple]="false" class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'arriereplan', true, editForm)">
+      <ngx-dropzone
+        [multiple]="false"
+        class="zoneGlissay"
+        accept="image/*"
+        (change)="NgsetAudioFileData($event, 'fichierarriereplan', editForm)"
+      >
         <ngx-dropzone-label *ngIf="editForm.get('arriereplanContentType')!.value == null" class="plus">
           <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
         </ngx-dropzone-label>
@@ -146,7 +151,7 @@
               type="file"
               id="file_fichier"
               data-cy="fichier"
-              (change)="NgsetAudioFileData($event, 'fichier', true)"
+              (change)="NgsetAudioFileData($event, 'fichier', contenuForm)"
               accept="audio/*"
             >
               <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value == null" class="plus"> </ngx-dropzone-label>
@@ -160,7 +165,7 @@
               type="file"
               id="file_fichier"
               data-cy="fichier"
-              (change)="NgsetAudioFileData($event, 'fichier', true)"
+              (change)="NgsetAudioFileData($event, 'fichier', contenuForm)"
               accept="image/*"
             >
               <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value == null" class="plus"> </ngx-dropzone-label>

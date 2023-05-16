@@ -49,6 +49,16 @@ export class ContenantUpdateComponent implements OnInit {
     iconeContentType: [],
     arriereplan: [],
     arriereplanContentType: [],
+
+    idFichierarriereplan: [],
+    fichierarriereplan: [],
+    fichierarriereplanContentType: [],
+    fichierarriereplanExt: [],
+
+    idFichiericone: [],
+    fichiericone: [],
+    fichiericoneContentType: [],
+    fichiericoneExt: [],
   });
 
   contenuForm = this.fb.group({
@@ -120,8 +130,8 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
-  NgsetAudioFileData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
-    this.dataUtils.NgLoadFileAudioToForm(event, this.contenuForm, field, isImage).subscribe({
+  NgsetAudioFileData(event: NgxDropzoneChangeEvent, field: string, fichiayForm: FormGroup): void {
+    this.dataUtils.NgLoadFileAudioToForm(event, fichiayForm, field).subscribe({
       error: (err: FileLoadError) =>
         this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
     });
@@ -141,9 +151,58 @@ export class ContenantUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  sleep(ms): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async saveOld(): Promise<void> {
+    const contenant = this.createFromForm();
+    const filuAP = this.createFileFromForm('arriereplan', this.editForm);
+    const filuI = this.createFileFromForm('icone', this.editForm);
+    this.subscribeToSaveResponse(this.contenantService.create(contenant));
+    while (this.contenant?.id == null) {
+      await this.sleep(100); // pause for 100 milliseconds before checking again
+    }
+    this.uploadFichiayAP(this.contenant.id, filuAP);
+    this.uploadFichiayI(this.contenant.id, filuI);
+  }
+
   save(): void {
+    const contenant = this.createFromForm();
+    this.subscribeToSaveContenant(this.contenantService.create(contenant));
+  }
+
+  uploadleReste(contenant: Contenant | null): void {
+    if (contenant?.id == null) {
+      return;
+    }
+    if (this.editForm.get('fichierarriereplan')?.value != null) {
+      const filuAP = this.createFileFromForm('arriereplan', this.editForm);
+      this.uploadFichiayAP(contenant.id, filuAP);
+    }
+
+    if (this.editForm.get('fichiericone')?.value != null) {
+      const filuI = this.createFileFromForm('icone', this.editForm);
+      this.uploadFichiayI(contenant.id, filuI);
+    }
+
+    this.saveContenu(contenant);
+  }
+
+  uploadFichiayAP(id: number, file: IFichiay): void {
+    //    alert(file.fichierContentType?.toString());
+    this.subscribeToSaveResponse(this.contenantService.uploadFileAP(file, id));
+  }
+
+  uploadFichiayI(id: number, file: IFichiay): void {
+    //    alert(file.fichierContentType?.toString());
+    this.subscribeToSaveResponse(this.contenantService.uploadFileI(file, id));
+  }
+
+  saveContenant(): void {
     this.isSaving = true;
     const contenant = this.createFromForm();
+
     this.subscribeToSaveResponse(this.contenantService.create(contenant));
   }
 
@@ -162,11 +221,11 @@ export class ContenantUpdateComponent implements OnInit {
         break;
       }
       case 'Audio': {
-        this.audioservice.saveAudio(contenantu, this.contenuForm, this.account);
+        this.audioservice.saveAudioMieux(contenantu, this.contenuForm, this.account);
         break;
       }
       case 'Image': {
-        this.photoservice.savePhoto(contenantu, this.contenuForm, this.account);
+        this.photoservice.savePhotoMieux(contenantu, this.contenuForm, this.account);
         break;
       }
       case 'Album': {
@@ -253,6 +312,32 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
+  protected subscribeToSaveFichiayI(result: Observable<HttpResponse<IContenant>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      //YAYA
+
+      next: (res: HttpResponse<IContenant>) => this.saveContenu(res.body),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveFichiayAP(result: Observable<HttpResponse<IContenant>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      //YAYA
+
+      next: (res: HttpResponse<IContenant>) => this.saveContenu(res.body),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveContenant(result: Observable<HttpResponse<IContenant>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      //YAYA
+      next: (res: HttpResponse<IContenant>) => this.uploadleReste(res.body),
+      error: () => this.onSaveError(),
+    });
+  }
+
   protected subscribeToSaveResponso(result: Observable<HttpResponse<IAlbumPhoto>>): any {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       //     next: () => this.onSaveSuccess(),
@@ -271,14 +356,15 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
-  protected createFileFromForm(): IFichiay {
+  protected createFileFromForm(type: string, form: FormGroup): IFichiay {
     return {
+      //YAYA verif form
       ...new Fichiay(),
-      id: this.contenuForm.get(['idFichier'])!.value,
+      id: form.get(['idFichier' + type])!.value,
       nom: ' YEUUUUUSH ',
-      fichier: this.contenuForm.get(['fichier'])!.value,
-      fichierContentType: this.contenuForm.get(['fichierContentType'])!.value,
-      ext: this.contenuForm.get(['fichierExt'])!.value,
+      fichier: form.get(['fichier' + type])!.value,
+      fichierContentType: form.get(['fichier' + type + 'ContentType'])!.value,
+      ext: form.get(['fichier' + type + 'Ext'])!.value,
     };
   }
 
@@ -286,7 +372,6 @@ export class ContenantUpdateComponent implements OnInit {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       //YAYA
 
-      next: (res: HttpResponse<IContenant>) => this.saveContenu(res.body),
       error: () => this.onSaveError(),
     });
   }

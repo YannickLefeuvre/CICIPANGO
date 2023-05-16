@@ -93,7 +93,23 @@ export class AudioService {
     this.uploadFichiay(this.audius.id, contenuForm);
   }
 
-  uploadFichiay(id: number, fichiayForm: FormGroup): void {
+  saveAudioMieux(contenantu: Contenant, contenuForm: FormGroup, account: Account | null): void {
+    if (account == null) {
+      return;
+    }
+
+    const audio = this.createFromForm(contenuForm, contenantu, account);
+    const filu = this.createFileFromForm(contenuForm);
+    if (filu.ext != null) {
+      audio.ext = filu.ext;
+    }
+    this.subscribeToSaveResponsoMieux(this.create(audio), contenuForm);
+  }
+
+  uploadFichiay(id: number | undefined, fichiayForm: FormGroup): void {
+    if (id === undefined) {
+      return;
+    }
     const file = this.createFileFromForm(fichiayForm);
     //    alert(file.fichierContentType?.toString());
     this.subscribeToSaveResponse(this.uploadFile(file, id));
@@ -110,6 +126,15 @@ export class AudioService {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAudio>>): void {
     result.pipe().subscribe({
       next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponsoMieux(result: Observable<HttpResponse<IAudio>>, formGroup: FormGroup): void {
+    result.pipe().subscribe({
+      next: (res: HttpResponse<IAudio>) => {
+        this.uploadFichiay(res.body?.id, formGroup);
+      },
       error: () => this.onSaveError(),
     });
   }

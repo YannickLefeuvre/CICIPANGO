@@ -19,6 +19,7 @@ export type EntityArrayResponseType = HttpResponse<IAlbumPhoto[]>;
 export class AlbumPhotoService {
   albibo?: IAlbumPhoto | null;
   nbFilesup = 0;
+  nbFichiasse = 0;
 
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/album-photos');
   protected resourceUrlFile = this.applicationConfigService.getEndpointFor('api/album-photosfile');
@@ -100,7 +101,7 @@ export class AlbumPhotoService {
       }
     }
     ext += ' ';
-    this.uploadFiles(contenantu, contenuForm, fichiasse, account);
+    this.uploadFilesMieux(contenantu, contenuForm, fichiasse, account);
   }
 
   sleep(ms): Promise<void> {
@@ -108,15 +109,9 @@ export class AlbumPhotoService {
   }
 
   async uploadFiles(contenantu: Contenant, contenuForm: FormGroup, fichiasse: Fichiay[], account: Account): Promise<void> {
-    alert('pass');
     const album = this.createAlbumFromForm(contenantu, contenuForm, fichiasse, account);
-    alert('pass2 ');
     await this.subscribeToSaveResponso(this.create(album));
-    alert(fichiasse.length);
     for (let i = 0; i < fichiasse.length; i++) {
-      //                  alert(this.fichiasse.length);
-
-      alert('pass');
       const coupay = fichiasse[i].ext;
       if (coupay != null) {
         fichiasse[i].ext = coupay;
@@ -139,10 +134,53 @@ export class AlbumPhotoService {
     this.previousState();
   }
 
+  uploadFilesMieux(contenantu: Contenant, contenuForm: FormGroup, fichiasse: Fichiay[], account: Account): void {
+    const album = this.createAlbumFromForm(contenantu, contenuForm, fichiasse, account);
+    this.subscribeToSaveResponsoMieux(this.create(album), fichiasse);
+  }
+
+  uploadRest(fichiasse: Fichiay[], album: AlbumPhoto | null): void {
+    if (album?.id === undefined) {
+      return;
+    }
+    this.subscribeMieux(this.uploadFileMieux(fichiasse, album.id, 0), fichiasse, album.id, 0);
+  }
+
+  uploadNext(fichiasse: Fichiay[], id: number, index: number): void {
+    if (index < fichiasse.length - 1) {
+      index++;
+      this.subscribeMieux(this.uploadFileMieux(fichiasse, id, index), fichiasse, id, index);
+    } else {
+      this.previousState();
+    }
+  }
+
+  uploadFileMieux(fichiasse: Fichiay[], id: number, index: number): Observable<HttpResponse<IFichiay>> {
+    return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiasse[index], { observe: 'response' });
+  }
+
+  protected subscribeMieux(result: Observable<HttpResponse<IFichiay>>, fichiasse: Fichiay[], id: number, index: number): any {
+    result.pipe().subscribe({
+      next: (res: HttpResponse<IFichiay>) => this.uploadNext(fichiasse, id, index),
+
+      error: () => this.onSaveError(),
+    });
+  }
+
   protected subscribeToSaveResponseAlbum(result: Observable<HttpResponse<IFichiay>>): any {
     result.pipe().subscribe({
       next: (res: HttpResponse<IFichiay>) => (this.nbFilesup = this.nbFilesup + 1),
 
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponsoMieux(result: Observable<HttpResponse<IAlbumPhoto>>, fichiasse: Fichiay[]): any {
+    result.pipe().subscribe({
+      //     next: () => this.onSaveSuccess(),
+      next: (res: HttpResponse<IAlbumPhoto>) => {
+        this.uploadRest(fichiasse, res.body);
+      },
       error: () => this.onSaveError(),
     });
   }

@@ -82,16 +82,6 @@ public class AudioResource {
         @RequestBody Fichiay fichou,
         @PathVariable(value = "id", required = false) final Long id
     ) throws URISyntaxException, IOException {
-        log.debug("NOOOOOOOOOOOOOOOOOOOOON YUHHUUUUU");
-
-        System.out.println(" YOHOOOOOO ");
-        if (fichou.getNbFichier() != this.LastnbSecret) {
-            throw new BadRequestAlertException(
-                "Nb Secrets pas égales:" + this.LastnbSecret + " DUDU " + fichou.getNbFichier(),
-                ENTITY_NAME,
-                "idinvalid"
-            );
-        }
         // try (FileOutputStream fos = new FileOutputStream("C:\\temp\\audio\\nanmiou" +
         // lastAudioId + ".txt")) {
         try (FileOutputStream fos = new FileOutputStream("C:\\resources\\content\\audios\\bibu" + id + "." + fichou.getExt())) {

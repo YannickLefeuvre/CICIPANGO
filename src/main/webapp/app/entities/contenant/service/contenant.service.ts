@@ -6,6 +6,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IContenant, getContenantIdentifier } from '../contenant.model';
+import { IFichiay } from 'app/entities/audio/audio.model';
 
 export type EntityResponseType = HttpResponse<IContenant>;
 export type EntityArrayResponseType = HttpResponse<IContenant[]>;
@@ -13,6 +14,8 @@ export type EntityArrayResponseType = HttpResponse<IContenant[]>;
 @Injectable({ providedIn: 'root' })
 export class ContenantService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/contenants');
+  protected resourceUrlFileicone = this.applicationConfigService.getEndpointFor('api/contenantfileicone');
+  protected resourceUrlFilearriereplan = this.applicationConfigService.getEndpointFor('api/contenantfilearriereplan');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -50,6 +53,16 @@ export class ContenantService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  uploadFileAP(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
+    alert('haa');
+    return this.http.post<IFichiay>(`${this.resourceUrlFileicone}/${id}`, fichiay, { observe: 'response' });
+  }
+
+  uploadFileI(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
+    alert('hoo');
+    return this.http.post<IFichiay>(`${this.resourceUrlFilearriereplan}/${id}`, fichiay, { observe: 'response' });
   }
 
   addContenantToCollectionIfMissing(
