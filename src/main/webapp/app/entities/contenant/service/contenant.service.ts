@@ -56,12 +56,10 @@ export class ContenantService {
   }
 
   uploadFileAP(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
-    alert('haa');
     return this.http.post<IFichiay>(`${this.resourceUrlFileicone}/${id}`, fichiay, { observe: 'response' });
   }
 
   uploadFileI(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
-    alert('hoo');
     return this.http.post<IFichiay>(`${this.resourceUrlFilearriereplan}/${id}`, fichiay, { observe: 'response' });
   }
 

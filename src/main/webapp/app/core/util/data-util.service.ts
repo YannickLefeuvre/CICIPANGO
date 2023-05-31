@@ -122,11 +122,13 @@ export class DataUtils {
       const file: File = event.addedFiles[0];
 
       const fieldContentType: string = field + 'ContentType';
+      const fieldNom: string = field + 'Nom';
       const fieldExt: string = field + 'Ext';
       this.toBase64(file, (base64Data: string) => {
         editForm.patchValue({
           [field]: base64Data,
           [fieldContentType]: file.type,
+          [fieldNom]: file.name,
           [fieldExt]: file.name.replace(/^.*\./, ''),
         });
         observer.next();
@@ -182,7 +184,7 @@ export class DataUtils {
         const fifi = new Fichiay();
 
         this.toBase64(files[i], (base64Data: string) => {
-          fifi.nom = 'YEUUUUSH';
+          fifi.nom = files[i].name;
           fifi.fichier = base64Data;
           fifi.fichierContentType = files[i].type;
           (fifi.ext = files[i].name.replace(/^.*\./, '')), observer.next();

@@ -1,9 +1,11 @@
 $form-bg: #d8c689;
+$site-bg: #ffffff;
 //$form-shadow: #ffa580;
 $form-shadow: #ff8a5c;
 $form-primary-highlight: #95a4ff;
 $form-secondary-highlight: #ffc8ff;
 $font-size: 14pt;
+$font-size-nom: 24pt;
 $font-face: 'Fjalla One';
 $font-color: #2a293e;
 $couleurDetails: #000000;
@@ -19,7 +21,18 @@ $taillepetit: 75px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   position: absolute;
   top: 40px;
-  left: 0px;
+  left: 300px;
+  width: 1400px;
+}
+
+.titrass {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: relative;
+  top: 15px;
+  left: 80px;
   width: 1400px;
 }
 
@@ -43,20 +56,20 @@ label.lolo {
 
 .rectangle {
   height: 700px;
-  width: 1400px;
+  width: 1200px;
   background-color: $form-bg;
   position: absolute;
   top: 100px;
-  left: 0px;
+  left: 300px;
   color: azure;
   border-radius: 10px;
-  border: 5px solid rgb(0, 0, 0);
+  //  border: 5px solid rgb(0, 0, 0);
 }
 
 .nom {
   position: relative;
-  top: 20px;
-  left: 50px;
+  top: 40px;
+  left: 80px;
   width: 400px;
 }
 
@@ -109,10 +122,10 @@ label.lolo {
 .inpuput {
   display: block;
   width: 100%;
-  font-size: $font-size;
-  line-height: $font-size * 2;
+  font-size: $font-size-nom;
+  line-height: $font-size-nom * 2;
   font-family: $font-face;
-  margin-bottom: $font-size * 2;
+  margin-bottom: $font-size-nom * 2;
   border: none;
   border-bottom: 3px solid rgba(0, 0, 0, 1);
   border-radius: 10px;
@@ -135,7 +148,7 @@ label.lolo {
   border-radius: 10px;
   background: $form-bg;
   min-width: 250px;
-  min-height: 450px;
+  min-height: 380px;
   padding-left: 5px;
   outline: none;
   color: rgba(0, 0, 0, 1);
@@ -147,6 +160,10 @@ label.lolo {
 
 .inpuputdescri:hover {
   border-bottom: 5px solid $form-shadow;
+}
+
+.inpuputdescri:placeholder-shown {
+  font-size: $font-size-nom;
 }
 
 input:focus {
@@ -161,9 +178,11 @@ input:focus {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: 500px;
+  left: 520px;
   width: 5px;
-  background-color: #000000; /* couleur de fond de la barre */
+  //  border: 3px solid rgb(0, 0, 0);
+  border-left: 3px dashed #000000;
+  //  background-color: #000000; /* couleur de fond de la barre */
 }
 
 .images {
@@ -177,9 +196,10 @@ input:focus {
 .mamage {
   width: auto; /* La largeur maximale est définie à 100% de la largeur de son conteneur */
   height: 200px; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
-  text-align: center;
+  left: 100px;
   position: relative;
-  left: 10px;
+
+  border-radius: 10px;
 }
 
 .barre2 {
@@ -200,11 +220,10 @@ input:focus {
   background-color: #000000; /* couleur de fond de la barre */
 }
 
-label.plus {
+.plus {
   color: #000000;
-  text-decoration: none;
-  font-size: larger;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .upload {
@@ -214,14 +233,14 @@ label.plus {
 
 .next {
   position: absolute;
-  left: 1250px;
+  left: 1200px;
   height: 100px;
-  top: 290px;
+  top: 590px;
   width: auto;
 }
 
 .next:hover {
-  top: 295px;
+  top: 590px;
   height: 90px;
   width: auto;
 }
@@ -233,10 +252,10 @@ label.plus {
   text-decoration: none;
   font-size: 50px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  position: absolute;
+  position: relative;
   top: 40px;
-  left: 1500px;
-  width: 1400px;
+  left: 80px;
+  width: 1600px;
 }
 
 .rectangleContenu {
@@ -245,16 +264,16 @@ label.plus {
   background-color: $form-bg;
   position: absolute;
   top: 100px;
-  left: 1500px;
+  left: 2000px;
   color: azure;
   border-radius: 10px;
-  border: 5px solid rgb(0, 0, 0);
+  //  border: 5px solid rgb(0, 0, 0);
 }
 
 .rectangleDescri {
   position: absolute;
   left: 200px;
-  top: 40px;
+  top: 20px;
   height: 200px;
   width: 400px;
   text-decoration: none;
@@ -264,6 +283,7 @@ label.plus {
 }
 
 .boutbout {
+  left: 0px;
   height: 20px;
   width: 20px;
 }
@@ -271,18 +291,19 @@ label.plus {
 .checkbox {
   color: #000000;
   position: relative;
-  left: 40px;
-  top: 40px;
+  top: 20px;
+  left: 0px;
   font-size: 25px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   //  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .inpuputcontenu {
-  top: 50px;
+  top: 60px;
+  position: relative;
   display: block;
   width: 100%;
-  font-size: $font-size;
+  font-size: $font-size-nom;
   line-height: $font-size * 2;
   font-family: $font-face;
   margin-bottom: $font-size * 2;
@@ -297,7 +318,13 @@ label.plus {
   color: rgba(0, 0, 0, 1);
 }
 
+.inpuputcontenu:placeholder-shown {
+  font-size: $font-size-nom;
+}
+
 .inpuputcontenudescri {
+  top: 60px;
+  position: relative;
   display: block;
   width: 100%;
   font-size: $font-size;
@@ -309,18 +336,41 @@ label.plus {
   border-radius: 10px;
   background: $form-bg;
   width: 550px;
-  height: 200px;
+  height: 360px;
   padding-left: 5px;
   outline: none;
   color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenudescri2 {
+  top: 60px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenudescri:placeholder-shown {
+  font-size: $font-size-nom;
 }
 
 .fichiersContenus {
   position: absolute;
   top: 10px;
   left: 700px;
-  width: 400px;
-  text-align: center;
+  width: 460px;
 }
 
 .erreuro {
@@ -333,4 +383,58 @@ label.plus {
   left: 100px;
   width: 1300px;
   border: 5px solid rgb(255, 255, 255);
+}
+
+h1.lolo {
+  color: $couleurDetails;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  text-decoration: none;
+  top: 10px;
+  font-size: 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.go {
+  font-size: 40px;
+  top: 590px;
+  position: absolute;
+  text-decoration: none;
+  right: -20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: $couleurDetails;
+}
+
+.go:hover {
+  color: $form-shadow;
+}
+
+.conteneur {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.contenuti {
+  position: fixed;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  height: 100vw;
+  background-color: $site-bg;
+  transition: transform 1s ease;
+  overflow-x: scroll;
+}
+
+.deplace-gauche {
+  transform: translateX(-100px);
+}
+
+.erreurTexte {
+  position: relative;
+  top: 5px;
+  color: red;
 }

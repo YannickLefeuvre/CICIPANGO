@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +20,7 @@ import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.
 import { AudioService } from 'app/entities/audio/service/audio.service';
 import { PhotoService } from 'app/entities/photo/service/photo.service';
 import { FilmService } from 'app/entities/film/service/film.service';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'jhi-contenant-update',
@@ -27,6 +28,9 @@ import { FilmService } from 'app/entities/film/service/film.service';
   styleUrls: ['./contenant-update.component.scss'],
 })
 export class ContenantUpdateComponent implements OnInit {
+  @ViewChild('conteneur') conteneurRef!: ElementRef;
+  @ViewChild('contenu') contenuRef!: ElementRef;
+
   isSaving = false;
   account: Account | null = null;
   squareLeft = 0;
@@ -38,6 +42,9 @@ export class ContenantUpdateComponent implements OnInit {
   albibo?: IAlbumPhoto | null;
   nbFilesup = 0;
   contenant: Contenant | null = null;
+  scrollPosition = 0;
+  seuilMaxiTexte = 60000;
+  erreurFichiasse = false;
 
   contenantsSharedCollection: IContenant[] = [];
 
@@ -65,14 +72,11 @@ export class ContenantUpdateComponent implements OnInit {
     id: [],
     nom: [null, [Validators.required]],
     description: [],
-    icone: [],
-    iconeContentType: [],
-    arriereplan: [],
-    arriereplanContentType: [],
     texte: [],
     contenant: [],
     idFichier: [],
     fichier: [],
+    fichierNom: [],
     fichierContentType: [],
     fichierExt: [],
   });
@@ -137,6 +141,24 @@ export class ContenantUpdateComponent implements OnInit {
     });
   }
 
+  changetruc(type: string): void {
+    this.washForm();
+    if (this.radioOptionSelected === type) {
+      this.radioOptionSelected = '';
+    } else {
+      this.radioOptionSelected = type;
+    }
+  }
+
+  washForm(): void {
+    this.contenuForm.get('texte')?.reset();
+    this.contenuForm.get('idFichier')?.reset();
+    this.contenuForm.get('fichier')?.reset();
+    this.contenuForm.get('fichierContentType')?.reset();
+    this.contenuForm.get('fichierExt')?.reset();
+    this.fichiasse = [new Fichiay(10)];
+  }
+
   clearInputImage(field: string, fieldContentType: string, idInput: string): void {
     this.editForm.patchValue({
       [field]: null,
@@ -149,6 +171,18 @@ export class ContenantUpdateComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  isNomnull(): boolean {
+    if (this.ajout === true) {
+      return false;
+    }
+
+    if (this.editForm.get(['nom'])!.value === '' || this.editForm.get(['nom'])!.value === undefined) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   sleep(ms): Promise<void> {
@@ -165,6 +199,56 @@ export class ContenantUpdateComponent implements OnInit {
     }
     this.uploadFichiayAP(this.contenant.id, filuAP);
     this.uploadFichiayI(this.contenant.id, filuI);
+  }
+
+  deplacerContenu(): void {
+    const contenu = document.getElementById('contenuti');
+    //  contenu?.classList.toggle("deplace-gauche");
+    if (contenu?.scrollLeft !== undefined) {
+      contenu.scrollLeft += 800;
+    }
+  }
+
+  scrollHorizontal(): void {
+    //   const conteneurElement = this.conteneur.nativeElement;
+    const conteneurElement = document.getElementById('contenuti');
+    const distance = 1800; // Distance de défilement en pixels
+    const duration = 5; // Durée du défilement en millisecondes
+    const fps = 30; // Nombre de frames par seconde pour une animation fluide
+    const interval = duration / fps;
+    const increment = distance / (duration / interval);
+    let elapsedTime = 0;
+    if (conteneurElement?.scrollLeft !== undefined) {
+      let currentScrollLeft = conteneurElement.scrollLeft;
+
+      const scrolltrankill = (): void => {
+        if (elapsedTime < duration) {
+          elapsedTime += interval;
+          currentScrollLeft += increment;
+          conteneurElement.scrollLeft = currentScrollLeft;
+          setTimeout(scrolltrankill, interval);
+        }
+      };
+
+      scrolltrankill();
+    }
+  }
+
+  defilerVersDroite(): void {
+    const conteneur: HTMLElement = this.conteneurRef.nativeElement;
+    const contenu: HTMLElement = this.contenuRef.nativeElement;
+
+    const deplacement: number = contenu.offsetWidth - conteneur.offsetWidth;
+    alert(deplacement);
+    if (deplacement > 0) {
+      const position: number = conteneur.scrollLeft + deplacement;
+      alert('position');
+      alert(position);
+      conteneur.scrollTo({
+        left: position,
+        behavior: 'smooth',
+      });
+    }
   }
 
   save(): void {
@@ -258,24 +342,10 @@ export class ContenantUpdateComponent implements OnInit {
     // Faites quelque chose avec les fichiers sélectionnés, comme les télécharger sur un serveur
   }
 
-  startMoving(): void {
-    let total = 0;
-
-    this.intervalId = setInterval(() => {
-      this.squareLeft -= 70; // déplacement de 10 pixels vers la droite à chaque itération
-      total -= 400;
-      //      if(total<=2000){
-      //        this.stopMoving();
-      //      }
-    }, 10); // délai de 50 millisecondes entre chaque itération
-  }
-
-  stopMoving(): void {
-    clearInterval(this.intervalId);
-  }
-
   ajoutContenant(): void {
     this.ajout = true;
+    //    this.deplacerContenu();
+    this.scrollHorizontal();
   }
 
   optionChoisie(): string {
@@ -306,10 +376,72 @@ export class ContenantUpdateComponent implements OnInit {
   //drag&drop
 
   setFilesData(event: NgxDropzoneChangeEvent, field: string, isImage: boolean): void {
-    this.dataUtils.NgLoadFichiayToFichiasse(event, this.fichiasse).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
-    });
+    const files: File[] = event.addedFiles;
+    if (files.length > 10) {
+      this.erreurFichiasse = true;
+    } else {
+      this.erreurFichiasse = false;
+      this.dataUtils.NgLoadFichiayToFichiasse(event, this.fichiasse).subscribe({
+        error: (err: FileLoadError) =>
+          this.eventManager.broadcast(new EventWithContent<AlertError>('cipangoApp.error', { ...err, key: 'error.file.' + err.key })),
+      });
+    }
+  }
+
+  contenuIsNotNull(): boolean {
+    if (this.countCharacterContenuDescri() || this.countCharacterContenuTexte() || this.countCharactersContenant()) {
+      return false;
+    }
+
+    if (this.contenuForm.get('nom')?.value === null) {
+      return false;
+    }
+
+    switch (this.radioOptionSelected) {
+      case '': {
+        return false;
+      }
+      case 'Texte': {
+        if (this.contenuForm.get('texte')?.value !== null) {
+          return true;
+        }
+        break;
+      }
+      case 'Album': {
+        if (this.fichiasse[0].fichierContentType !== undefined) {
+          return true;
+        }
+        break;
+      }
+      default: {
+        if (this.contenuForm.get('fichierContentType')?.value !== null) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  countCharactersContenant(): boolean {
+    if ((this.editForm.get('description')?.value?.length ?? 0) > this.seuilMaxiTexte) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  countCharacterContenuDescri(): boolean {
+    if ((this.contenuForm.get('description')?.value?.length ?? 0) > this.seuilMaxiTexte) {
+      return true;
+    }
+    return false;
+  }
+
+  countCharacterContenuTexte(): boolean {
+    if ((this.contenuForm.get('texte')?.value?.length ?? 0) > this.seuilMaxiTexte) {
+      return true;
+    }
+    return false;
   }
 
   protected subscribeToSaveFichiayI(result: Observable<HttpResponse<IContenant>>): void {
@@ -424,10 +556,8 @@ export class ContenantUpdateComponent implements OnInit {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
-      iconeContentType: this.editForm.get(['iconeContentType'])!.value,
-      icone: this.editForm.get(['icone'])!.value,
-      arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
-      arriereplan: this.editForm.get(['arriereplan'])!.value,
+      iconeContentType: this.editForm.get(['fichiericoneExt'])!.value,
+      arriereplanContentType: this.editForm.get(['fichierarriereplanExt'])!.value,
       proprietaire: this.account,
     };
   }
