@@ -56,11 +56,11 @@ export class ContenantService {
   }
 
   uploadFileAP(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
-    return this.http.post<IFichiay>(`${this.resourceUrlFileicone}/${id}`, fichiay, { observe: 'response' });
+    return this.http.post<IFichiay>(`${this.resourceUrlFilearriereplan}/${id}`, fichiay, { observe: 'response' });
   }
 
   uploadFileI(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
-    return this.http.post<IFichiay>(`${this.resourceUrlFilearriereplan}/${id}`, fichiay, { observe: 'response' });
+    return this.http.post<IFichiay>(`${this.resourceUrlFileicone}/${id}`, fichiay, { observe: 'response' });
   }
 
   addContenantToCollectionIfMissing(

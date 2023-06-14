@@ -1,3 +1,5 @@
+$randomNumber: random(200);
+
 h1.titre {
   color: #000000;
   position: fixed;
@@ -93,4 +95,37 @@ h1.nouveau {
   right: 0;
   height: 5px;
   background-color: #14d655; /* couleur de fond de la barre */
+  z-index: -1;
+}
+
+.mamage {
+  width: auto; /* La largeur maximale est définie à 100% de la largeur de son conteneur */
+  height: 200px; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
+  left: 100px;
+  position: relative;
+
+  border-radius: 10px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  top: 450px;
+  position: relative;
+}
+
+.gaga {
+  padding-bottom: 100px;
+  padding-left: 25px;
+}
+
+.mumu {
+  position: relative;
+  width: 200px; /* Ajustez la largeur selon vos besoins */
+  padding: 30px;
+  max-height: 300px;
+
+  border-radius: 10px;
+  border: #c71d1d;
+  //  top: 100px;
 }

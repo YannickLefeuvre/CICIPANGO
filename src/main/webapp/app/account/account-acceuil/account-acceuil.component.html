@@ -13,18 +13,28 @@
   [style.top.px]="300"
   [style.left.px]="950"
   [style.background-color]="cnouveau"
-  (click)="swithLacnouveau()"
+  (click)="swithLacvoyages()"
   class="button-6"
   role="button"
 >
   Mes Voyages
 </button>
 
-<div class="contient" *ngIf="creationactifs == true">
-  <div *ngFor="let contenant of account?.contenantsPropriete">
-    <li [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</li>
-  </div>
+<div class="gallery" *ngIf="creationactifs == true">
   <li><button [routerLink]="['/contenant', 'new']" role="button">Nouveau Système</button></li>
+
+  <div *ngFor="let contenant of account?.contenantsPropriete">
+    <div *ngIf="contenant.iconeContentType != null" class="gaga">
+      <a>
+        <img
+          class="mumu"
+          [style.top.px]="hauteurAlea(0, 200)"
+          [routerLink]="['/contenant', contenant.id, 'systeme']"
+          src="{{ cheminIcone(contenant) }}"
+        />
+      </a>
+    </div>
+  </div>
 </div>
 
 <div class="barre"></div>

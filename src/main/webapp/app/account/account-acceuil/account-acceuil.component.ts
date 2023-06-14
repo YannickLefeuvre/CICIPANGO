@@ -16,7 +16,7 @@ export class AccountAcceuilComponent implements OnInit {
   ccreations = '#ffffff';
   cvoyages = '#ffffff';
   cnouveau = '#ffffff';
-  creationactifs = true;
+  creationactifs = false;
   voyagesactifs = false;
 
   private readonly destroy$ = new Subject<void>();
@@ -38,6 +38,25 @@ export class AccountAcceuilComponent implements OnInit {
     this.voyagesactifs = false;
   }
 
+  alea(): any {
+    const images = document.getElementsByClassName('mumu');
+    // alert(images.length);
+    for (let i = 0; i < images.length; i++) {
+      const containerHeight = 500; // Hauteur totale de votre conteneur parent
+      const imageHeight = (images[i] as HTMLElement).offsetHeight; // Hauteur de chaque image
+      const maxTop = containerHeight - imageHeight; // Position maximale en haut
+      const randomTop = Math.random() * maxTop;
+
+      (images[i] as HTMLElement).style.top = randomTop.toString() + 'px';
+    }
+    return null;
+  }
+
+  hauteurAlea(min: number, max: number): number {
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+    return num;
+  }
+
   swithLacvoyages(): void {
     this.ccreations = '#ffffff';
     this.cvoyages = '#c71d1d';
@@ -50,5 +69,16 @@ export class AccountAcceuilComponent implements OnInit {
     this.ccreations = '#ffffff';
     this.cvoyages = '#ffffff';
     this.cnouveau = '#c71d1d';
+  }
+
+  cheminIcone(contenant: Contenant): string {
+    const result = '';
+    const chmin = 'src/main/webapp/content/contenants/icone/ico';
+    if (contenant.id != null && contenant.iconeContentType != null) {
+      //   alert(result.concat(chmin,this.audio.id.toString(),"mp3"));
+      return result.concat(chmin, contenant.id.toString(), '.', contenant.iconeContentType);
+    } else {
+      return 'naze';
+    }
   }
 }
