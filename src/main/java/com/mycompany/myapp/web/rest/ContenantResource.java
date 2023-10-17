@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -213,7 +214,7 @@ public class ContenantResource {
      */
     @GetMapping("/contenants")
     public List<Contenant> getAllContenants(@RequestParam(required = false) String contnantnull) {
-        log.info("mina " + contnantnull);
+        log.info("c " + contnantnull);
         if ("lienorigine-is-null".equals(contnantnull)) {
             log.debug("REST request to get all Contenants where lienOrigine is null");
             return StreamSupport
@@ -232,10 +233,16 @@ public class ContenantResource {
         if ("contenant-is-null".equals(contnantnull)) {
             log.info("mino");
             log.debug("REST request to get all Contenants where lienOrigine is null");
-            return StreamSupport
+            List<Contenant> result = StreamSupport
                 .stream(contenantRepository.findAll().spliterator(), false)
                 .filter(contenant -> contenant.getContenant() == null)
                 .collect(Collectors.toList());
+            List<Contenant> rere = new ArrayList<>();
+            Random rand = new Random();
+            rere.add(result.get((int) (Math.random() * (result.size()))));
+            rere.add(result.get((int) (Math.random() * (result.size()))));
+            rere.add(result.get((int) (Math.random() * (result.size()))));
+            return rere;
         }
 
         log.debug("REST request to get all Contenants");

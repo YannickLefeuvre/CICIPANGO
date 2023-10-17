@@ -12,7 +12,82 @@ Main page styles
 div.decal {
   position: fixed;
   left: 400px;
+  color: #ffb94f;
 }
+
+.vertical-text {
+  writing-mode: vertical-lr; /* Définir l'orientation du texte de haut en bas */
+  text-orientation: upright; /* Garder le texte droit */
+  white-space: nowrap; /* Éviter que le texte ne se divise en plusieurs lignes */
+  font-size: 50px; /* Taille de la police */
+  //  width: 40px; /* Largeur du conteneur du texte */
+  //  height: 200px; /* Hauteur du conteneur du texte */
+  border: 1px solid #000; /* Bordure pour la décoration */
+  display: flex;
+  align-items: center; /* Centrer le texte verticalement */
+  justify-content: center; /* Centrer le texte horizontalement */
+  left: 1600px;
+  top: 10px;
+  color: #e4a264;
+  //  border: 4px solid #e78931;
+}
+
+h3 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Geneva, Tahoma, sans-serif;
+  color: rgb(255, 255, 255);
+  //  background: #bcbdfc;
+  // font-size: 40px; /* Ajoutez la taille de police souhaitée */
+
+  position: absolute;
+}
+
+.point-cloud {
+  position: absolute; /* Pour positionner les points de manière absolue par rapport au conteneur */
+  left: 600px;
+  top: 400px;
+}
+
+/* 
+.white {
+  background-color: #fff;
+}
+
+.gray {
+  background-color: #ccc;
+}
+
+
+.point:nth-child(1) {
+  top: -100px;
+  left: 70px;
+  width: 30px; 
+  height: 30px;
+}
+
+.point:nth-child(2) {
+  top: 200px;
+  left: 120px;
+}
+
+.point:nth-child(3) {
+  top: 170px;
+  left: -100px;
+  width: 50px; 
+  height: 50px;
+}
+.point:nth-child(4) {
+  top: 200px;
+  left: 600px;
+}
+.point:nth-child(5) {
+  top: -250px;
+  left: 60px;
+}
+.point:nth-child(6) {
+  top: 50px;
+  left: -400px;
+}
+Positionnez les points aléatoirement autour du texte */
 
 .dot {
   height: 50px;
@@ -310,6 +385,105 @@ body {
   }
   100% {
   }
+}
+
+.mot {
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  z-index: 17;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 100;
+  font-size: 4rem;
+  text-transform: uppercase;
+  width: 0px;
+  // border: #000;
+  // border-radius: 2px;
+  //  -webkit-text-stroke: 1px rgb(92, 57, 5); /* Bordure de 2 pixels de large en noir */
+  // text-stroke: 2px black; /* Bordure de 2 pixels de large en noir (pour les navigateurs compatibles) */
+}
+
+.D {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+.E {
+  position: relative;
+  top: 0px;
+  left: 10px;
+}
+.S {
+  position: relative;
+  top: 0px;
+  left: 23px;
+}
+
+.letter {
+  transition: transform 0.3s ease; /* Animation de la rotation */
+}
+
+.rotate {
+  transform: rotate(90deg); /* Rotation de 90 degrés */
+}
+
+.M {
+  position: relative;
+  top: 30px;
+  //  left:35px;
+  color: #ffffff;
+  //left:800px;
+  font-size: 5rem;
+  //transition: transform 5s ease; /* Animation de la rotation */
+  //transform: rotate(90deg); /* Rotation de 90 degrés */
+  transition: transform 1s;
+}
+
+.O {
+  position: relative;
+  top: 40px;
+  // left:23px;
+  left: 1690px;
+}
+.D2 {
+  position: relative;
+  top: 40px;
+  left: 1678px;
+}
+.S2 {
+  position: relative;
+  top: 40px;
+  left: 1660px;
+}
+.circle {
+  position: relative;
+  //top:-50px;
+  width: 200px; /* Le même que la taille du conteneur */
+  height: 200px; /* Le même que la taille du conteneur */
+  border: 2px solid #fff; /* Définir la bordure pour créer le cercle */
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  display: flex;
+  justify-content: center;
+  top: -5px;
+  left: 770px;
+}
+
+.cercleAccount {
+  position: absolute;
+  //top:-50px;
+  width: 20px; /* Le même que la taille du conteneur */
+  height: 20px; /* Le même que la taille du conteneur */
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  display: flex;
+  justify-content: center;
+  top: 150px;
+  left: 90px;
+  color: #e4a264;
+  z-index: 50;
+  background: #e4a264;
+  background-color: #e4a264;
+  // visibility: hidden;
 }
 
 // FOOTER

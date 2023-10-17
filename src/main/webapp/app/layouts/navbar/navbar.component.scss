@@ -103,3 +103,172 @@ h1 {
   letter-spacing: 6px;
   text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
+
+.boule-moite {
+  position: absolute;
+  width: 10px; /* Définir la largeur de la boule */
+  height: 10px; /* Définir la hauteur de la boule (identique à la largeur pour obtenir un cercle) */
+  background-color: rgb(21, 255, 0); /* Définir la couleur de fond à blanc */
+  border-radius: 50%; /* Utiliser border-radius pour arrondir les coins et obtenir une forme de cercle */
+  top: 50%;
+  left: 50%;
+}
+
+.boule-droite {
+  position: relative;
+  bottom: 50px;
+  left: 100px;
+  width: 150px; /* Définir la largeur de la boule */
+  height: 150px; /* Définir la hauteur de la boule (identique à la largeur pour obtenir un cercle) */
+  background-color: rgb(224, 149, 50); /* Définir la couleur de fond à blanc */
+  border-radius: 50%; /* Utiliser border-radius pour arrondir les coins et obtenir une forme de cercle */
+}
+
+.boule-droite {
+  position: fixed;
+  bottom: -10%;
+  left: 90%;
+  width: 300px; /* Définir la largeur de la boule */
+  height: 300px; /* Définir la hauteur de la boule (identique à la largeur pour obtenir un cercle) */
+  background-color: rgb(177, 101, 3); /* Définir la couleur de fond à blanc */
+  background: radial-gradient(circle, rgb(177, 101, 3) 30%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0px 0px 30px rgb(255, 255, 255);
+}
+
+.boule-principal {
+  position: fixed;
+  top: -3%;
+  left: -5%;
+  width: 300px; /* Définir la largeur de la boule */
+  height: 300px; /* Définir la hauteur de la boule (identique à la largeur pour obtenir un cercle) */
+  // background-color: rgb(224, 149, 50);; /* Définir la couleur de fond à blanc */
+  background-color: rgb(255, 185, 94);
+  background: radial-gradient(circle, rgb(255, 185, 94) 30%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0px 0px 30px rgb(255, 255, 255);
+}
+
+//background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 30%, transparent 70%);
+//border-radius: 50%;
+//box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.8);
+
+.vertical-text {
+  position: absolute;
+  top: 10%;
+  left: 0%;
+  writing-mode: vertical-rl; /* Définir l'orientation du texte de haut en bas */
+  text-orientation: upright; /* Garder le texte droit */
+  white-space: nowrap; /* Éviter que le texte ne se divise en plusieurs lignes */
+  font-size: 50px; /* Taille de la police */
+  //  width: 40px; /* Largeur du conteneur du texte */
+  //  height: 200px; /* Hauteur du conteneur du texte */
+  border: 1px solid #000; /* Bordure pour la décoration */
+  display: flex;
+  align-items: center; /* Centrer le texte verticalement */
+  justify-content: center; /* Centrer le texte horizontalement */
+  z-index: 4;
+  color: #e4a264;
+  // transform: scaleY(1.5) scaleX(0.8);
+  //  border: 4px solid #e78931;
+}
+
+.mot {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  z-index: 17;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 100;
+  font-size: 4rem;
+  text-transform: uppercase;
+  width: 0px;
+  // border: #000;
+  // border-radius: 2px;
+  //  -webkit-text-stroke: 1px rgb(92, 57, 5); /* Bordure de 2 pixels de large en noir */
+  // text-stroke: 2px black; /* Bordure de 2 pixels de large en noir (pour les navigateurs compatibles) */
+}
+
+.D {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+.E {
+  position: relative;
+  top: 0px;
+  left: 10px;
+}
+.S {
+  position: relative;
+  top: 0px;
+  left: 23px;
+}
+
+.letter {
+  transition: transform 0.3s ease; /* Animation de la rotation */
+}
+
+.rotate {
+  transform: rotate(90deg); /* Rotation de 90 degrés */
+}
+
+.M {
+  position: relative;
+  top: 30px;
+  //  left:35px;
+  color: #ffffff;
+  //left:800px;
+  font-size: 5rem;
+  //transition: transform 5s ease; /* Animation de la rotation */
+  //transform: rotate(90deg); /* Rotation de 90 degrés */
+  transition: transform 1s;
+}
+
+.O {
+  position: relative;
+  top: 40px;
+  // left:23px;
+  left: 1690px;
+}
+.D2 {
+  position: relative;
+  top: 40px;
+  left: 1678px;
+}
+.S2 {
+  position: relative;
+  top: 40px;
+  left: 1660px;
+}
+
+.circle {
+  position: relative;
+  //top:-50px;
+  width: 200px; /* Le même que la taille du conteneur */
+  height: 200px; /* Le même que la taille du conteneur */
+  border: 2px solid #fff; /* Définir la bordure pour créer le cercle */
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  display: flex;
+  justify-content: center;
+  top: -5px;
+  left: 770px;
+}
+
+.cercleAccount {
+  position: absolute;
+  //top:-50px;
+  width: 20px; /* Le même que la taille du conteneur */
+  height: 20px; /* Le même que la taille du conteneur */
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  display: flex;
+  justify-content: center;
+  top: 150px;
+  left: 90px;
+  color: #e4a264;
+  z-index: 50;
+  background: #e4a264;
+  background-color: #e4a264;
+  // visibility: hidden;
+}

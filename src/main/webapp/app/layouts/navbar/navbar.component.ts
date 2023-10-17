@@ -24,6 +24,8 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  rotateStyle = '';
+  isMouseOver = false;
 
   constructor(
     private loginService: LoginService,
@@ -71,5 +73,21 @@ export class NavbarComponent implements OnInit {
 
   toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+  rotateLetter(): void {
+    this.rotateStyle = 'rotate';
+  }
+
+  resetRotation(): void {
+    this.rotateStyle = '';
+  }
+
+  onMouseOver(): void {
+    this.isMouseOver = true;
+  }
+
+  onMouseOut(): void {
+    this.isMouseOver = false;
   }
 }

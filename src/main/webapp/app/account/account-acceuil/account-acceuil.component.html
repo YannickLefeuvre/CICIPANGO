@@ -11,30 +11,48 @@
 </button>
 <button
   [style.top.px]="300"
-  [style.left.px]="950"
-  [style.background-color]="cnouveau"
+  [style.left.px]="100"
+  [style.background-color]="cvoyages"
   (click)="swithLacvoyages()"
   class="button-6"
   role="button"
 >
-  Mes Voyages
+  mes voyages
+</button>
+
+<button
+  [style.bottom.px]="575"
+  [style.right.px]="0"
+  [style.background-color]="'#ffffff'"
+  (click)="logout()"
+  [routerLink]="['/']"
+  class="button-1"
+  role="button"
+>
+  🛩️
 </button>
 
 <div class="gallery" *ngIf="creationactifs == true">
-  <li><button [routerLink]="['/contenant', 'new']" role="button">Nouveau Système</button></li>
+  <div class="barre"></div>
+  <div class="barre2"></div>
+  <button class="button-12" [routerLink]="['/contenant', 'new']" role="button">📌</button>
 
-  <div *ngFor="let contenant of account?.contenantsPropriete">
+  <div *ngFor="let contenant of contenants">
     <div *ngIf="contenant.iconeContentType != null" class="gaga">
       <a>
-        <img
-          class="mumu"
-          [style.top.px]="hauteurAlea(0, 200)"
+        <div
+          class="circle"
+          [style.top.px]="contenant.ordonnee"
           [routerLink]="['/contenant', contenant.id, 'systeme']"
-          src="{{ cheminIcone(contenant) }}"
-        />
+          [style.backgroundImage]="cheminIcone(contenant)"
+        ></div>
       </a>
     </div>
   </div>
 </div>
 
+<!--
+  [style.background-image]="cheminIcone(contenant)"
 <div class="barre"></div>
+"'url(src/main/webapp/content/contenants/icone/ico16801.png)'"
+-->

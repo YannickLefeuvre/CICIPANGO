@@ -1,5 +1,51 @@
+<!-- TYPO == KEPLER !!!
+	 nom du site: desmodes
+
+
+	 METTRES CES TROIS POINTS SUR LA PAGE D'ACCEUIL
+créer un réseau social qui change sur trois axes:
+ 
+l'idée c'est de mettre en valeur ses contenus pour qu'ils soient consomés comme un ensemble et moins individuellement
+
+c'est aussi de permettre à des communotés d'organiser un nombre réstreint de contenu sur un sujet. Se mettre d'accord sur les sujet, les éléments important de leur sujet et les liens qui les unis.
+
+c'est de chager la manière dont on consome un contenu: plus d'algorithmes mais des liens
+
+
+<h3 class="vertical-text">DESMODES</h3>
+-->
+
+<div class="point-cloud" id="pointCloud"></div>
+
+<div class="mot">
+  <div class="D">D</div>
+  <div class="E">E</div>
+  <div class="S">S</div>
+
+  <div class="circle" (mouseover)="onMouseOver()">
+    <div
+      class="M"
+      [style.transform]="isMouseOver ? 'rotate(-90deg)' : 'rotate(0deg)'"
+      [style.transform-origin]="isMouseOver ? '35px 60px' : 'center center'"
+    >
+      M
+    </div>
+    <a *ngIf="cercleVisible">
+      <div *ngIf="account != null; else elseBlock">
+        <div class="cercleAccount" routerLink="account/accountpage"></div>
+      </div>
+      <ng-template #elseBlock>
+        <div class="cercleAccount" routerLink="login"></div>
+      </ng-template>
+    </a>
+  </div>
+
+  <div class="O">O</div>
+  <div class="D2">D</div>
+  <div class="S2">S</div>
+</div>
+<!--
 <div>
-  <div>{{ nomAccount() }}</div>
   <div *ngFor="let contenant of contenants; let i = index">
     <a>
       <div
@@ -17,6 +63,8 @@
     </a>
   </div>
 </div>
+-->
+
 <!--
 <div class="animation-container">
 	<div class="lightning-container">
@@ -37,6 +85,7 @@
 		<div class="shape triangle blue"></div>
 	</div>
 </div>
+
 
 <div class="footer">Implemented with ❤ by <a href="https://mrossignol.fr" target="_blank">Maxime Rossignol</a> from an original idea by <a href="https://www.uplabs.com/shashanksahay" traget="_blank">Shashank Sahay</a></div>
 -->

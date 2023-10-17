@@ -1,7 +1,7 @@
 $randomNumber: random(200);
 
 h1.titre {
-  color: #000000;
+  color: #ffffff;
   position: fixed;
   top: 100px;
   left: 1300px;
@@ -20,18 +20,7 @@ h1.mesCrea {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-h1.nouveau {
-  color: #ffffff;
-  position: fixed;
-  top: 300px;
-  left: 1300px;
-  text-decoration: none;
-  font-size: 45px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-/* CSS */
-.button-6 {
+.button-1 {
   position: relative;
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -59,11 +48,65 @@ h1.nouveau {
   width: auto;
 }
 
-.button-6:hover,
-.button-6:focus {
-  border-color: rgba(0, 0, 0, 0.15);
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-  color: rgba(0, 0, 0, 0.65);
+.button-1 {
+  position: fixed;
+  padding: 15px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: rotate(-90deg);
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
+}
+
+/* CSS */
+.button-6 {
+  position: relative;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  background-color: #000000;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.button-12 {
+  position: fixed;
+  left: 5px;
+  bottom: 575px;
+  background-color: #d8c689;
+  color: #000000;
+  padding: 15px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: rotate(-90deg);
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
 }
 
 .button-6:hover {
@@ -71,7 +114,7 @@ h1.nouveau {
 }
 
 .button-6:active {
-  background-color: #f0f0f1;
+  background-color: #000000;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
@@ -88,16 +131,6 @@ h1.nouveau {
   overflow: auto; /* pour ajouter une barre de défilement si le contenu dépasse les dimensions spécifiées */
 }
 
-.barre {
-  position: fixed;
-  top: 700px;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background-color: #14d655; /* couleur de fond de la barre */
-  z-index: -1;
-}
-
 .mamage {
   width: auto; /* La largeur maximale est définie à 100% de la largeur de son conteneur */
   height: 200px; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
@@ -111,12 +144,13 @@ h1.nouveau {
   display: flex;
   flex-wrap: wrap;
   top: 450px;
-  position: relative;
+  position: absolute;
+  width: 150vh;
 }
 
 .gaga {
-  padding-bottom: 100px;
-  padding-left: 25px;
+  padding-bottom: 400px;
+  padding-left: 100px;
 }
 
 .mumu {
@@ -124,8 +158,49 @@ h1.nouveau {
   width: 200px; /* Ajustez la largeur selon vos besoins */
   padding: 30px;
   max-height: 300px;
-
-  border-radius: 10px;
-  border: #c71d1d;
   //  top: 100px;
+}
+
+/* CSS pour créer un cercle */
+.circle {
+  position: relative;
+  width: 120px; /* Ajustez la taille du cercle selon vos besoins */
+  height: 130px; /* Même hauteur que la largeur pour avoir un cercle parfait */
+  background-size: cover;
+  background-position: center;
+  // background-image: url("C:/resources/content/contenants/icone/ico16801.png");
+  border-radius: 50%; /* Rend le conteneur circulaire (la moitié de la taille) */
+  clip-path: circle(50% at 50% 50%);
+  //  background-color: #ffffff;
+  border: 3px solid #000000;
+}
+
+/* Applique le style de fond pour afficher l'image sans déformation */
+.circle-image {
+  max-width: 100px; /* Remplir complètement le cercle avec l'image */
+  max-height: 100px; /* Ajustez la hauteur en conséquence si nécessaire */
+  background-size: cover; /* Ajuste la mise à l'échelle de l'image pour remplir le cercle */
+  background-position: center; /* Centre l'image dans le cercle sans la déformer */
+}
+
+.barre {
+  position: fixed;
+  top: 700px;
+  left: 1400px;
+  right: -950px;
+  height: 15px;
+  background-color: #d8c689; /* couleur de fond de la barre */
+  z-index: 0;
+  transform: rotate(-45deg);
+}
+
+.barre2 {
+  position: fixed;
+  top: 700px;
+  left: 1400px;
+  right: -850px;
+  height: 15px;
+  background-color: #d8c689; /* couleur de fond de la barre */
+  z-index: 0;
+  transform: rotate(-45deg);
 }

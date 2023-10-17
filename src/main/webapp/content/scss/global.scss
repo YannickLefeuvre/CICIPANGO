@@ -6,13 +6,22 @@
 Bootstrap tweaks
 ===============================================================*/
 
-body,
 h1,
 h2,
 h3,
 h4 {
   color: #533f03;
   font-weight: 300;
+}
+
+body {
+  //  background: linear-gradient(rgb(255, 255, 255), pink);
+  background: #000;
+  background-attachment: fixed;
+  //  background: #533f03;
+  //  background-color: aquamarine;
+  // position: static;
+  height: 100vh; /* Hauteur de la fenêtre visible */
 }
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
