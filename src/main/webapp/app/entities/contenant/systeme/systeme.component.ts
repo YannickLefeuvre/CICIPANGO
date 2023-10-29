@@ -35,6 +35,7 @@ export class SystemeComponent implements OnInit {
   // @Input() yuyu  = " frdes";
   contenant: IContenant | null = null;
   isSaving = false;
+  revealText = false;
   @Input() monInput: any;
 
   editForm = this.fb.group({
@@ -101,6 +102,10 @@ export class SystemeComponent implements OnInit {
         });
       }
     }
+  }
+
+  reveal(): void {
+    this.revealText = true;
   }
 
   save(): void {

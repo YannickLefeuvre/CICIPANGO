@@ -4,88 +4,102 @@
 
 <mat-dialog-content class="mat-typography">vfcdxsz </mat-dialog-content>
 -->
-<h1>{{ nomContenant() }} HOULOUA HOULA {{ proprioContenant() }}</h1>
-<br /><br />
-<h6>Contenant Du Contenant</h6>
-<a class="con" [routerLink]="['/contenant', idContenantDuContenant(), 'systeme']">{{ nomContenantDuContenant() }}</a>
-<br /><br />
-
-<h4>LES CONTENUS DU CONTENANT</h4>
-
-<div *ngFor="let contenu of contenant?.contenus">
-  <div *ngIf="contenu.type == 'AUDIO'">
-    <a class="aud" (click)="openAudioDialog(contenu)"
-      >{{ contenu.nom }}
-      <span>
-        {{ contenu.description }}
-      </span>
-    </a>
-    <div>{{ contenu.date_creation }}</div>
+<body>
+  <div class="yoyo">
+    <div class="creerContenant" [style.top.px]="50" [style.right.px]="-100" [routerLink]="['/contenant', contenant?.id, 'add']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Contenant</div>
+    </div>
+    <div class="creerContenant" [style.top.px]="300" [style.right.px]="-260" [routerLink]="['/audio', contenant?.id, 'addaudio']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Contenu</div>
+    </div>
+    <div class="creerContenant" [style.top.px]="650" [style.right.px]="-150" [routerLink]="['/lien', contenant?.id, 'addlien']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Lien</div>
+    </div>
   </div>
 
-  <div *ngIf="contenu.type == 'ALBUMPHOTO'">
-    <a class="miam" (click)="openAlbumPhotoDialog(contenu)"
-      >{{ contenu.nom
-      }}<span
-        ><img src="{{ cheminAlbum(contenu) }}" width="300px" height="260px" />
-        {{ contenu.description }}
-      </span></a
-    >
-    <div>{{ contenu.date_creation }}</div>
+  <h1>{{ nomContenant() }} HOULOUA HOULA {{ proprioContenant() }}</h1>
+  <br /><br />
+  <h6>Contenant Du Contenant</h6>
+  <a class="con" [routerLink]="['/contenant', idContenantDuContenant(), 'systeme']">{{ nomContenantDuContenant() }}</a>
+  <br /><br />
+
+  <h4>LES CONTENUS DU CONTENANT</h4>
+
+  <div *ngFor="let contenu of contenant?.contenus">
+    <div *ngIf="contenu.type == 'AUDIO'">
+      <a class="aud" (click)="openAudioDialog(contenu)"
+        >{{ contenu.nom }}
+        <span>
+          {{ contenu.description }}
+        </span>
+      </a>
+      <div>{{ contenu.date_creation }}</div>
+    </div>
+
+    <div *ngIf="contenu.type == 'ALBUMPHOTO'">
+      <a class="miam" (click)="openAlbumPhotoDialog(contenu)"
+        >{{ contenu.nom
+        }}<span
+          ><img src="{{ cheminAlbum(contenu) }}" width="300px" height="260px" />
+          {{ contenu.description }}
+        </span></a
+      >
+      <div>{{ contenu.date_creation }}</div>
+    </div>
+
+    <div *ngIf="contenu.type == 'PHOTO'">
+      <a class="bu" (click)="openPhotoDialog(contenu)"
+        >{{ contenu.nom }}
+        <span
+          ><img src="{{ cheminPhoto(contenu) }}" width="300px" height="260px" />
+          {{ contenu.description }}
+        </span></a
+      >
+      <div>{{ contenu.date_creation }}</div>
+    </div>
+
+    <div *ngIf="contenu.type == 'FILM'">
+      <a class="film" (click)="openFilmDialog(contenu)"
+        >{{ contenu.nom }}
+        <span>
+          {{ contenu.description }}
+        </span>
+      </a>
+      <div>{{ contenu.date_creation }}</div>
+    </div>
   </div>
 
-  <div *ngIf="contenu.type == 'PHOTO'">
-    <a class="bu" (click)="openPhotoDialog(contenu)"
-      >{{ contenu.nom }}
-      <span
-        ><img src="{{ cheminPhoto(contenu) }}" width="300px" height="260px" />
-        {{ contenu.description }}
-      </span></a
-    >
-    <div>{{ contenu.date_creation }}</div>
+  <br /><br />
+
+  <h4>LES LIENS DU CONTENANT</h4>
+
+  <div *ngFor="let lien of contenant?.liens">
+    <a class="con" [routerLink]="['/contenant', lien.villeCible?.id, 'systeme']">{{ lien.nom }} : {{ villeCibleLien(lien) }}</a>
   </div>
 
-  <div *ngIf="contenu.type == 'FILM'">
-    <a class="film" (click)="openFilmDialog(contenu)"
-      >{{ contenu.nom }}
-      <span>
-        {{ contenu.description }}
-      </span>
-    </a>
-    <div>{{ contenu.date_creation }}</div>
+  <br /><br />
+
+  <h3>LES CONTENANTS DU CONTENANT</h3>
+
+  <div *ngFor="let contenant of contenant?.contenants">
+    <li>
+      <a class="con" [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
+    </li>
   </div>
-</div>
 
-<br /><br />
+  <br /><br />
 
-<h4>LES LIENS DU CONTENANT</h4>
+  <h2>JE CRAY UN TRUC</h2>
 
-<div *ngFor="let lien of contenant?.liens">
-  <a class="con" [routerLink]="['/contenant', lien.villeCible?.id, 'systeme']">{{ lien.nom }} : {{ villeCibleLien(lien) }}</a>
-</div>
+  <button type="button" class="button" [routerLink]="['/contenant', contenant?.id, 'add']">nouvo Contenant</button>
 
-<br /><br />
+  <button type="button" class="button" [routerLink]="['/lien', contenant?.id, 'addlien']">nouvo Lien</button>
 
-<h3>LES CONTENANTS DU CONTENANT</h3>
+  <button type="button" class="button" [routerLink]="['/film', contenant?.id, 'addfilm']">nouvo Film</button>
 
-<div *ngFor="let contenant of contenant?.contenants">
-  <li>
-    <a class="con" [routerLink]="['/contenant', contenant.id, 'systeme']">{{ contenant.nom }}</a>
-  </li>
-</div>
+  <button type="button" class="button" [routerLink]="['/audio', contenant?.id, 'addaudio']">nouvo audio</button>
 
-<br /><br />
+  <button type="button" class="button" [routerLink]="['/album-photo', contenant?.id, 'addalbum']">nouvo album photo</button>
 
-<h2>JE CRAY UN TRUC</h2>
-
-<button type="button" class="button" [routerLink]="['/contenant', contenant?.id, 'add']">nouvo Contenant</button>
-
-<button type="button" class="button" [routerLink]="['/lien', contenant?.id, 'addlien']">nouvo Lien</button>
-
-<button type="button" class="button" [routerLink]="['/film', contenant?.id, 'addfilm']">nouvo Film</button>
-
-<button type="button" class="button" [routerLink]="['/audio', contenant?.id, 'addaudio']">nouvo audio</button>
-
-<button type="button" class="button" [routerLink]="['/album-photo', contenant?.id, 'addalbum']">nouvo album photo</button>
-
-<button type="button" class="button" [routerLink]="['/photo', contenant?.id, 'addphoto']">nouvelle photo</button>
+  <button type="button" class="button" [routerLink]="['/photo', contenant?.id, 'addphoto']">nouvelle photo</button>
+</body>

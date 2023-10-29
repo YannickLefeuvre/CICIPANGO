@@ -1,3 +1,9 @@
+.body {
+  background-color: #0c1109;
+  position: absolute;
+  left: 800px;
+}
+
 section {
   display: table;
 }
@@ -31,6 +37,96 @@ h5 {
 h6 {
   color: rgb(0, 255, 191);
   font-size: 35px;
+}
+
+.reveal-text {
+  position: absolute;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 1s;
+  color: white;
+  left: 60px;
+}
+
+.creerContenant {
+  position: absolute;
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  color: #e4a264;
+  z-index: 2;
+  background: #e4a264;
+  background-color: #e4a264;
+  cursor: pointer;
+}
+
+//.creerContenant:hover .reveal-text {
+//  width: 100%;
+//}
+
+.yoyo:hover .reveal-text {
+  width: 200px;
+}
+
+.creerAudio {
+  position: absolute;
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  color: #48ff70;
+  z-index: 2;
+}
+
+.dropbtn {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  background-color: #e4a264;
+  cursor: pointer;
+}
+/* Style du conteneur du menu déroulant */
+.dropdown {
+  bottom: 150px;
+  background-color: #e4a264;
+  left: -470px;
+  position: absolute;
+  display: inline-block;
+}
+
+/* Style du contenu du menu déroulant (caché par défaut) */
+.dropdown-content {
+  background-color: #e4a264;
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Style des liens du menu déroulant */
+.dropdown-content a {
+  background-color: #e4a264;
+  color: rgb(255, 255, 255);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change la couleur du lien lorsque vous survolez le menu */
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Affiche le menu déroulant lorsque le bouton est survolé */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .button {

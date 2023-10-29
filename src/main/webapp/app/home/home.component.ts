@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (pointCloudo != null) {
       pointCloudo.style.position = 'absolute';
       pointCloudo.style.top = '470px';
-      pointCloudo.style.left = '750px';
+      pointCloudo.style.left = '450px';
 
       //    pointCloudo.style.width = '30px';
       //    pointCloudo.style.height = '30px';
@@ -158,9 +158,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     let leleft = 0;
     if (totop > -150 && totop < 150) {
       if (choixIntervalle < 0.5) {
-        leleft = this.getRandomNumber(-800, -150);
+        leleft = this.getRandomNumber(-1200, -450);
       } else {
-        leleft = this.getRandomNumber(150, 800);
+        leleft = this.getRandomNumber(250, 500);
       }
     } else {
       leleft = this.getRandomNumber(-500, 500);
