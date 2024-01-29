@@ -10,9 +10,11 @@ import { ContenantCreationComponent } from './creation/creation.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconRegistry } from '@angular/material/icon';
+import { SystemeGestionComponent } from './systeme-gestion/systeme-gestion.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [SharedModule, ContenantRoutingModule, NgxDropzoneModule, MatIconModule],
+  imports: [SharedModule, ContenantRoutingModule, NgxDropzoneModule, MatIconModule, DragDropModule],
   declarations: [
     ContenantComponent,
     ContenantDetailComponent,
@@ -20,6 +22,7 @@ import { MatIconRegistry } from '@angular/material/icon';
     ContenantDeleteDialogComponent,
     SystemeComponent,
     ContenantCreationComponent,
+    SystemeGestionComponent,
   ],
   providers: [MatIconRegistry],
   entryComponents: [ContenantDeleteDialogComponent],

@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -255,6 +257,35 @@ public class ContenantResource {
      * @param id the id of the contenant to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the contenant, or with status {@code 404 (Not Found)}.
      */
+    @GetMapping("/contenantsnouveauxcontenus/{id}")
+    public List<Contenu> getNouveauxContenus(@PathVariable Long id) {
+        log.debug("REST request to get Contenant : {}", id);
+        Optional<Contenant> contenant = contenantRepository.findById(id);
+
+        List<Contenu> cn = new ArrayList<>();
+
+        cn = contenuRepository.findAll();
+
+        List<Contenu> cf = new ArrayList<>();
+        // RAJOUT YAYA
+        for (Contenu cu : cn) {
+            if (cu.getContenant() != null && cu.getContenant().getId() == id) {
+                cf.add(cu);
+            }
+        }
+
+        Collections.sort(cf, Comparator.comparing(Contenu::getDate_creation).reversed());
+        //        List<Contenu> latestContents = cn.subList(0, Math.min(cn.size(), 10));
+
+        return cf;
+    }
+
+    /**
+     * {@code GET  /contenants/:id} : get the "id" contenant.
+     *
+     * @param id the id of the contenant to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the contenant, or with status {@code 404 (Not Found)}.
+     */
     @GetMapping("/contenants/{id}")
     public ResponseEntity<Contenant> getContenant(@PathVariable Long id) {
         log.debug("REST request to get Contenant : {}", id);
@@ -265,7 +296,9 @@ public class ContenantResource {
         List<Contenant> cna = new ArrayList<>();
 
         cn = contenuRepository.findAll();
+        Collections.sort(cn, Comparator.comparing(Contenu::getDate_creation).reversed());
 
+        cn = cn.subList(0, 10);
         cl = lienripository.findAll();
         cna = contenantRepository.findAll();
         // RAJOUT YAYA

@@ -1,0 +1,201 @@
+<!-- 
+  CONTENU
+-->
+
+<form name="contenuForm" role="form" novalidate (ngSubmit)="saveContenu()" [formGroup]="contenuForm">
+  <div class="rectangleContenu">
+    <h2 class="titreContenu">Premier Contenu</h2>
+    <!-- 
+    <div class="barre3"></div>
+
+
+    <div *ngFor="let type of typeContenu">
+      <label class="checkbox">
+        <input
+          class="boutbout"
+          type="checkbox"
+          name="radioOption"
+          [checked]="radioOptionSelected === type"
+          (change)="radioOptionSelected = type"
+        />
+        {{ type }}
+      </label>
+    </div>
+
+    <br />
+
+    <label class="rectangleDescri">{{ optionChoisie() }}</label>
+
+    -->
+
+    <div class="nom">
+      <!--
+      <label class="lala">Nom</label><br />
+      -->
+      <input type="text" name="nom" id="field_nom" data-cy="nom" formControlName="nom" placeholder="Nom" class="inpuputcontenu" />
+    </div>
+    <br />
+
+    <div class="nom">
+      <!--
+      <label class="lala">Résumé</label><br />
+      -->
+      <div class="erreurTexte" *ngIf="countCharacterContenuDescri()">Le nombre maximal de caractère est dépassé (60 000)</div>
+      <textarea
+        type="text"
+        name="description"
+        id="field_description"
+        data-cy="description"
+        class="inpuputcontenudescri"
+        placeholder="Résumé"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <!-- 
+      TYPE SPECIFIQUE
+      -->
+
+    <div class="fichiersContenus">
+      <div *ngFor="let type of typeContenu">
+        <label class="checkbox">
+          <input class="boutbout" type="checkbox" name="radioOption" [checked]="radioOptionSelected === type" (change)="changetruc(type)" />
+          {{ type }}
+        </label>
+      </div>
+
+      <br />
+
+      <label class="rectangleDescri">{{ optionChoisie() }}</label>
+
+      <div [ngSwitch]="radioOptionSelected">
+        <ng-container *ngSwitchCase="'Audio'">
+          <label class="lolo">Audio</label><br />
+          <ngx-dropzone
+            class="zoneGlissay"
+            type="file"
+            id="file_fichier"
+            data-cy="fichier"
+            (change)="NgsetAudioFileData($event, 'fichier', contenuForm)"
+            accept="audio/*"
+          >
+            <ngx-dropzone-label *ngIf="contenuForm.get('fichierContentType')!.value != null" class="plus">
+              {{ contenuForm.get('fichierNom')!.value }}
+            </ngx-dropzone-label>
+          </ngx-dropzone>
+        </ng-container>
+        <ng-container *ngSwitchCase="'Image'">
+          <label class="lolo">Image</label><br />
+          <ngx-dropzone
+            class="zoneGlissay"
+            type="file"
+            id="file_fichier"
+            data-cy="fichier"
+            (change)="NgsetAudioFileData($event, 'fichier', contenuForm)"
+            accept="image/*"
+          >
+            <div *ngIf="contenuForm.get('fichierContentType')!.value != null">
+              <img
+                class="mamage"
+                [src]="'data:' + contenuForm.get('fichierContentType')!.value + ';base64,' + contenuForm.get('fichier')!.value"
+                *ngIf="contenuForm.get('fichierContentType')!.value"
+                alt="contenant image"
+              />
+            </div>
+          </ngx-dropzone>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Texte'">
+          <div class="erreurTexte" *ngIf="countCharacterContenuTexte()">Le nombre maximal de caractère est dépassé (60 000)</div>
+          <label class="lala">Texte</label><br />
+          <textarea
+            type="text"
+            name="texte"
+            id="field_texte"
+            data-cy="texte"
+            class="inpuputcontenudescri2"
+            placeholder="..."
+            formControlName="texte"
+          ></textarea>
+          <div *ngIf="contenuForm.get('texte')!.invalid && (contenuForm.get('texte')!.dirty || contenuForm.get('texte')!.touched)"></div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Album'">
+          <label class="lolo">Album</label><br />
+          <div class="erreurTexte" *ngIf="erreurFichiasse">Le nombre maximal de photos est dépassé (10)</div>
+          <ngx-dropzone
+            class="zoneGlissay"
+            type="file"
+            id="file_fichier"
+            data-cy="fichier"
+            (change)="setFilesData($event, 'fichier', true)"
+            accept="image/*"
+          >
+            <!--
+            <ngx-dropzone-label *ngIf="contenuForm.get('iconeContentType')!.value == null" class="plus">
+              <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
+            </ngx-dropzone-label>
+            -->
+
+            <div *ngFor="let fichiay of fichiasse">
+              <img
+                *ngIf="fichiasse[0].fichierContentType != null"
+                class="mamage"
+                [src]="'data:' + fichiay.fichierContentType + ';base64,' + fichiay.fichier"
+              />
+            </div>
+          </ngx-dropzone>
+        </ng-container>
+      </div>
+
+      <a *ngIf="contenuIsNotNull()" class="go" (click)="saveContenu()">GoW</a>
+    </div>
+
+    <!-- 
+      <label class="lolo">Icone</label><br />
+      <ngx-dropzone  class="zoneGlissay" accept="image/*" (change)="NgsetFileData($event, 'icone', true)"> 
+ 
+
+        <ngx-dropzone-label *ngIf="editForm.get('iconeContentType')!.value  == null" class="plus" >
+
+          <img src="src/main/webapp/content/symbos/upload.png" class="upload" />
+
+         </ngx-dropzone-label>
+
+
+           <div *ngIf="editForm.get('iconeContentType')!.value  != null">
+             <img 
+             class="mamage"
+             [src]="'data:' + editForm.get('iconeContentType')!.value + ';base64,' + editForm.get('icone')!.value"
+             *ngIf="editForm.get('icone')!.value"
+             alt="contenant image"
+           />
+           </div>
+       </ngx-dropzone>
+
+
+      
+      </div>
+
+      <div class="espace"></div>
+
+
+      formControlName="nom"
+          
+
+    <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+
+    <button
+      type="submit"
+      id="save-entity"
+      data-cy="entityCreateSaveButton"
+      [disabled]="editForm.invalid || isSaving"
+      class="btn btn-primary"
+    >
+      <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
+-->
+  </div>
+</form>

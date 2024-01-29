@@ -1,3 +1,7 @@
+$couleurCreer: rgb(172, 173, 63);
+$couleurCare: #70ad3f;
+$couleurContourCare: rgb(45, 70, 25);
+
 .body {
   background-color: #0c1109;
   position: absolute;
@@ -42,6 +46,7 @@ h6 {
 .reveal-text {
   position: absolute;
   width: 0;
+  z-index: 3;
   overflow: hidden;
   white-space: nowrap;
   transition: width 1s;
@@ -56,16 +61,22 @@ h6 {
   width: 50px;
   display: flex;
   justify-content: center;
-  color: #e4a264;
-  z-index: 2;
-  background: #e4a264;
-  background-color: #e4a264;
+  z-index: 7;
+  background-color: $couleurCreer;
+  background: radial-gradient(circle, $couleurCreer 30%, transparent 70%);
+  box-shadow: 0px 0px 15px rgb(255, 255, 255);
   cursor: pointer;
 }
 
 //.creerContenant:hover .reveal-text {
 //  width: 100%;
 //}
+
+.yoyo {
+  position: absolute;
+  top: 150px;
+  left: -125px;
+}
 
 .yoyo:hover .reveal-text {
   width: 200px;
@@ -305,4 +316,268 @@ a:hover span {
   margin-left: 32px;
   overflow: hidden;
   padding: 8px;
+}
+
+.concontenant {
+  position: relative;
+  top: -150px;
+  height: 100px;
+  width: 200px;
+  border: 2px solid #f5dc00; /* Définit une bordure de 2 pixels solide de couleur noire */
+  left: 50px; /* Centre le cadre horizontalement dans le conteneur parent */
+  top: -150px;
+  z-index: 0;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.audioboulasse {
+  position: absolute;
+  border-radius: 50%; /* Assurez-vous que le cercle est un cercle parfait */
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  color: #586fee;
+  z-index: 2;
+  background: #586fee;
+  background-color: #586fee;
+  cursor: pointer;
+}
+
+.vertical-line {
+  position: absolute;
+  width: 2px; /* Largeur de la ligne verticale */
+  height: 200px; /* Hauteur de la ligne verticale */
+  background-color: red; /* Couleur de la ligne */
+  z-index: 85;
+  left: 70%; /* Position horizontale de la ligne (au milieu du rectangle) */
+  top: 10px; /* Position verticale de la ligne (ajustez selon vos besoins) */
+  transform: translateX(-50%); /* Pour centrer la ligne horizontalement */
+}
+
+.text-container {
+  position: absolute;
+  border: 1px solid black;
+  top: 400px;
+  left: 200px;
+  color: #000;
+  clip-path: circle(0% at 50% 50%); /* Initial masquage complet */
+  transition: clip-path 0.3s ease-in-out;
+}
+
+.scrollable-text {
+  padding: 10px; /* Marge intérieure pour le texte */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ecf0f1; /* Background color */
+}
+
+.container {
+  position: relative;
+  width: 300px;
+  height: 200px;
+}
+
+.cadre,
+.cadre2 {
+  position: absolute;
+  top: 5%;
+  left: 18%;
+  height: 1500px;
+  width: 1200px;
+  border: 2px solid #e9e9e9; /* Définit une bordure de 2 pixels solide de couleur noire */
+  margin: -100px; /* Centre le cadre horizontalement dans le conteneur parent */
+  border-radius: 50px;
+  background-color: #c0c0c0;
+}
+
+.cadre00 {
+  position: absolute;
+  top: 100px;
+  left: -250px;
+  height: 80%;
+  right: -1200px;
+  border-radius: 50px;
+  background-color: #000; /* Couleur de rectangle A */
+  z-index: 1;
+  border: 2px solid $couleurContourCare;
+  background: radial-gradient(circle, $couleurCare 10%, black 70%);
+  box-shadow: 0px 0px 15px $couleurCare;
+}
+
+.cadre0 {
+  position: absolute;
+  top: 5%;
+  left: 18%;
+  height: 1500px;
+  width: 1200px;
+  border: 2px solid #e9e9e9; /* Définit une bordure de 2 pixels solide de couleur noire */
+  margin: -100px; /* Centre le cadre horizontalement dans le conteneur parent */
+  border-radius: 50px;
+  background-color: #0000ff; /* Couleur de rectangle A */
+  clip-path: circle(200px at 25% 25%);
+  z-index: 2;
+}
+
+.courcle {
+  position: relative;
+  background-color: crimson;
+  border: 2px solid #fff; /* Couleur de la bordure du cercle */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  // mix-blend-mode: multiply; /* Mélanger les couleurs pour montrer le rectangleA à travers le cercle */
+  z-index: 500;
+}
+
+.circle {
+  position: absolute;
+  background-color: #45bd4b;
+  border: 2px solid #9cf19c; /* Couleur de la bordure du cercle */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  box-shadow: 0px 0px 15px #45bd4b;
+  // mix-blend-mode: multiply; /* Mélanger les couleurs pour montrer le rectangleA à travers le cercle */
+  z-index: 5;
+}
+
+#cadre2:hover + #circle {
+  display: block;
+}
+
+#circle {
+  transform: translate(-50%, -50%);
+}
+
+.hublot {
+  position: relative;
+  width: 300px; /* Ajustez la largeur du hublot selon vos besoins */
+  height: 200px; /* Ajustez la hauteur du hublot selon vos besoins */
+  overflow: hidden;
+}
+
+.hublot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7); /* Couleur de fond du hublot avec opacité */
+  border: 1px solid #000; /* Optionnel : Ajoute une bordure au rectangle */
+  box-sizing: border-box;
+  pointer-events: none; /* Permet aux événements de passer à travers */
+}
+
+.mon-carre {
+  width: 200px;
+  height: 200px;
+  background-color: blue;
+  position: relative;
+}
+
+.mon-cercle {
+  width: 100px;
+  height: 100px;
+  background-color: transparents;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.imageContenu {
+  left: 300px;
+  right: 300px;
+  position: relative;
+}
+
+.imageContenu-container {
+  position: absolute;
+  top: 130px;
+  height: 120px;
+  left: 750px; /* ajustez la position en fonction de vos besoins */
+  border-radius: 50px;
+  background-color: $couleurCare; /* couleur de fond du cercle */
+  z-index: 5;
+  padding: 10px; /* ajustez la taille du cercle en fonction de vos besoins */
+  box-shadow: 0px 0px 15px $couleurCare;
+}
+
+.imageContenu-container img {
+  width: 400px; /* assurez-vous que l'image remplit le cercle */
+  height: 100px;
+  z-index: 4;
+  border-radius: 50px;
+
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+}
+
+.zoneTexte {
+  //  border: 1px solid #ffffff; /* Optionnel : Ajoute une bordure au rectangle */
+  position: absolute;
+  top: 720px; /* ajustez la position en fonction de vos besoins */
+  left: -200px; /* ajustez la position en fonction de vos besoins */
+  width: 1300px; /* assurez-vous que l'image remplit le cercle */
+  height: 100px;
+  color: white;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.light-plastic-button {
+  position: absolute;
+  //  top: 85px;
+  top: 70px;
+  left: -130px;
+
+  width: 50px;
+  height: 205px;
+
+  border: none;
+  z-index: 1;
+  background-color: #d63ab4; /* Couleur de fond sombre */
+  color: #fff; /* Couleur du texte en blanc */
+  padding: 10px 20px; /* Espacement intérieur du bouton */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en pointeur au survol */
+  //box-shadow: 0px 0px 15px #45bd4b; /* Ombre légère */
+}
+
+.dark-plastic-button {
+  position: absolute;
+  //  top: 85px;
+  top: 70px;
+  left: -200px;
+
+  width: 50px;
+  height: 205px;
+
+  border: none;
+  z-index: 1;
+  background-color: #d63ab4; /* Couleur de fond sombre */
+  color: #fff; /* Couleur du texte en blanc */
+  padding: 10px 20px; /* Espacement intérieur du bouton */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en pointeur au survol */
+  //box-shadow: 0px 0px 15px #45bd4b; /* Ombre légère */
+}
+
+.dark-plastic-button:hover {
+  background-color: #555; /* Couleur de fond légèrement plus sombre au survol */
+}
+
+.encadrerCreation {
+  background-color: #555; /* Couleur de fond légèrement plus sombre au survol */
 }

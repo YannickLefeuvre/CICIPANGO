@@ -185,7 +185,7 @@
     "@angular-eslint/bundled-angular-compiler" "13.2.0"
     "@typescript-eslint/experimental-utils" "5.17.0"
 
-"@angular/animations@13.3.1":
+"@angular/animations@^13.3.1":
   "integrity" "sha512-O6DVOk++Bz8Bcz2AAnd1wz1OFzsy3XjmA4o1Mx+DNLRwrLvWHuq33rTVs0Pur7psiKz1lym9kMrY9YwE3s0SJA=="
   "resolved" "https://registry.npmjs.org/@angular/animations/-/animations-13.3.1.tgz"
   "version" "13.3.1"

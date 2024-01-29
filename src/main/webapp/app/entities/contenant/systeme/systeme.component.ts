@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Renderer2, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { Contenant, IContenant } from '../contenant.model';
@@ -24,6 +24,8 @@ import { FilmContemplationComponent } from 'app/entities/film/film-contemplation
 import { ILien, Lien } from 'app/entities/lien/lien.model';
 import { LienService } from 'app/entities/lien/service/lien.service';
 import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { SystemeGestionComponent } from '../systeme-gestion/systeme-gestion.component';
 
 @Component({
   selector: 'jhi-systeme',
@@ -36,7 +38,68 @@ export class SystemeComponent implements OnInit {
   contenant: IContenant | null = null;
   isSaving = false;
   revealText = false;
+  rectangleWidth = 1500; // Largeur du rectangle
+  rectangleHeight = 1200; // Hauteur du rectangle
   @Input() monInput: any;
+  circleX = 0;
+  circleY = 0;
+  showCircle = false;
+  circleRadius = 150; // Rayon du cercle
+  numberOfCircles = 10;
+  isHovered = false;
+  textHovered = false;
+  cheminToff = '';
+  contenuTexte = '';
+  circles: { left: number; top: number }[] = [];
+  nouveauxContenus = true;
+  couleurBouton = '#afaeae';
+  hauteurBouton = 70;
+
+  cadreStyle = {
+    position: 'absolute',
+    top: '0px',
+    left: '0px',
+    height: '0px',
+    right: '10%',
+    border: '0px' /* Définit une bordure de 2 pixels solide de couleur noire */,
+    'border-radius': '0',
+    'background-color': 'black',
+    'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
+    'z-index': '2',
+  };
+
+  cadreOrga = {
+    position: 'absolute',
+    top: '0px',
+    left: '0px',
+    height: '0px',
+    right: '10%',
+    border: '0px' /* Définit une bordure de 2 pixels solide de couleur noire */,
+    'border-radius': '0',
+    'background-color': 'pink',
+    'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
+    'z-index': '2',
+  };
+
+  $couleurCadre1 = '#70ad3f';
+
+  bordureCadre = '2px solid ' + this.$couleurCadre1;
+  fondCadre = 'radial-gradient(circle, ' + this.$couleurCadre1 + ' 10%, black 70%)';
+  shadow = '0px 0px 15px ' + this.$couleurCadre1;
+
+  cadre00 = {
+    position: 'absolute',
+    top: '100px',
+    left: '-250px',
+    height: '80%',
+    right: '-1200px',
+    'border-radius': '50px',
+    'background-color': '#000',
+    'z-index': '1',
+    border: this.bordureCadre,
+    background: this.fondCadre,
+    'box-shadow': this.shadow,
+  };
 
   editForm = this.fb.group({
     id: [],
@@ -56,10 +119,10 @@ export class SystemeComponent implements OnInit {
     protected fb: FormBuilder,
     protected contenuService: ContenuService,
     protected lienService: LienService,
-    //    protected dialogref: MatDialog,
-    //    public dialog: MatDialog,
     protected albumPhotoService: AlbumPhotoService,
-    private modalService: NgbModal //    protected activeModal: NgbActiveModal,
+    private modalService: NgbModal, //    protected activeModal: NgbActiveModal,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
     //  activatedRoute.params.subscribe(val => {
     //    alert(val);
@@ -77,6 +140,17 @@ export class SystemeComponent implements OnInit {
     });
     this.loadLiens();
     this.loadToff();
+    for (let i = 0; i < this.numberOfCircles; i++) {
+      const circle = this.generateRandomCoordinates();
+      this.circles.push(circle);
+    }
+    if (this.contenant?.contenus != null) {
+      for (let i = 0; i < this.contenant.contenus.length; i++) {
+        const circle = this.generateRandomCoordinates();
+        this.contenant.contenus[i].absisce = circle.left;
+        this.contenant.contenus[i].ordonnee = circle.top;
+      }
+    }
   }
 
   ngOnChanges(): void {
@@ -184,6 +258,39 @@ export class SystemeComponent implements OnInit {
     window.history.back();
   }
 
+  onTexteMouseEnter(texte: string): void {
+    this.textHovered = true;
+    this.setleTexte(texte);
+  }
+
+  onTextMouseLeave(): void {
+    this.textHovered = false;
+    this.resetleTexte();
+  }
+
+  onPhotoMouseEnter(photo: Photo): void {
+    this.isHovered = true;
+    this.setleCheminPhoto(photo);
+    this.onTexteMouseEnter(photo.description ?? '');
+  }
+
+  onPhotoMouseLeave(): void {
+    this.isHovered = false;
+    this.resetleChemin();
+    this.resetleTexte();
+  }
+  onImageMouseEnter(album: AlbumPhoto): void {
+    this.isHovered = true;
+    this.setleChemin(album);
+    this.onTexteMouseEnter(album.description ?? '');
+  }
+
+  onImageMouseLeave(): void {
+    this.isHovered = false;
+    this.resetleChemin();
+    this.resetleTexte();
+  }
+
   //  openDialog(): any {
   //   alert(" HOOOOO ");
   //   const dialogRef =
@@ -191,6 +298,14 @@ export class SystemeComponent implements OnInit {
   //  centered: true,
   //  size:""
   // });}
+
+  openGestionComponentDialog(): any {
+    const modalRef = this.modalService.open(SystemeGestionComponent, {
+      centered: true,
+      //  size:""
+    });
+    modalRef.componentInstance.contenant = this.contenant;
+  }
 
   openAudioDialog(audi: Audio): any {
     const modalRef = this.modalService.open(AudioContemplationComponent, {
@@ -265,12 +380,140 @@ export class SystemeComponent implements OnInit {
     return 'null';
   }
 
+  setleTexte(texte: string): void {
+    this.contenuTexte = texte;
+  }
+
+  resetleTexte(): void {
+    this.contenuTexte = '';
+  }
+
+  setleCheminPhoto(photo: Photo): void {
+    this.cheminToff = this.cheminPhoto(photo);
+  }
+
+  setleChemin(album: AlbumPhoto): void {
+    this.cheminToff = this.cheminAlbum(album);
+  }
+
+  resetleChemin(): void {
+    this.cheminToff = '';
+  }
+
   openFilmDialog(film: Film): any {
     const modalRef = this.modalService.open(FilmContemplationComponent, {
       centered: true,
       //  size:""
     });
     modalRef.componentInstance.film = film;
+  }
+
+  generateRandomCoordinates(): { left: number; top: number } {
+    const diameter = 20; // Diameter of the circle
+    const maxX = 1200; // Maximum X coordinate to prevent circles from overflowing the container
+    const maxY = 700; // Maximum Y coordinate to prevent circles from overflowing the container
+
+    const left = Math.floor(Math.random() * (maxX - diameter));
+    const top = Math.floor(Math.random() * (maxY - diameter));
+
+    return { left, top };
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    // Mettez à jour les coordonnées du cercle pour suivre le curseur
+    this.circleX = event.clientX - this.el.nativeElement.getBoundingClientRect().left - this.circleRadius + 250;
+    this.circleY = event.clientY - this.el.nativeElement.getBoundingClientRect().top - this.circleRadius - 100;
+
+    this.cadreStyle = {
+      position: 'absolute',
+      top: '100px',
+      left: '-250px',
+      height: '80%',
+      right: '-1200px',
+      border: '2px solid #e9e9e9' /* Définit une bordure de 2 pixels solide de couleur noire */,
+      'border-radius': '50px',
+      'background-color': 'transparent',
+      'clip-path':
+        'circle(' +
+        this.circleRadius.toString() +
+        'px at ' +
+        (this.circleX + this.circleRadius).toString() +
+        'px ' +
+        (this.circleY + this.circleRadius).toString() +
+        'px)',
+      'z-index': '2',
+    };
+
+    this.cadreOrga = {
+      position: 'absolute',
+      top: '100px',
+      left: '-250px',
+      height: '80%',
+      right: '-1200px',
+      border: '2px solid #d63ab4' /* Définit une bordure de 2 pixels solide de couleur noire */,
+      'border-radius': '50px',
+      'background-color': 'transparent',
+      'clip-path':
+        'circle(' +
+        this.circleRadius.toString() +
+        'px at ' +
+        (this.circleX + this.circleRadius).toString() +
+        'px ' +
+        (this.circleY + this.circleRadius).toString() +
+        'px)',
+      'z-index': '2',
+    };
+  }
+
+  isPointInsideCircle(x: number, y: number): boolean {
+    const distance = Math.sqrt((x - this.circleRadius) ** 2 + (y - this.circleRadius) ** 2);
+    return distance <= this.circleRadius;
+  }
+
+  onMouseOver(): void {
+    this.showCircle = true;
+  }
+
+  onMouseLeave(): void {
+    this.showCircle = false;
+  }
+
+  switchCadre(): void {
+    this.nouveauxContenus = !this.nouveauxContenus;
+    if (this.nouveauxContenus) {
+      this.couleurBouton = '#afaeae';
+      this.hauteurBouton = 70;
+      this.$couleurCadre1 = '#70ad3f';
+      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
+      this.fondCadre = 'radial-gradient(circle, ' + this.$couleurCadre1 + ' 10%, black 70%)';
+      this.shadow = '0px 0px 15px ' + this.$couleurCadre1;
+    } else {
+      this.couleurBouton = '#e23535';
+      this.hauteurBouton = 85;
+      this.$couleurCadre1 = 'blue';
+      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
+      this.fondCadre = 'radial-gradient(circle, black 65%, ' + this.$couleurCadre1 + '  90%)';
+      this.shadow = '0px 0px 80px ' + this.$couleurCadre1;
+    }
+    this.updatecadre();
+  }
+
+  //YAYAYA
+  updatecadre(): void {
+    this.cadre00 = {
+      position: 'absolute',
+      top: '100px',
+      left: '-250px',
+      height: '80%',
+      right: '-1200px',
+      'border-radius': '50px',
+      'background-color': '#000',
+      'z-index': '1',
+      border: this.bordureCadre,
+      background: this.fondCadre,
+      'box-shadow': this.shadow,
+    };
   }
 
   protected createFromForm(): IContenu {

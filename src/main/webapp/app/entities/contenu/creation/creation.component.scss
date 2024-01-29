@@ -1,0 +1,440 @@
+$form-bg: #d8c689;
+$site-bg: #ffffff;
+//$form-shadow: #ffa580;
+$form-shadow: #ff8a5c;
+$form-primary-highlight: #95a4ff;
+$form-secondary-highlight: #ffc8ff;
+$font-size: 14pt;
+$font-size-nom: 24pt;
+$font-face: 'Fjalla One';
+$font-color: #2a293e;
+$couleurDetails: #000000;
+$couleurFrom: #2a293e;
+$couleurUpload: #2a293e;
+$taille: 100px;
+$taillepetit: 75px;
+
+.titre {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+  top: 40px;
+  left: 300px;
+  width: 1400px;
+}
+
+.titrass {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: relative;
+  top: 15px;
+  left: 80px;
+  width: 1400px;
+}
+
+label.lala {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+label.lolo {
+  color: $couleurDetails;
+  position: absolute;
+  left: 0px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.rectangle {
+  height: 700px;
+  width: 1200px;
+  background-color: $form-bg;
+  position: absolute;
+  top: 100px;
+  left: 300px;
+  color: azure;
+  border-radius: 10px;
+  //  border: 5px solid rgb(0, 0, 0);
+}
+
+.nom {
+  position: relative;
+  top: 40px;
+  left: 80px;
+  width: 400px;
+}
+
+.puputnom {
+  //  top: 50px;
+  border-radius: 10px;
+  //   background-color: #a8a8a8;
+  //   color: azure;
+}
+
+.puputdesri {
+  position: relative;
+  //  top: 50px;
+  left: 50px;
+  height: 200px;
+  width: 600px;
+  border-radius: 10px;
+
+  //   background-color: #a8a8a8;
+  //   color: azure;
+}
+
+#div1 {
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+}
+
+.zoneGlissay {
+  width: 500px;
+  height: 250px;
+  top: 20px;
+  position: relative;
+  text-align: center;
+  background-color: #d8c689;
+  border: 3px dashed #000000;
+  //  border: 1px solid #aaaaaa;
+}
+
+.zoneGlissay:hover {
+  .upload {
+    width: auto;
+    height: $taillepetit;
+  }
+
+  border: 3px dashed $form-shadow;
+}
+
+.inpuput {
+  display: block;
+  width: 100%;
+  font-size: $font-size-nom;
+  line-height: $font-size-nom * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size-nom * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  min-width: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputdescri {
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  min-width: 250px;
+  min-height: 380px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputdescri:focus {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.inpuputdescri:hover {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.inpuputdescri:placeholder-shown {
+  font-size: $font-size-nom;
+}
+
+input:focus {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.inpuput:hover {
+  border-bottom: 5px solid $form-shadow;
+}
+
+.barre {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 520px;
+  width: 5px;
+  //  border: 3px solid rgb(0, 0, 0);
+  border-left: 3px dashed #000000;
+  //  background-color: #000000; /* couleur de fond de la barre */
+}
+
+.images {
+  position: absolute;
+  top: 10px;
+  left: 600px;
+  width: 400px;
+  text-align: center;
+}
+
+.mamage {
+  width: auto; /* La largeur maximale est définie à 100% de la largeur de son conteneur */
+  height: 200px; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
+  left: 100px;
+  position: relative;
+
+  border-radius: 10px;
+}
+
+.barre2 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 1200px;
+  width: 5px;
+  background-color: #000000; /* couleur de fond de la barre */
+}
+
+.barre3 {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 620px;
+  width: 5px;
+  background-color: #000000; /* couleur de fond de la barre */
+}
+
+.plus {
+  color: #000000;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.upload {
+  width: auto;
+  height: $taille;
+}
+
+.next {
+  position: absolute;
+  left: 1200px;
+  height: 100px;
+  top: 590px;
+  width: auto;
+}
+
+.next:hover {
+  top: 590px;
+  height: 90px;
+  width: auto;
+}
+
+// PREMIER CONTENU
+
+.titreContenu {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: relative;
+  top: 40px;
+  left: 80px;
+  width: 1600px;
+}
+
+.rectangleContenu {
+  height: 700px;
+  width: 1300px;
+  background-color: $form-bg;
+  position: fixed;
+  top: 100px;
+  left: 300px;
+  color: azure;
+  border-radius: 10px;
+  //  border: 5px solid rgb(0, 0, 0);
+}
+
+.rectangleDescri {
+  position: absolute;
+  left: 200px;
+  top: 20px;
+  height: 200px;
+  width: 400px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #000000;
+}
+
+.boutbout {
+  left: 0px;
+  height: 20px;
+  width: 20px;
+}
+
+.checkbox {
+  color: #000000;
+  position: relative;
+  top: 20px;
+  left: 0px;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  //  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.inpuputcontenu {
+  top: 60px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: $font-size-nom;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 50px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenu:placeholder-shown {
+  font-size: $font-size-nom;
+}
+
+.inpuputcontenudescri {
+  top: 60px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 360px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenudescri2 {
+  top: 60px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  line-height: $font-size * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  width: 550px;
+  height: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.inpuputcontenudescri:placeholder-shown {
+  font-size: $font-size-nom;
+}
+
+.fichiersContenus {
+  position: absolute;
+  top: 10px;
+  left: 700px;
+  width: 460px;
+}
+
+.erreuro {
+  position: absolute;
+  left: -50px;
+}
+
+.espace {
+  position: absolute;
+  left: 100px;
+  width: 1300px;
+  border: 5px solid rgb(255, 255, 255);
+}
+
+h1.lolo {
+  color: $couleurDetails;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  text-decoration: none;
+  top: 10px;
+  font-size: 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.go {
+  font-size: 40px;
+  top: 590px;
+  position: absolute;
+  text-decoration: none;
+  right: -20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: $couleurDetails;
+}
+
+.go:hover {
+  color: $form-shadow;
+}
+
+.conteneur {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.contenuti {
+  position: fixed;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  height: 100vw;
+
+  transition: transform 1s ease;
+  overflow-x: scroll;
+}
+
+.deplace-gauche {
+  transform: translateX(-100px);
+}
+
+.erreurTexte {
+  position: relative;
+  top: 5px;
+  color: red;
+}

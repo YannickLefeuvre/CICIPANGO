@@ -5,34 +5,116 @@
 <mat-dialog-content class="mat-typography">vfcdxsz </mat-dialog-content>
 -->
 <body>
-  <div class="yoyo">
-    <div class="creerContenant" [style.top.px]="50" [style.right.px]="-100" [routerLink]="['/contenant', contenant?.id, 'add']">
+  <button
+    class="dark-plastic-button"
+    [style.backgroundColor]="couleurBouton"
+    [style.top.px]="hauteurBouton"
+    (click)="switchCadre()"
+  ></button>
+  <button class="light-plastic-button" (click)="openGestionComponentDialog()"></button>
+  <div *ngIf="isHovered" class="imageContenu-container">
+    <img src="{{ cheminToff }}" />
+  </div>
+  <div *ngIf="textHovered" class="zoneTexte">{{ contenuTexte }}</div>
+
+  <div *ngIf="nouveauxContenus" class="yoyo">
+    <div class="creerContenant" [style.top.px]="0" [style.left.px]="-75" [routerLink]="['/contenant', contenant?.id, 'add']">
       <div class="reveal-text" [class.revealed]="revealText">Créer un Contenant</div>
     </div>
-    <div class="creerContenant" [style.top.px]="300" [style.right.px]="-260" [routerLink]="['/audio', contenant?.id, 'addaudio']">
-      <div class="reveal-text" [class.revealed]="revealText">Créer un Contenu</div>
+    <div class="creerContenant" [style.top.px]="100" [style.left.px]="-75" [routerLink]="['/contenu', contenant?.id, 'newcon']">
+      <div class="reveal-text" [class.revesaled]="revealText">Créer un Contenu</div>
     </div>
-    <div class="creerContenant" [style.top.px]="650" [style.right.px]="-150" [routerLink]="['/lien', contenant?.id, 'addlien']">
+    <div class="creerContenant" [style.top.px]="200" [style.left.px]="-75" [routerLink]="['/lien', contenant?.id, 'addlien']">
       <div class="reveal-text" [class.revealed]="revealText">Créer un Lien</div>
     </div>
   </div>
 
-  <h1>{{ nomContenant() }} HOULOUA HOULA {{ proprioContenant() }}</h1>
-  <br /><br />
-  <h6>Contenant Du Contenant</h6>
-  <a class="con" [routerLink]="['/contenant', idContenantDuContenant(), 'systeme']">{{ nomContenantDuContenant() }}</a>
-  <br /><br />
+  <div [ngStyle]="cadre00"></div>
+  <div [ngStyle]="cadreStyle" *ngIf="nouveauxContenus">
+    <div *ngFor="let contenu of contenant?.contenus">
+      <div *ngIf="contenu.type == 'ALBUMPHOTO'">
+        <a>
+          <div
+            (mouseenter)="onImageMouseEnter(contenu)"
+            (mouseleave)="onImageMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openAlbumPhotoDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+
+      <div *ngIf="contenu.type == 'AUDIO'">
+        <a>
+          <div
+            (mouseenter)="onTexteMouseEnter(contenu.description ?? '')"
+            (mouseleave)="onTextMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openAudioDialog(contenu)"
+          ></div>
+        </a>
+      </div>
+
+      <div *ngIf="contenu.type == 'PHOTO'">
+        <a>
+          <div
+            (mouseenter)="onPhotoMouseEnter(contenu)"
+            (mouseleave)="onPhotoMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openPhotoDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+
+      <div *ngIf="contenu.type == 'FILM'">
+        <a>
+          <div
+            (mouseenter)="onTexteMouseEnter(contenu.description ?? '')"
+            (mouseleave)="onTextMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openFilmDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+    </div>
+  </div>
+
+  <div [ngStyle]="cadreOrga" *ngIf="!nouveauxContenus"></div>
+  <!-- Contenant du contenant 
+    <div class="concontenant" [routerLink]="['/contenant', idContenantDuContenant(), 'systeme']"></div>
+
+  <div class="yoyo">
+    <div class="creerContenant" [style.top.px]="200" [style.left.px]="-350" [routerLink]="['/contenant', contenant?.id, 'add']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Contenant</div>
+    </div>
+    <div class="creerContenant" [style.top.px]="400" [style.left.px]="-350" [routerLink]="['/audio', contenant?.id, 'addaudio']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Contenu</div>
+    </div>
+    <div class="creerContenant" [style.top.px]="600" [style.left.px]="-350" [routerLink]="['/lien', contenant?.id, 'addlien']">
+      <div class="reveal-text" [class.revealed]="revealText">Créer un Lien</div>
+    </div>
+  </div>
+
 
   <h4>LES CONTENUS DU CONTENANT</h4>
 
   <div *ngFor="let contenu of contenant?.contenus">
     <div *ngIf="contenu.type == 'AUDIO'">
-      <a class="aud" (click)="openAudioDialog(contenu)"
-        >{{ contenu.nom }}
+      <a>
+      <div class="audioboulasse" [style.top.px]="220" [style.right.px]="400"  (click)="openAudioDialog(contenu)">
         <span>
           {{ contenu.description }}
         </span>
-      </a>
+
+    </div>
+    </a>
       <div>{{ contenu.date_creation }}</div>
     </div>
 
@@ -102,4 +184,5 @@
   <button type="button" class="button" [routerLink]="['/album-photo', contenant?.id, 'addalbum']">nouvo album photo</button>
 
   <button type="button" class="button" [routerLink]="['/photo', contenant?.id, 'addphoto']">nouvelle photo</button>
-</body>
+</div>
+--></body>
