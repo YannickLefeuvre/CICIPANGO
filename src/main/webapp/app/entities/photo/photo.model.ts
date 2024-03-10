@@ -19,6 +19,7 @@ export interface IPhoto {
   nbSecret?: number | null;
   ext?: string | null;
   createur?: Account | null;
+  isAvant?: boolean | null;
 }
 
 export class Photo extends Contenu implements IPhoto {
@@ -38,9 +39,10 @@ export class Photo extends Contenu implements IPhoto {
     public type?: string | null,
     public nbSecret?: number | null,
     public ext?: string | null,
-    public createur?: Account | null
+    public createur?: Account | null,
+    public isAvant?: boolean | null
   ) {
-    super(id, nom);
+    super(id, nom, description, isAvant);
   }
 }
 

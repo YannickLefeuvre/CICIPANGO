@@ -22,6 +22,7 @@ export interface IAlbumPhoto {
   ext?: string | null;
   createur?: Account | null;
   cheminsPhotos?: string[] | null;
+  isAvant?: boolean | null;
 }
 
 export class AlbumPhoto extends Contenu implements IAlbumPhoto {
@@ -43,7 +44,8 @@ export class AlbumPhoto extends Contenu implements IAlbumPhoto {
     public nbSecret?: number | null,
     public ext?: string | null,
     public createur?: Account | null,
-    public cheminsPhotos?: string[] | null
+    public cheminsPhotos?: string[] | null,
+    public isAvant?: boolean | null
   ) {
     super(id, nom);
   }

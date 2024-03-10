@@ -59,6 +59,9 @@ public class Contenant implements Serializable {
     @Column(name = "vues")
     private Integer vues;
 
+    @Column(name = "isavant")
+    private Boolean isAvant;
+
     @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "villeOrigine", "villeCible", "contenant" }, allowSetters = true)
@@ -400,6 +403,14 @@ public class Contenant implements Serializable {
         return id != null && id.equals(((Contenant) o).id);
     }
 
+    public Boolean getIsAvant() {
+        return isAvant;
+    }
+
+    public void setIsAvant(Boolean isAvant) {
+        this.isAvant = isAvant;
+    }
+
     @Override
     public int hashCode() {
         // see
@@ -407,12 +418,13 @@ public class Contenant implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
+    // prettier-ignores
 	@Override
 	public String toString() {
 		return "Contenant{" + "id=" + getId() + ", nom='" + getNom() + "'" + ", isCapital='" + getIsCapital() + "'"
 				+ ", icone='" + getIcone() + ", description='" + getDescription() + "'" + ", iconeContentType='" + getIconeContentType() + "'" + ", absisce="
 				+ getAbsisce() + ", ordonnee=" + getOrdonnee() + ", arriereplan='" + getArriereplan() + "'"
-				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" + ", vues='" + getVues() + "'" + "}";
+				+ ", arriereplanContentType='" + getArriereplanContentType() + "'" + ", vues='"+ 
+	            ", isavant='" + getIsAvant() + "'" + getVues() + "'" + "}";
 	}
 }

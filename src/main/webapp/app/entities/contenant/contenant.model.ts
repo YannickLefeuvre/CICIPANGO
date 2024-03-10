@@ -22,6 +22,7 @@ export interface IContenant {
   contenant?: IContenant | null;
   vues?: number | null;
   proprietaire?: Account | null;
+  isAvant?: boolean | null;
 }
 
 export class Contenant implements IContenant {
@@ -43,7 +44,8 @@ export class Contenant implements IContenant {
     public lienCible?: ILien | null,
     public contenant?: IContenant | null,
     public vues?: number | null,
-    public proprietaire?: Account | null
+    public proprietaire?: Account | null,
+    public isAvant?: boolean | null
   ) {
     this.isCapital = this.isCapital ?? false;
   }

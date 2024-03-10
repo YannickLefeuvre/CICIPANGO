@@ -122,7 +122,8 @@ public class AudioResource {
         if (!audioRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        Date date = new Date();
+        audio.setDate_creation(date);
         Audio result = audioRepository.save(audio);
         return ResponseEntity
             .ok()

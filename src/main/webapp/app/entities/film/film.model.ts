@@ -5,6 +5,7 @@ import { IContenant } from 'app/entities/contenant/contenant.model';
 export interface IFilm {
   id?: number;
   nom?: string;
+  isAvant?: boolean | null;
   imagesContentType?: string | null;
   images?: string | null;
   description?: string | null;
@@ -24,6 +25,7 @@ export class Film extends Contenu implements IFilm {
   constructor(
     public id?: number,
     public nom?: string,
+    public isAvant?: boolean | null,
     public imagesContentType?: string | null,
     public images?: string | null,
     public description?: string | null,
@@ -38,7 +40,7 @@ export class Film extends Contenu implements IFilm {
     public texte?: string | null,
     public createur?: Account | null
   ) {
-    super(id, nom, description);
+    super(id, nom, description, isAvant);
   }
 }
 

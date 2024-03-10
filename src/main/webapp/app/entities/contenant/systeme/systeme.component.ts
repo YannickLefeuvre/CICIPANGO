@@ -26,6 +26,7 @@ import { LienService } from 'app/entities/lien/service/lien.service';
 import { AlbumPhotoService } from 'app/entities/album-photo/service/album-photo.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SystemeGestionComponent } from '../systeme-gestion/systeme-gestion.component';
+import { Point } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'jhi-systeme',
@@ -54,6 +55,18 @@ export class SystemeComponent implements OnInit {
   nouveauxContenus = true;
   couleurBouton = '#afaeae';
   hauteurBouton = 70;
+  listeBleu: IContenu[] = [];
+  listeOrange: IContenu[] = [];
+  listeX: number[] = [];
+  listeY: number[] = [];
+  listePosi: number[] = [];
+  //   175;300   175;600    175;900
+  //   350;300   350;600    350;900
+  //   525;300   525;600    525;900
+
+  listePointX = ['175,60', '662,60', '1150,60', '175,330', '662,330', '1150,330', '175,600', '662,600', '1150,600'];
+  listePosi2 = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  // listePointY=[300,600,900]
 
   cadreStyle = {
     position: 'absolute',
@@ -77,7 +90,7 @@ export class SystemeComponent implements OnInit {
     border: '0px' /* Définit une bordure de 2 pixels solide de couleur noire */,
     'border-radius': '0',
     'background-color': 'pink',
-    'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
+    //   'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
     'z-index': '2',
   };
 
@@ -145,10 +158,24 @@ export class SystemeComponent implements OnInit {
       this.circles.push(circle);
     }
     if (this.contenant?.contenus != null) {
+      let nbAvant = 0;
+      //      let nbArierre=0;
       for (let i = 0; i < this.contenant.contenus.length; i++) {
-        const circle = this.generateRandomCoordinates();
-        this.contenant.contenus[i].absisce = circle.left;
-        this.contenant.contenus[i].ordonnee = circle.top;
+        if (this.contenant.contenus[i].isAvant) {
+          const posi = this.listePosi2[Math.floor(Math.random() * this.listePosi2.length)];
+          this.contenant.contenus[i].absisce = parseInt(this.listePointX[posi].split(',')[0], 10);
+          this.contenant.contenus[i].ordonnee = parseInt(this.listePointX[posi].split(',')[1], 10);
+          this.listePosi.push(posi);
+          this.listeBleu.push(this.contenant.contenus[i]);
+          this.listePosi2.splice(posi, 1);
+          nbAvant++;
+        } else {
+          const circle = this.generateRandomCoordinates();
+          this.contenant.contenus[i].absisce = circle.left;
+          this.contenant.contenus[i].ordonnee = circle.top;
+          this.listeOrange.push(this.contenant.contenus[i]);
+          //        nbArierre++;
+        }
       }
     }
   }
@@ -417,6 +444,10 @@ export class SystemeComponent implements OnInit {
     const top = Math.floor(Math.random() * (maxY - diameter));
 
     return { left, top };
+
+    //   175;300   175;600    175;900
+    //   350;300   350;600    350;900
+    //   525;300   525;600    525;900
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -454,14 +485,14 @@ export class SystemeComponent implements OnInit {
       border: '2px solid #d63ab4' /* Définit une bordure de 2 pixels solide de couleur noire */,
       'border-radius': '50px',
       'background-color': 'transparent',
-      'clip-path':
-        'circle(' +
-        this.circleRadius.toString() +
-        'px at ' +
-        (this.circleX + this.circleRadius).toString() +
-        'px ' +
-        (this.circleY + this.circleRadius).toString() +
-        'px)',
+      //      'clip-path':
+      //        'circle(' +
+      //        this.circleRadius.toString() +
+      //        'px at ' +
+      //        (this.circleX + this.circleRadius).toString() +
+      //        'px ' +
+      //        (this.circleY + this.circleRadius).toString() +
+      //        'px)',
       'z-index': '2',
     };
   }

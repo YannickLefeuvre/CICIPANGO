@@ -32,6 +32,10 @@
       "fieldName": "arriereplan",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "isAvant",
+      "fieldType": "Boolean"
     }
   ],
   "fluentMethods": true,

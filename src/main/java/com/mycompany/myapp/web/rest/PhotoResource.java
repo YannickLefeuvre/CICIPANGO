@@ -125,7 +125,8 @@ public class PhotoResource {
         if (!photoRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        Date date = new Date();
+        photo.setDate_creation(date);
         Photo result = photoRepository.save(photo);
         return ResponseEntity
             .ok()

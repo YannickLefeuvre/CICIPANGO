@@ -40,6 +40,10 @@ export class AlbumPhotoService {
     return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiay, { observe: 'response' });
   }
 
+  majAlbum(album: AlbumPhoto, contenant: Contenant, account: Account): void {
+    this.subscribeToSaveRespuse(this.update(this.createFroum(album, contenant, account)));
+  }
+
   partialUpdate(albumPhoto: IAlbumPhoto): Observable<EntityResponseType> {
     return this.http.patch<IAlbumPhoto>(`${this.resourceUrl}/${getAlbumPhotoIdentifier(albumPhoto) as number}`, albumPhoto, {
       observe: 'response',
@@ -159,6 +163,12 @@ export class AlbumPhotoService {
     return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiasse[index], { observe: 'response' });
   }
 
+  protected subscribeToSaveRespuse(result: Observable<HttpResponse<IAlbumPhoto>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
+  }
+
   protected subscribeMieux(result: Observable<HttpResponse<IFichiay>>, fichiasse: Fichiay[], id: number, index: number): any {
     result.pipe().subscribe({
       next: (res: HttpResponse<IFichiay>) => this.uploadNext(fichiasse, id, index),
@@ -209,6 +219,21 @@ export class AlbumPhotoService {
       type: 'ALBUMPHOTO',
       nbPhotos: fichiasse.length,
       createur: account,
+      isAvant: false,
+    };
+  }
+
+  protected createFroum(album: AlbumPhoto, contenanto: Contenant, account: Account): IAlbumPhoto {
+    return {
+      ...new AlbumPhoto(),
+      id: album.id,
+      nom: album.nom,
+      description: album.description,
+      type: 'ALBUMPHOTO',
+      nbPhotos: album.nbPhotos,
+      createur: account,
+      contenant: contenanto,
+      isAvant: album.isAvant,
     };
   }
 }

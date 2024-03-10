@@ -108,7 +108,8 @@ public class AlbumPhotoResource {
         if (!albumPhotoRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        Date date = new Date();
+        albumPhoto.setDate_creation(date);
         AlbumPhoto result = albumPhotoRepository.save(albumPhoto);
         return ResponseEntity
             .ok()

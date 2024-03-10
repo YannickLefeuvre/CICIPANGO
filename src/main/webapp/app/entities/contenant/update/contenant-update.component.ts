@@ -556,9 +556,11 @@ export class ContenantUpdateComponent implements OnInit {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
+      description: this.editForm.get(['description'])!.value,
       iconeContentType: this.editForm.get(['fichiericoneExt'])!.value,
       arriereplanContentType: this.editForm.get(['fichierarriereplanExt'])!.value,
       proprietaire: this.account,
+      isAvant: false,
     };
   }
 }

@@ -15,7 +15,8 @@ application {
 
 entity Film {
     images ImageBlob,
-    description String 
+    description String,
+    isAvant Boolean
 }
 
 
@@ -36,20 +37,24 @@ entity Livre {
 
 entity AlbumPhoto {
     images ImageBlob,
-    description String 
+    description String,
+    isAvant Boolean
 }
 
 entity Photo {
     images ImageBlob,
-    description String 
+    description String,
+    isAvant Boolean
 }
 
 entity Video {
-    url String
+    url String,
+    isAvant Boolean
 }
 
 entity Audio {
-    url String
+    url String,
+    isAvant Boolean
 }
 
 entity Contenant {
@@ -58,7 +63,8 @@ entity Contenant {
     icone ImageBlob,
     absisce Integer,
     ordonnee Integer,
-    arriereplan ImageBlob
+    arriereplan ImageBlob,
+    isAvant Boolean
 }
 
 entity Contenu {
@@ -67,6 +73,7 @@ entity Contenu {
     absisce Integer,
     ordonnee Integer,
     arriereplan ImageBlob,
+    isAvant Boolean
 }
 
 entity Lien {

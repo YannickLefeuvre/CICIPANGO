@@ -68,7 +68,8 @@ public class ContenantResource {
      */
     @PostMapping("/contenants")
     public ResponseEntity<Contenant> createContenant(@Valid @RequestBody Contenant contenant) throws URISyntaxException {
-        log.debug("REST request to save Contenant : {}", contenant);
+        log.debug("REST request HEHEHEHE", contenant.getIsAvant());
+        log.debug("REST request HEHEHEHE", contenant.getDescription());
         if (contenant.getId() != null) {
             throw new BadRequestAlertException("A new contenant cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -311,7 +312,6 @@ public class ContenantResource {
         // RAJOUT YAYA
         for (Lien cu : cl) {
             if (cu.getContenant() != null && cu.getContenant().getId() == id && cu.getVilleOrigine().getId() == id) {
-                log.debug("YAYAAAAAAAAA  + ", cu.getVilleOrigine().getId().toString() + " + LALA +  ");
                 contenant.get().addLiens(cu);
             }
         }

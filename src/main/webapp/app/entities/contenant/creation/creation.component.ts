@@ -158,7 +158,6 @@ export class ContenantCreationComponent implements OnInit {
   }
 
   protected createFromForm(): IContenant {
-    alert(this.account?.firstName);
     return {
       ...new Contenant(),
       id: this.editForm.get(['id'])!.value,
@@ -173,6 +172,7 @@ export class ContenantCreationComponent implements OnInit {
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.contenanto,
       proprietaire: this.account,
+      isAvant: false,
       //      contenus: this.editForm.get(['contenus'])!.value,
     };
   }

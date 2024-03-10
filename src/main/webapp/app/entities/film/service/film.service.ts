@@ -66,14 +66,22 @@ export class FilmService {
     window.history.back();
   }
 
+  majTexte(film: Film, contenant: Contenant, account: Account): void {
+    this.subscribeToSaveRespuse(this.update(this.createFroum(film, contenant, account)));
+  }
+
   saveTexte(contenantu: Contenant, contenuForm: FormGroup, account: Account | null): void {
     if (account == null) {
       return;
     }
     const film = this.createFromForm(contenuForm, contenantu, account);
-    //   alert("yahou");
-    //   alert(film.nom);
     this.subscribeToSaveResponse(this.create(film));
+  }
+
+  protected subscroubeToSaveResponse(result: Observable<HttpResponse<IFilm>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFilm>>): void {
@@ -83,12 +91,22 @@ export class FilmService {
     });
   }
 
+  protected subscribeToSaveRespuse(result: Observable<HttpResponse<IFilm>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccuss(): void {
+    this.previousState();
+  }
+
   protected onSaveSuccess(): void {
     this.previousState();
   }
 
   protected onSaveError(): void {
-    // Api for inheritance.
+    alert('HA');
   }
 
   protected createFromForm(contenuForm: FormGroup, contenanto: Contenant, account: Account): IFilm {
@@ -101,6 +119,21 @@ export class FilmService {
       texte: contenuForm.get(['texte'])!.value,
       contenant: contenanto,
       createur: account,
+      isAvant: false,
+    };
+  }
+
+  protected createFroum(film: Film, contenanto: Contenant, account: Account): IFilm {
+    return {
+      ...new Film(),
+      id: film.id,
+      nom: film.nom,
+      description: film.description,
+      type: 'FILM',
+      texte: film.texte,
+      contenant: contenanto,
+      createur: account,
+      isAvant: film.isAvant,
     };
   }
 }

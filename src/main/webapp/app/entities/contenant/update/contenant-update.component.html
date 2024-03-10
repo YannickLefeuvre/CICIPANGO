@@ -21,25 +21,11 @@
         </div>
 
         <div class="nom">
-          <!--
-      <div class="erreuro" *ngIf="editForm.get('nom')!.invalid && (editForm.get('nom')!.dirty || editForm.get('nom')!.touched)">
-        <div class="alert" *ngIf="editForm.get('nom')?.errors?.required">
-          Ce champ est obligatoire
-        </div>
-      </div>
-      -->
-
-          <!--
-      <label class="lala">Nom du système*</label><br />
-      -->
           <input type="text" name="nom" id="field_nom" data-cy="nom" formControlName="nom" placeholder="Nom du système" class="inpuput" />
         </div>
         <br />
 
         <div class="nom">
-          <!--
-      <label class="lala">Explique ton idée</label><br />
-    -->
           <div class="erreurTexte" *ngIf="countCharactersContenant()">Le nombre maximal de caractère est dépassé (60 000)</div>
           <textarea
             type="text"

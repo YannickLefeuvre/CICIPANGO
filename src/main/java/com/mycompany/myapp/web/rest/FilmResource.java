@@ -51,7 +51,7 @@ public class FilmResource {
      */
     @PostMapping("/films")
     public ResponseEntity<Film> createFilm(@RequestBody Film film) throws URISyntaxException, IOException {
-        log.debug("REST request to save Film : {}", film);
+        log.debug("REST HO NON NANAN " + film.getNom() + " JIJI " + film.getIsAvant());
         if (film.getId() != null) {
             throw new BadRequestAlertException("A new film cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -90,7 +90,8 @@ public class FilmResource {
         if (!filmRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        Date date = new Date();
+        film.setDate_creation(date);
         Film result = filmRepository.save(film);
         return ResponseEntity
             .ok()

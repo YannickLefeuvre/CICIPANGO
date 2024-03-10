@@ -39,6 +39,11 @@ public class Film extends Contenu implements Serializable {
         return this;
     }
 
+    public Film isAvant(Boolean isAvant) {
+        this.setIsAvant(isAvant);
+        return this;
+    }
+
     public byte[] getImages() {
         return this.images;
     }
@@ -107,6 +112,7 @@ public class Film extends Contenu implements Serializable {
             ", images='" + getImages() + "'" +
             ", imagesContentType='" + getImagesContentType() + "'" +
             ", description='" + getDescription() + "'" +
+            ", isavant='" + getIsAvant() + "'" +
             "}";
     }
 }

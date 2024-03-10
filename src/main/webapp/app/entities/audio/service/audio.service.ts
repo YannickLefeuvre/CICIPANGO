@@ -27,6 +27,10 @@ export class AudioService {
     return this.http.post<IAudio>(this.resourceUrl, audio, { observe: 'response' });
   }
 
+  majAudio(audio: Audio, contenant: Contenant, account: Account): void {
+    this.subscribeToSaveRespuse(this.update(this.createFroum(audio, contenant, account)));
+  }
+
   uploadFile(fichiay: IFichiay, id: number): Observable<EntityResponseType> {
     return this.http.post<IFichiay>(`${this.resourceUrlFile}/${id}`, fichiay, { observe: 'response' });
   }
@@ -148,6 +152,12 @@ export class AudioService {
     });
   }
 
+  protected subscribeToSaveRespuse(result: Observable<HttpResponse<IAudio>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
+  }
+
   protected onSaveSuccess(): void {
     this.previousState();
   }
@@ -165,6 +175,7 @@ export class AudioService {
       contenant: contenanto,
       type: 'AUDIO',
       createur: account,
+      isAvant: false,
     };
   }
 
@@ -176,6 +187,19 @@ export class AudioService {
       fichier: fichiayForm.get(['fichier'])!.value,
       fichierContentType: fichiayForm.get(['fichierContentType'])!.value,
       ext: fichiayForm.get(['fichierExt'])!.value,
+    };
+  }
+
+  protected createFroum(audio: Audio, contenanto: Contenant, account: Account): IAudio {
+    return {
+      ...new Audio(),
+      id: audio.id,
+      nom: audio.nom,
+      description: audio.description,
+      type: 'AUDIO',
+      createur: account,
+      contenant: contenanto,
+      isAvant: audio.isAvant,
     };
   }
 }

@@ -25,6 +25,10 @@
     {
       "fieldName": "ext",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "isAvant",
+      "fieldType": "Boolean"
     }
   ],
   "fluentMethods": true,

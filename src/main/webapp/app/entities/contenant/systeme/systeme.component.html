@@ -31,7 +31,7 @@
 
   <div [ngStyle]="cadre00"></div>
   <div [ngStyle]="cadreStyle" *ngIf="nouveauxContenus">
-    <div *ngFor="let contenu of contenant?.contenus">
+    <div *ngFor="let contenu of listeOrange">
       <div *ngIf="contenu.type == 'ALBUMPHOTO'">
         <a>
           <div
@@ -86,7 +86,61 @@
     </div>
   </div>
 
-  <div [ngStyle]="cadreOrga" *ngIf="!nouveauxContenus"></div>
+  <div [ngStyle]="cadreOrga" *ngIf="!nouveauxContenus">
+    <div *ngFor="let contenu of listeBleu">
+      <div *ngIf="contenu.type == 'ALBUMPHOTO'">
+        <a>
+          <div
+            (mouseenter)="onImageMouseEnter(contenu)"
+            (mouseleave)="onImageMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openAlbumPhotoDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+
+      <div *ngIf="contenu.type == 'AUDIO'">
+        <a>
+          <div
+            (mouseenter)="onTexteMouseEnter(contenu.description ?? '')"
+            (mouseleave)="onTextMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openAudioDialog(contenu)"
+          ></div>
+        </a>
+      </div>
+
+      <div *ngIf="contenu.type == 'PHOTO'">
+        <a>
+          <div
+            (mouseenter)="onPhotoMouseEnter(contenu)"
+            (mouseleave)="onPhotoMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openPhotoDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+
+      <div *ngIf="contenu.type == 'FILM'">
+        <a>
+          <div
+            (mouseenter)="onTexteMouseEnter(contenu.description ?? '')"
+            (mouseleave)="onTextMouseLeave()"
+            [style.left.px]="contenu.absisce"
+            [style.top.px]="contenu.ordonnee"
+            class="circle"
+            (click)="openFilmDialog(contenu)"
+          ></div
+        ></a>
+      </div>
+    </div>
+  </div>
   <!-- Contenant du contenant 
     <div class="concontenant" [routerLink]="['/contenant', idContenantDuContenant(), 'systeme']"></div>
 

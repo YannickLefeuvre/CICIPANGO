@@ -16,6 +16,7 @@ export interface IContenu {
   ext?: string | null;
   date_creation?: Date | null;
   createur?: Account | null;
+  isAvant?: boolean | null;
 }
 
 export class Contenu implements IContenu {
@@ -23,6 +24,7 @@ export class Contenu implements IContenu {
     public id?: number,
     public nom?: string,
     public description?: string | null,
+    public isAvant?: boolean | null,
     public iconeContentType?: string | null,
     public icone?: string | null,
     public absisce?: number | null,

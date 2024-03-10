@@ -61,6 +61,9 @@ public class Contenu implements Serializable {
     @Column(name = "date_creation")
     private Date date_creation;
 
+    @Column(name = "isavant")
+    private Boolean isAvant;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "authorities" }, allowSetters = true)
     private User createur;
@@ -234,6 +237,14 @@ public class Contenu implements Serializable {
         this.date_creation = date_creation;
     }
 
+    public Boolean getIsAvant() {
+        return isAvant;
+    }
+
+    public void setIsAvant(Boolean isavant) {
+        this.isAvant = isavant;
+    }
+
     public Contenu contenant(Contenant contenant) {
         this.setContenant(contenant);
         return this;
@@ -273,6 +284,7 @@ public class Contenu implements Serializable {
             ", arriereplanContentType='" + getArriereplanContentType() + "'" +
             ", type='" + getType() + "'" +
             ", nbSecret='" + getNbSecret() + "'" +
+            ", isavant='" + getIsAvant() + "'" +
             ", ext='" + getExt() + "'" +
             "}";
     }

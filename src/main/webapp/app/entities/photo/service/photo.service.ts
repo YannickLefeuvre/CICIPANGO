@@ -35,6 +35,10 @@ export class PhotoService {
     return this.http.patch<IPhoto>(`${this.resourceUrl}/${getPhotoIdentifier(photo) as number}`, photo, { observe: 'response' });
   }
 
+  majPhoto(photo: Photo, contenant: Contenant, account: Account): void {
+    this.subscribeToSaveRespuse(this.update(this.createFroum(photo, contenant, account)));
+  }
+
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IPhoto>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
@@ -123,6 +127,12 @@ export class PhotoService {
     return Math.floor(Math.random() * max);
   }
 
+  protected subscribeToSaveRespuse(result: Observable<HttpResponse<IPhoto>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
+  }
+
   protected subscribeToSaveResponsoMieux(result: Observable<HttpResponse<IPhoto>>, formGroup: FormGroup): void {
     result.pipe().subscribe({
       next: (res: HttpResponse<IPhoto>) => {
@@ -165,6 +175,7 @@ export class PhotoService {
       contenant: contenanto,
       type: 'PHOTO',
       createur: account,
+      isAvant: false,
     };
   }
 
@@ -176,6 +187,19 @@ export class PhotoService {
       fichier: fichiayForm.get(['fichier'])!.value,
       fichierContentType: fichiayForm.get(['fichierContentType'])!.value,
       ext: fichiayForm.get(['fichierExt'])!.value,
+    };
+  }
+
+  protected createFroum(photo: Photo, contenanto: Contenant, account: Account): IPhoto {
+    return {
+      ...new Photo(),
+      id: photo.id,
+      nom: photo.nom,
+      description: photo.description,
+      type: 'PHOTO',
+      createur: account,
+      contenant: contenanto,
+      isAvant: photo.isAvant,
     };
   }
 }

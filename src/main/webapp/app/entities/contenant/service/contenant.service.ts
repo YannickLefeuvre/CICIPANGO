@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IContenant, getContenantIdentifier } from '../contenant.model';
+import { Contenant, IContenant, getContenantIdentifier } from '../contenant.model';
 import { IFichiay } from 'app/entities/audio/audio.model';
+import { Account } from 'app/core/auth/account.model';
 
 export type EntityResponseType = HttpResponse<IContenant>;
 export type EntityArrayResponseType = HttpResponse<IContenant[]>;
@@ -21,6 +22,15 @@ export class ContenantService {
 
   create(contenant: IContenant): Observable<EntityResponseType> {
     return this.http.post<IContenant>(this.resourceUrl, contenant, { observe: 'response' });
+  }
+
+  updatar(contenant: IContenant, account: Account): void {
+    this.subscribeToSaveRespuse(
+      this.update(
+        //      this.createFroum(contenant,contenant,account)
+        contenant
+      )
+    );
   }
 
   update(contenant: IContenant): Observable<EntityResponseType> {
@@ -81,5 +91,30 @@ export class ContenantService {
       return [...contenantsToAdd, ...contenantCollection];
     }
     return contenantCollection;
+  }
+
+  protected createFroum(contenant: Contenant, contenanto: Contenant, account: Account): IContenant {
+    return {
+      ...new Contenant(),
+      id: contenant.id,
+      nom: contenant.nom,
+      description: contenant.description,
+      proprietaire: account,
+      contenant: contenanto,
+      isAvant: contenant.isAvant,
+      contenus: contenant.contenus,
+      liens: contenant.liens,
+      vues: contenant.vues,
+    };
+  }
+
+  protected subscribeToSaveRespuse(result: Observable<HttpResponse<IContenant>>): void {
+    result.pipe().subscribe({
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveError(): void {
+    alert('HA');
   }
 }

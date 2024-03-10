@@ -6,13 +6,28 @@
   vertical-align: top;
 }
 
+.glagla {
+  display: flex;
+  height: 60vh;
+}
+
+.gloglo {
+  display: block;
+  flex: 1; /* Chaque élément prendra autant d'espace que possible */
+  margin-left: 100px; /* Marge entre les éléments */
+  color: white;
+}
+
 .example-list {
-  border: solid 1px #ccc;
-  min-height: 60px;
-  background: white;
+  border: solid 1px #000000;
+  min-height: 5vh;
+  max-height: 20vh;
+  width: 50vh;
+  background: rgb(204, 223, 208);
   border-radius: 4px;
   overflow: hidden;
   display: block;
+  overflow: auto;
 }
 
 .example-box {
@@ -25,8 +40,34 @@
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: white;
+  background: rgb(204, 223, 208);
   font-size: 14px;
+  width: 50px;
+  height: 50px;
+}
+
+.inpuput {
+  background-color: #b6e665;
+  border-radius: 4px;
+  border: 0px solid #b6e665;
+  color: #2c361a;
+  height: 10vh;
+  width: 40vh;
+  position: relative;
+  top: -200px;
+  left: -500px;
+  font-family: 'Roboto';
+}
+
+.bubu {
+  border-radius: 50%;
+  width: 20px; /* Le même que la taille du conteneur */
+  height: 20px; /* Le même que la taille du conteneur */
+  background-color: #f52323;
+  border: 0px solid #b6e665;
+  position: relative;
+  left: 300px;
+  top: -300px;
 }
 
 .cdk-drag-preview {
@@ -48,5 +89,61 @@
 }
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  width: 40px;
+  height: 40px;
+  color: #000000;
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.lala {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.dadalle {
+  position: relative;
+  width: 170vh;
+  left: -60vh;
+  height: 85vh;
+  top: 10px;
+  background: radial-gradient(circle, #b6e665 10%, black 98%);
+  //  background-color:#749240;
+  border-radius: 30px;
+  color: white;
+  border: 10px solid #d8d8d8;
+}
+
+.modal-title {
+  text-align: center;
+  color: white;
+  font-size: 50px;
+  font-family: 'Roboto';
+  font-weight: 100;
+}
+
+.TitreGloglo {
+  color: white;
+  font-size: 30px;
+  font-family: 'Roboto';
+  font-weight: 100;
+}
+
+.modal-header {
+  display: flex; /* Utilisation de flexbox pour aligner les éléments */
+  justify-content: center; /* Centrage horizontal du contenu */
+  align-items: center;
+}
+
+.modal-footer {
+  display: flex; /* Utilisation de flexbox pour aligner les éléments */
+  justify-content: center; /* Centrage horizontal du contenu */
+  align-items: center;
+  position: relative; /* Utilisation de flexbox pour aligner les éléments */
+  bottom: 20px;
+}
+
+.modal-body {
+  text-align: center;
+  color: white;
 }

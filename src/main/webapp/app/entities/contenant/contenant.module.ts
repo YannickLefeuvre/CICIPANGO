@@ -12,9 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SystemeGestionComponent } from './systeme-gestion/systeme-gestion.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [SharedModule, ContenantRoutingModule, NgxDropzoneModule, MatIconModule, DragDropModule],
+  imports: [SharedModule, ContenantRoutingModule, NgxDropzoneModule, MatIconModule, DragDropModule, FormsModule],
   declarations: [
     ContenantComponent,
     ContenantDetailComponent,

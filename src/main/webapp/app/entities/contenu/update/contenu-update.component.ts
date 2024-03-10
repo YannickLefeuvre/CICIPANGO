@@ -156,6 +156,7 @@ export class ContenuUpdateComponent implements OnInit {
       arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
       arriereplan: this.editForm.get(['arriereplan'])!.value,
       contenant: this.editForm.get(['contenant'])!.value,
+      isAvant: false,
     };
   }
 }

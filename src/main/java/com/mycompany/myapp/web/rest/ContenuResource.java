@@ -5,6 +5,7 @@ import com.mycompany.myapp.repository.ContenuRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,7 +50,6 @@ public class ContenuResource {
      */
     @PostMapping("/contenus")
     public ResponseEntity<Contenu> createContenu(@Valid @RequestBody Contenu contenu) throws URISyntaxException {
-        log.debug("REST request to save Contenu : {}", contenu);
         if (contenu.getId() != null) {
             throw new BadRequestAlertException("A new contenu cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -86,7 +86,8 @@ public class ContenuResource {
         if (!contenuRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        Date date = new Date();
+        contenu.setDate_creation(date);
         Contenu result = contenuRepository.save(contenu);
         return ResponseEntity
             .ok()
