@@ -23,8 +23,8 @@ import { before } from 'node:test';
 export class HomeComponent implements OnInit, OnDestroy {
   // Nombre de points que vous souhaitez générer
 
-  numberOfPoints = 20;
-  numberOfLignes = 7;
+  numberOfPoints = 10;
+  numberOfLignes = 3;
 
   // Conteneur des points
   pointCloud = document.getElementById('pointCloud');
@@ -38,6 +38,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   rotateStyle = '';
   isMouseOver = false;
   cercleVisible = false;
+  couleurs?: string[];
+  contenant?: Contenant[];
+  nomContenantAffichay = '';
 
   private readonly destroy$ = new Subject<void>();
 
@@ -53,17 +56,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    //   this.loadAllContenant();
+    this.loadAllContenant();
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
-    this.addPointsWithDelay(this.numberOfPoints);
   }
 
   addPointsWithDelay(count: number): void {
+    if (this.couleurs === undefined) {
+      this.couleurs = [];
+    }
+
     if (count > 0) {
-      const point = this.creerpoint();
+      this.couleurs.push('#3f6cff');
+      const point = this.creerpoint(this.couleurs.length - 1);
       //    if (Math.random() < 0.1) {
       // Créez des connexions aléatoires avec une probabilité de 30%
       //       const points = document.querySelectorAll('.point');
@@ -129,7 +136,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return closestPoint;
   }
 
-  creerpoint(): HTMLDivElement {
+  creerpoint(i: number): HTMLDivElement {
     const pointCloudo = document.getElementById('pointCloud');
     if (pointCloudo != null) {
       pointCloudo.style.position = 'absolute';
@@ -176,10 +183,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     point.style.height = `${pointSize}px`; // Définir la hauteur (pour créer des cercles, assurez-vous que width et height sont égaux)
     //  point.style.backgroundColor = this.getRandomNumber(0, 1) < 0.5 ? '#fff' : '#ccc';
     point.style.background = 'black';
+    point.style.cursor = 'pointer';
+    point.onclick = () => this.switchBienLaCouleur(point, i);
+    point.onmouseenter = () => this.switchBienLeNom(i);
+    point.onmouseleave = () => this.vireLeNom();
     // point.style.background = 'radial-gradient(circle at 15px 15px, #bcbdfc, #000)';
-    point.style.background = 'radial-gradient(circle at 15px 15px, #3f6cff, #000)';
+    if (this.couleurs !== undefined) {
+      point.style.background = 'radial-gradient(circle at 15px 15px, ' + this.couleurs[i] + ', #000)';
+    }
     pointCloudo?.appendChild(point);
-
     const style = document.createElement('style');
     style.innerHTML = `
   
@@ -214,6 +226,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     document.head.appendChild(style);
 
     return point;
+  }
+
+  switchBienLaCouleur(point: HTMLDivElement, i: number): void {
+    if (this.couleurs !== undefined) {
+      if (this.couleurs[i] === '#3f6cff') {
+        point.style.background = 'radial-gradient(circle at 15px 15px, ' + '#e4a264' + ', #000)';
+        this.couleurs[i] = '#e4a264';
+      } else if (this.couleurs[i] === '#e4a264') {
+        point.style.background = 'radial-gradient(circle at 15px 15px, ' + '#3f6cff' + ', #000)';
+        this.couleurs[i] = '#3f6cff';
+      }
+    }
+  }
+
+  switchBienLeNom(i: number): void {
+    if (this.contenants !== undefined) {
+      this.nomContenantAffichay = this.contenants[i].nom ?? 'ZUT';
+    }
+  }
+
+  vireLeNom(): void {
+    this.nomContenantAffichay = '';
   }
 
   // Fonction pour créer une ligne entre deux points
@@ -290,8 +324,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse<IContenant[]>) => {
         this.isLoading = false;
         this.contenants = res.body ?? [];
+        //      alert(this.contenants.length);
+        this.addPointsWithDelay(this.contenants.length);
       },
       error: () => {
+        //    alert("merde");
         this.isLoading = false;
       },
     });

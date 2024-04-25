@@ -163,6 +163,7 @@ public class LienResource {
     @GetMapping("/liens")
     public List<Lien> getAllLiens() {
         log.debug("REST request to get all Liens");
+        log.debug("ZUZUZUZUUUU NAAAAAAAAAAAAAAAAAAAAAAN");
         return lienRepository.findAll();
     }
 

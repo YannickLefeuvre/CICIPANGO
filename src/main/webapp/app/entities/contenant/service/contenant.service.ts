@@ -15,6 +15,8 @@ export type EntityArrayResponseType = HttpResponse<IContenant[]>;
 @Injectable({ providedIn: 'root' })
 export class ContenantService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/contenants');
+  protected ressourcenom = this.applicationConfigService.getEndpointFor('api/contenantnom');
+  protected resourceUrlAll = this.applicationConfigService.getEndpointFor('api/contenantsco');
   protected resourceUrlFileicone = this.applicationConfigService.getEndpointFor('api/contenantfileicone');
   protected resourceUrlFilearriereplan = this.applicationConfigService.getEndpointFor('api/contenantfilearriereplan');
 
@@ -54,6 +56,15 @@ export class ContenantService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IContenant>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findleconcon(nom: string): Observable<EntityResponseType> {
+    //    alert(`${this.resourceUrl}/${getContenantIdentifier(contenant) as number}/vues` + " KOUKOUKOU ");
+    return this.http.get<IContenant>(`${this.ressourcenom}/${nom}`, { observe: 'response' });
+  }
+
+  findAll(): Observable<EntityArrayResponseType> {
+    return this.http.get<IContenant[]>(this.resourceUrlAll, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

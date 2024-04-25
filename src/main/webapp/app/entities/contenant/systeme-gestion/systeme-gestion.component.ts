@@ -76,6 +76,14 @@ export class SystemeGestionComponent implements OnInit {
         }
       }
     }
+    if (this.contenant?.contenants?.length != null) {
+      for (let i = 0; i < this.contenant.contenants.length; i++) {
+        if (this.contenant.contenants[i].isAvant === false) {
+          this.listePasEnAvant.push(String(this.contenant.contenants[i].nom));
+          this.listePasEnAvantContenu.push(this.contenant.contenants[i]);
+        }
+      }
+    }
   }
 
   updateleContenu(contenu: Contenu): void {

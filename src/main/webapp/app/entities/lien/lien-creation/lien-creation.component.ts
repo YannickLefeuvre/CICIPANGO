@@ -24,18 +24,14 @@ export class LienCreationComponent implements OnInit {
   contenantsSharedCollection: IContenant[] = [];
   contenants?: IContenant[];
   isLoading = false;
+  lecoco = '';
+  couleurOK = '#5ce649';
+  couleurKO = '#ff8a5c';
+  couleurAffiche = '';
 
   editForm = this.fb.group({
-    id: [],
     nom: [],
-    description: [],
-    url: [],
-    icone: [],
-    iconeContentType: [],
-    absisce: [],
-    ordonnee: [],
-    arriereplan: [],
-    arriereplanContentType: [],
+    lekow: [],
     villeOrigine: [],
     villeCible: [],
     contenant: [],
@@ -58,9 +54,11 @@ export class LienCreationComponent implements OnInit {
       contenant = null;
 
       this.loadAllContenant();
-      this.updateForm(contenant);
-      this.loadRelationshipsOptions();
+      //      this.updateForm(contenant);
+      //      this.loadRelationshipsOptions();
     });
+
+    this.couleurAffiche = this.couleurKO;
   }
 
   trackContenantById(_index: number, item: IContenant): number {
@@ -70,7 +68,7 @@ export class LienCreationComponent implements OnInit {
   loadAllContenant(): void {
     this.isLoading = true;
 
-    this.contenantService.query().subscribe({
+    this.contenantService.findAll().subscribe({
       next: (res: HttpResponse<IContenant[]>) => {
         this.isLoading = false;
         this.contenants = res.body ?? [];
@@ -83,29 +81,52 @@ export class LienCreationComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const audio = this.createFromForm();
+    const lien = this.createFromForm();
 
-    this.subscribeToSaveResponse(this.lienService.create(audio));
+    this.subscribeToSaveResponse(this.lienService.create(lien));
   }
 
   previousState(): void {
     window.history.back();
   }
 
-  setContenanta(contenant: Contenant): void {
-    this.contenanta = contenant;
-    //    alert("sayt" );
-    //    alert(this.contenanta.nom)
-    // if (!event.target.matches('.dropbtn'))
-    // }
+  formulaxValidax(): boolean {
+    if (this.editForm.get('nom')?.value === null) {
+      return false;
+    }
+    if (this.couleurAffiche !== this.couleurOK) {
+      return false;
+    }
+    if (this.contenanta.id == null) {
+      return false;
+    }
+    if (this.contenanto.id == null) {
+      return false;
+    }
+    return true;
   }
 
-  getNomContenanta(): string {
-    if (this.contenanta.nom != null) {
-      return this.contenanta.nom;
-    } else {
-      return 'Veuillez choisir un univers cible';
-    }
+  findLeConcon(): void {
+    let concon;
+    //  alert(this.editForm.get('lekow')?.value);
+    this.contenantService.findleconcon(this.lecoco).subscribe({
+      next: (res: HttpResponse<IContenant>) => {
+        //     alert(this.lecoco);
+        this.couleurAffiche = this.couleurOK;
+        this.isLoading = false;
+        this.contenanta = res.body ?? new Contenant();
+        if (concon.id == null) {
+          //       alert("HU");
+          this.couleurAffiche = this.couleurKO;
+        }
+      },
+      error: () => {
+        //      alert("HO");
+        this.couleurAffiche = this.couleurKO;
+        this.isLoading = false;
+      },
+    });
+    alert(concon.nom);
   }
 
   protected updateForm(lien: ILien): void {
@@ -131,14 +152,7 @@ export class LienCreationComponent implements OnInit {
   protected createFromForm(): ILien {
     return {
       ...new Lien(),
-      id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
-      iconeContentType: this.editForm.get(['iconeContentType'])!.value,
-      icone: this.editForm.get(['icone'])!.value,
-      absisce: this.editForm.get(['absisce'])!.value,
-      ordonnee: this.editForm.get(['ordonnee'])!.value,
-      arriereplanContentType: this.editForm.get(['arriereplanContentType'])!.value,
-      arriereplan: this.editForm.get(['arriereplan'])!.value,
       villeOrigine: this.contenanto,
       villeCible: this.contenanta,
       contenant: this.contenanto,

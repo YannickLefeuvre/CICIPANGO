@@ -2838,6 +2838,13 @@
     "require-from-string" "^2.0.2"
     "uri-js" "^4.2.2"
 
+"angular-canvas@^0.3.0":
+  "integrity" "sha512-Z7K6t32spRfXsLiPKmshK8R4+7xq6NkxeD0QzBJDhNA20MLmq7AWzo9lNoMGmHCmkXIIVyeXkMoh3ZJg9Jjp8Q=="
+  "resolved" "https://registry.npmjs.org/angular-canvas/-/angular-canvas-0.3.0.tgz"
+  "version" "0.3.0"
+  dependencies:
+    "tslib" "^2.0.0"
+
 "angular-material@^1.2.5":
   "integrity" "sha512-bTTDV0vszpfms1tAMzhLntxBiNMCk/I3Mx/vhbtfhijJILODjpDBfWah0nvWrniFIcxMLcsb1tcPri13hZEaew=="
   "resolved" "https://registry.npmjs.org/angular-material/-/angular-material-1.2.5.tgz"

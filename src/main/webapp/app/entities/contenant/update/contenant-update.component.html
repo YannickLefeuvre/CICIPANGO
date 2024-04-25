@@ -1,19 +1,9 @@
 <div id="contenuti" class="contenuti">
   <div></div>
   <div id="contenuto">
-    <!--
-<h2 class="titre">Nouveau Système</h2>
-        -->
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <div class="rectangle">
         <h2 class="titrass">Nouveau Système</h2>
-
-        <!--
-    <div class="barre"></div>
-
-    <div class="barre2"></div>
-    -->
-
         <div *ngIf="!isNomnull()">
           <a>
             <img src="src/main/webapp/content/symbos/next.png" (click)="ajoutContenant()" class="next" />

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Renderer2, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Renderer2, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { Contenant, IContenant } from '../contenant.model';
@@ -51,18 +51,31 @@ export class SystemeComponent implements OnInit {
   textHovered = false;
   cheminToff = '';
   contenuTexte = '';
+  result = '';
+  chmin = 'src/main/webapp/content/photos/bibi';
   circles: { left: number; top: number }[] = [];
-  nouveauxContenus = true;
+
+  isCadreDescriKikay = false;
+  isCadreAvantKlikay = false;
+  src = '';
+  cardenumber = 0;
   couleurBouton = '#afaeae';
+  couleurBoutonDescri = '#afaeae';
   hauteurBouton = 70;
+  hauteurBoutonDescri = 70;
   listeBleu: IContenu[] = [];
   listeOrange: IContenu[] = [];
+  listeBleuContenant: IContenu[] = [];
+  listeOrangeContenant: IContenu[] = [];
   listeX: number[] = [];
   listeY: number[] = [];
   listePosi: number[] = [];
+  traits: { x1: number; y1: number; x2: number; y2: number }[] = [];
   //   175;300   175;600    175;900
   //   350;300   350;600    350;900
   //   525;300   525;600    525;900
+  @ViewChild('canvasEl', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+  context!: CanvasRenderingContext2D | null;
 
   listePointX = ['175,60', '662,60', '1150,60', '175,330', '662,330', '1150,330', '175,600', '662,600', '1150,600'];
   listePosi2 = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -88,6 +101,23 @@ export class SystemeComponent implements OnInit {
     height: '0px',
     right: '10%',
     border: '0px' /* Définit une bordure de 2 pixels solide de couleur noire */,
+    'border-radius': '0',
+    'background-color': 'pink',
+    //   'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
+    'z-index': '2',
+  };
+
+  cadreDescri = {
+    position: 'absolute',
+    top: '0px',
+    left: '0px',
+    height: '0px',
+    right: '10%',
+    border: '0px',
+    overflow: 'hiden',
+    //  backgroundImage : 'src/main/webapp/content/contenants/arriereplans/ap25051.png',
+    'background-image': "url('src/main/webapp/content/contenants/arriereplans/ap25051.png')",
+    /* Définit une bordure de 2 pixels solide de couleur noire */
     'border-radius': '0',
     'background-color': 'pink',
     //   'clip-path': 'circle(150px at ' + this.circleX.toString() + ' ' + this.circleY.toString() + ')',
@@ -157,6 +187,33 @@ export class SystemeComponent implements OnInit {
       const circle = this.generateRandomCoordinates();
       this.circles.push(circle);
     }
+    this.generateTraits();
+    //  this.context = this.canvas.nativeElement.getContext('2d');
+
+    //  this.drawLines();
+
+    if (this.contenant?.contenants !== null && this.contenant?.contenants !== undefined) {
+      let nbAvant = 0;
+      //      let nbArierre=0;
+      for (let i = 0; i < this.contenant.contenants.length; i++) {
+        if (this.contenant.contenants[i].isAvant) {
+          const posi = this.listePosi2[Math.floor(Math.random() * this.listePosi2.length)];
+          this.contenant.contenants[i].absisce = parseInt(this.listePointX[posi].split(',')[0], 10);
+          this.contenant.contenants[i].ordonnee = parseInt(this.listePointX[posi].split(',')[1], 10);
+          this.listePosi.push(posi);
+          this.listeBleuContenant.push(this.contenant.contenants[i]);
+          this.listePosi2.splice(posi, 1);
+          nbAvant++;
+        } else {
+          const circle = this.generateRandomCoordinates();
+          this.contenant.contenants[i].absisce = circle.left;
+          this.contenant.contenants[i].ordonnee = circle.top;
+          this.listeOrangeContenant.push(this.contenant.contenants[i]);
+          //        nbArierre++;
+        }
+      }
+    }
+
     if (this.contenant?.contenus != null) {
       let nbAvant = 0;
       //      let nbArierre=0;
@@ -178,6 +235,8 @@ export class SystemeComponent implements OnInit {
         }
       }
     }
+
+    this.src = 'src/main/webapp/content/contenants/arriereplans/ap' + (this.contenant?.id ?? 0).toString() + '.png';
   }
 
   ngOnChanges(): void {
@@ -510,22 +569,128 @@ export class SystemeComponent implements OnInit {
     this.showCircle = false;
   }
 
-  switchCadre(): void {
-    this.nouveauxContenus = !this.nouveauxContenus;
-    if (this.nouveauxContenus) {
+  generateCoordinates(): any {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Tirage au sort des bords (haut, bas, gauche, droite)
+    const randomSide = Math.floor(Math.random() * 4);
+
+    let x = 0;
+    let y = 0;
+
+    //  alert(height);
+    switch (randomSide) {
+      case 0: // Haut
+        x = Math.random() * width;
+        return [x, y];
+      case 1: // Bas
+        x = Math.random() * width;
+        y = height;
+        return [x, y];
+      case 2: // Gauche
+        y = Math.random() * height;
+        return [x, y];
+      case 3: // Droite
+        x = width;
+        y = Math.random() * height;
+        return [x, y];
+    }
+
+    return [x, y];
+  }
+
+  drawLines(): void {
+    const centerX = this.canvas.nativeElement.width / 2;
+    const centerY = this.canvas.nativeElement.height / 2;
+
+    for (let i = 0; i < 10; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const lineLength = Math.random() * 200 + 50; // Length of line between 50 and 250 pixels
+      const endX = centerX + Math.cos(angle) * lineLength;
+      const endY = centerY + Math.sin(angle) * lineLength;
+      if (this.context != null) {
+        this.context.beginPath();
+        this.context.moveTo(centerX, centerY);
+        this.context.lineTo(endX, endY);
+        this.context.stroke();
+      }
+    }
+  }
+
+  generateTraits(): void {
+    const centerX = (2 * window.innerWidth) / 3;
+    const centerY = window.innerHeight / 2;
+    if (this.contenant?.liens != null) {
+      for (let i = 0; i < this.contenant.liens.length; i++) {
+        // Générer 10 traits
+        const randomX = Math.floor(Math.random() * 2001) - 1000;
+        const randomY = Math.floor(Math.random() * 2001) - 1000;
+
+        // Calculer les points de départ et d'arrivée
+        const x1 = centerX;
+        const y1 = centerY;
+        //      const x2 = randomX;
+        //      const y2 = randomY;
+
+        const x2 = this.generateCoordinates()[0];
+        const y2 = this.generateCoordinates()[1];
+        //     alert(y3);
+        //      this.traits.push({  x1, y1, x2, y2});
+        this.traits.push({ x1, y1, x2, y2 });
+      }
+    }
+  }
+
+  switchCadre1(): void {
+    if (this.isCadreAvantKlikay === false) {
       this.couleurBouton = '#afaeae';
+      this.hauteurBouton = 85;
+      this.hauteurBoutonDescri = 70;
+
+      this.$couleurCadre1 = 'blue';
+      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
+      this.fondCadre = 'radial-gradient(circle, black 65%, ' + this.$couleurCadre1 + '  90%)';
+      this.shadow = '0px 0px 80px ' + this.$couleurCadre1;
+      this.isCadreAvantKlikay = true;
+      this.isCadreDescriKikay = false;
+    } else {
+      this.cardenumber = 0;
+      this.couleurBouton = '#e23535';
+      this.hauteurBouton = 70;
+      this.hauteurBoutonDescri = 70;
+      this.$couleurCadre1 = '#70ad3f';
+      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
+      this.fondCadre = 'radial-gradient(circle, ' + this.$couleurCadre1 + ' 10%, black 70%)';
+      this.shadow = '0px 0px 15px ' + this.$couleurCadre1;
+      this.isCadreAvantKlikay = false;
+      this.isCadreDescriKikay = false;
+    }
+    this.updatecadre();
+  }
+
+  switchCadre2(): void {
+    if (this.isCadreDescriKikay === false) {
+      this.couleurBouton = '#afaeae';
+      this.hauteurBoutonDescri = 85;
+      this.hauteurBouton = 70;
+      this.$couleurCadre1 = 'orange';
+      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
+      this.fondCadre = 'radial-gradient(circle, ' + this.$couleurCadre1 + ' 10%, black 70%)';
+      this.shadow = '0px 0px 15px ' + this.$couleurCadre1;
+      this.isCadreDescriKikay = true;
+      this.isCadreAvantKlikay = false;
+    } else {
+      this.cardenumber = 0;
+      this.couleurBouton = '#e23535';
+      this.hauteurBoutonDescri = 70;
       this.hauteurBouton = 70;
       this.$couleurCadre1 = '#70ad3f';
       this.bordureCadre = '2px solid ' + this.$couleurCadre1;
       this.fondCadre = 'radial-gradient(circle, ' + this.$couleurCadre1 + ' 10%, black 70%)';
       this.shadow = '0px 0px 15px ' + this.$couleurCadre1;
-    } else {
-      this.couleurBouton = '#e23535';
-      this.hauteurBouton = 85;
-      this.$couleurCadre1 = 'blue';
-      this.bordureCadre = '2px solid ' + this.$couleurCadre1;
-      this.fondCadre = 'radial-gradient(circle, black 65%, ' + this.$couleurCadre1 + '  90%)';
-      this.shadow = '0px 0px 80px ' + this.$couleurCadre1;
+      this.isCadreAvantKlikay = false;
+      this.isCadreDescriKikay = false;
     }
     this.updatecadre();
   }
@@ -545,6 +710,10 @@ export class SystemeComponent implements OnInit {
       background: this.fondCadre,
       'box-shadow': this.shadow,
     };
+  }
+
+  showleID(id: number): void {
+    alert(id);
   }
 
   protected createFromForm(): IContenu {

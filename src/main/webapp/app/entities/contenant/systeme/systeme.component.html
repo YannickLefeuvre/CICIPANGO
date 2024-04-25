@@ -2,23 +2,32 @@
 <button mat-button (click)="this.openDialog()">Open dialog</button>
 
 
-<mat-dialog-content class="mat-typography">vfcdxsz </mat-dialog-content>
+
+<mat-dialog-content class="mat-tyzzpography">vfcdxsz </mat-dialog-content>
 -->
 <body>
   <button
     class="dark-plastic-button"
     [style.backgroundColor]="couleurBouton"
     [style.top.px]="hauteurBouton"
-    (click)="switchCadre()"
+    (click)="switchCadre1()"
   ></button>
+
+  <button
+    class="ozef-plastic-button"
+    [style.backgroundColor]="couleurBoutonDescri"
+    [style.top.px]="hauteurBoutonDescri"
+    (click)="switchCadre2()"
+  ></button>
+
   <button class="light-plastic-button" (click)="openGestionComponentDialog()"></button>
   <div *ngIf="isHovered" class="imageContenu-container">
     <img src="{{ cheminToff }}" />
   </div>
   <div *ngIf="textHovered" class="zoneTexte">{{ contenuTexte }}</div>
 
-  <div *ngIf="nouveauxContenus" class="yoyo">
-    <div class="creerContenant" [style.top.px]="0" [style.left.px]="-75" [routerLink]="['/contenant', contenant?.id, 'add']">
+  <div *ngIf="!isCadreDescriKikay && !isCadreAvantKlikay" class="yoyo">
+    <div class="creerContenant" [style.top.px]="0" [style.left.px]="-75" [routerLink]="['/contenant', contenant?.id, 'edit']">
       <div class="reveal-text" [class.revealed]="revealText">Créer un Contenant</div>
     </div>
     <div class="creerContenant" [style.top.px]="100" [style.left.px]="-75" [routerLink]="['/contenu', contenant?.id, 'newcon']">
@@ -29,8 +38,28 @@
     </div>
   </div>
 
+  <svg class="boubi">
+    <g *ngFor="let lien of contenant?.liens; index as i">
+      <line
+        [attr.x1]="traits[i].x1"
+        [attr.y1]="traits[i].y1"
+        [attr.x2]="traits[i].x2"
+        [attr.y2]="traits[i].y2"
+        stroke="grey"
+        stroke-width="5"
+        style="cursor: pointer"
+        [routerLink]="['/contenant', lien.villeCible?.id, 'systeme']"
+      />
+    </g>
+  </svg>
+
   <div [ngStyle]="cadre00"></div>
-  <div [ngStyle]="cadreStyle" *ngIf="nouveauxContenus">
+  <div class="kadrax" [ngStyle]="cadreDescri" *ngIf="isCadreDescriKikay">
+    <div class="titrax">{{ contenant?.nom ?? 'oup' }}</div>
+    <div class="descri">{{ contenant?.description ?? 'oup' }}</div>
+    <img src="{{ src }}" />
+  </div>
+  <div [ngStyle]="cadreStyle" *ngIf="!isCadreDescriKikay && !isCadreAvantKlikay">
     <div *ngFor="let contenu of listeOrange">
       <div *ngIf="contenu.type == 'ALBUMPHOTO'">
         <a>
@@ -84,9 +113,22 @@
         ></a>
       </div>
     </div>
+    <div *ngFor="let contenanta of listeOrangeContenant">
+      <a>
+        <div
+          (mouseenter)="onTexteMouseEnter(contenanta.description ?? '')"
+          (mouseleave)="onTextMouseLeave()"
+          [style.left.px]="contenanta.absisce"
+          [style.top.px]="contenanta.ordonnee"
+          [routerLink]="['/contenant', contenanta.id, 'systeme']"
+          class="circleContenant"
+          (click)="ngOnInit()"
+        ></div
+      ></a>
+    </div>
   </div>
 
-  <div [ngStyle]="cadreOrga" *ngIf="!nouveauxContenus">
+  <div [ngStyle]="cadreOrga" *ngIf="isCadreAvantKlikay">
     <div *ngFor="let contenu of listeBleu">
       <div *ngIf="contenu.type == 'ALBUMPHOTO'">
         <a>

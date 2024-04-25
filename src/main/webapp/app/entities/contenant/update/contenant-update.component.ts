@@ -42,6 +42,7 @@ export class ContenantUpdateComponent implements OnInit {
   albibo?: IAlbumPhoto | null;
   nbFilesup = 0;
   contenant: Contenant | null = null;
+  contenantParent: Contenant | null = null;
   scrollPosition = 0;
   seuilMaxiTexte = 60000;
   erreurFichiasse = false;
@@ -99,9 +100,9 @@ export class ContenantUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contenant }) => {
-      this.updateForm(contenant);
-
-      this.loadRelationshipsOptions();
+      //     this.updateForm(contenantParent);
+      this.contenantParent = contenant;
+      //     this.loadRelationshipsOptions();
     });
 
     this.accountService
@@ -210,7 +211,6 @@ export class ContenantUpdateComponent implements OnInit {
   }
 
   scrollHorizontal(): void {
-    //   const conteneurElement = this.conteneur.nativeElement;
     const conteneurElement = document.getElementById('contenuti');
     const distance = 1800; // Distance de défilement en pixels
     const duration = 5; // Durée du défilement en millisecondes
@@ -552,15 +552,29 @@ export class ContenantUpdateComponent implements OnInit {
   }
 
   protected createFromForm(): IContenant {
-    return {
-      ...new Contenant(),
-      id: this.editForm.get(['id'])!.value,
-      nom: this.editForm.get(['nom'])!.value,
-      description: this.editForm.get(['description'])!.value,
-      iconeContentType: this.editForm.get(['fichiericoneExt'])!.value,
-      arriereplanContentType: this.editForm.get(['fichierarriereplanExt'])!.value,
-      proprietaire: this.account,
-      isAvant: false,
-    };
+    if (this.contenantParent?.id != null) {
+      return {
+        ...new Contenant(),
+        id: this.editForm.get(['id'])!.value,
+        nom: this.editForm.get(['nom'])!.value,
+        description: this.editForm.get(['description'])!.value,
+        iconeContentType: this.editForm.get(['fichiericoneExt'])!.value,
+        arriereplanContentType: this.editForm.get(['fichierarriereplanExt'])!.value,
+        contenant: this.contenantParent,
+        proprietaire: this.account,
+        isAvant: false,
+      };
+    } else {
+      return {
+        ...new Contenant(),
+        id: this.editForm.get(['id'])!.value,
+        nom: this.editForm.get(['nom'])!.value,
+        description: this.editForm.get(['description'])!.value,
+        iconeContentType: this.editForm.get(['fichiericoneExt'])!.value,
+        arriereplanContentType: this.editForm.get(['fichierarriereplanExt'])!.value,
+        proprietaire: this.account,
+        isAvant: false,
+      };
+    }
   }
 }

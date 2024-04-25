@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  */
 @Entity
 @Table(name = "contenant")
+@JsonIgnoreProperties(value = { "contenant" }, allowSetters = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Contenant implements Serializable {
 
@@ -53,7 +55,6 @@ public class Contenant implements Serializable {
     @Column(name = "arriereplan")
     private byte[] arriereplan;
 
-    @Column(name = "arriereplan_content_type")
     private String arriereplanContentType;
 
     @Column(name = "vues")
@@ -61,6 +62,9 @@ public class Contenant implements Serializable {
 
     @Column(name = "isavant")
     private Boolean isAvant;
+
+    @Column(name = "date_creation")
+    private Date date_creation;
 
     @OneToMany(mappedBy = "contenant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -137,6 +141,14 @@ public class Contenant implements Serializable {
 
     public byte[] getIcone() {
         return this.icone;
+    }
+
+    public Date getDate_creation() {
+        return date_creation;
+    }
+
+    public void setDate_creation(Date date_creation) {
+        this.date_creation = date_creation;
     }
 
     public Contenant icone(byte[] icone) {

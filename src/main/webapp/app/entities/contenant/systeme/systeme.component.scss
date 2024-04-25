@@ -1,6 +1,21 @@
 $couleurCreer: rgb(172, 173, 63);
 $couleurCare: #70ad3f;
 $couleurContourCare: rgb(45, 70, 25);
+$form-bg: #d8c689;
+$site-bg: #ffffff;
+//$form-shadow: #ffa580;
+$form-shadow: #ff8a5c;
+$form-primary-highlight: #95a4ff;
+$form-secondary-highlight: #ffc8ff;
+$font-size: 14pt;
+$font-size-nom: 24pt;
+$font-face: 'Fjalla One';
+$font-color: #2a293e;
+$couleurDetails: #000000;
+$couleurFrom: #2a293e;
+$couleurUpload: #2a293e;
+$taille: 100px;
+$taillepetit: 75px;
 
 .body {
   background-color: #0c1109;
@@ -449,6 +464,18 @@ body {
   z-index: 5;
 }
 
+.circleContenant {
+  position: absolute;
+  background-color: #c94f1f;
+  border: 2px solid #c94f1f; /* Couleur de la bordure du cercle */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  box-shadow: 0px 0px 15px #c94f1f;
+  // mix-blend-mode: multiply; /* Mélanger les couleurs pour montrer le rectangleA à travers le cercle */
+  z-index: 5;
+}
+
 #cadre2:hover + #circle {
   display: block;
 }
@@ -578,6 +605,71 @@ body {
   background-color: #555; /* Couleur de fond légèrement plus sombre au survol */
 }
 
+.ozef-plastic-button {
+  position: absolute;
+  //  top: 85px;
+  top: 70px;
+  left: -60px;
+
+  width: 50px;
+  height: 205px;
+
+  border: none;
+  z-index: 1;
+  background-color: #d6a53a; /* Couleur de fond sombre */
+  color: #fff; /* Couleur du texte en blanc */
+  padding: 10px 20px; /* Espacement intérieur du bouton */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en pointeur au survol */
+  //box-shadow: 0px 0px 15px #45bd4b; /* Ombre légère */
+}
+
+.ozef-plastic-button:hover {
+  background-color: #555; /* Couleur de fond légèrement plus sombre au survol */
+}
+
 .encadrerCreation {
   background-color: #555; /* Couleur de fond légèrement plus sombre au survol */
+}
+
+.boubi {
+  top: 0px;
+  left: -600px;
+  width: 2000px;
+  height: 920px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.titrax {
+  font-size: 70px;
+  color: white;
+  position: absolute;
+  top: 100px;
+  margin: 0 auto;
+}
+
+.descri {
+  top: 300px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: $font-size;
+  //  line-height: $font-size * 2;
+  font-family: $font-face;
+  //  margin-bottom: $font-size * 2;
+  border: none;
+  //  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  //  background: $form-bg;
+  width: 1250px;
+  height: 450px;
+  left: -200px;
+  padding-left: 5px;
+  //  outline: none;
+  color: rgb(255, 255, 255);
+}
+
+.kadrax {
+  overflow: 'hiden';
 }

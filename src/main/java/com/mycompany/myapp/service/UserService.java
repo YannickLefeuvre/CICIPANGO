@@ -260,6 +260,8 @@ public class UserService {
             });
     }
 
+    //   @Param("SELECT c FROM Contenant c WHERE c.nom = :nom")
+    //  Optional<Contenant> findByNom(String nom);
     @Transactional
     public void changePassword(String currentClearTextPassword, String newPassword) {
         SecurityUtils

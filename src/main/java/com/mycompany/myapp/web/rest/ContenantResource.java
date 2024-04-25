@@ -1,5 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
+import static java.lang.String.format;
+
 import com.mycompany.myapp.domain.Contenant;
 import com.mycompany.myapp.domain.Contenu;
 import com.mycompany.myapp.domain.Fichiay;
@@ -8,6 +10,8 @@ import com.mycompany.myapp.repository.ContenantRepository;
 import com.mycompany.myapp.repository.ContenuRepository;
 import com.mycompany.myapp.repository.LienRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+//import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -15,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,8 +30,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -46,6 +54,9 @@ public class ContenantResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private final ContenuRepository contenuRepository;
 
@@ -73,6 +84,9 @@ public class ContenantResource {
         if (contenant.getId() != null) {
             throw new BadRequestAlertException("A new contenant cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Date date = new Date();
+        contenant.setDate_creation(date);
+
         contenant.setVues(0);
         Contenant result = contenantRepository.save(contenant);
         return ResponseEntity
@@ -217,6 +231,10 @@ public class ContenantResource {
      */
     @GetMapping("/contenants")
     public List<Contenant> getAllContenants(@RequestParam(required = false) String contnantnull) {
+        if (contnantnull == null) {
+            contnantnull = "HOUHOUI";
+        }
+        log.debug("ZIPIZOU NAAAAAAAAAAAAAAAAAAAAAAN REGARDE LE PARAM !!!");
         log.info("c " + contnantnull);
         if ("lienorigine-is-null".equals(contnantnull)) {
             log.debug("REST request to get all Contenants where lienOrigine is null");
@@ -245,10 +263,18 @@ public class ContenantResource {
             rere.add(result.get((int) (Math.random() * (result.size()))));
             rere.add(result.get((int) (Math.random() * (result.size()))));
             rere.add(result.get((int) (Math.random() * (result.size()))));
-            return rere;
+            List<Contenant> ruru = this.choperDixContenantsAvecLePlusDeVues();
+            this.choperDixContenantsAvecLesPlusNouveaux(ruru);
+            return ruru;
         }
 
         log.debug("REST request to get all Contenants");
+        return contenantRepository.findAll();
+    }
+
+    @GetMapping("/contenantsco")
+    public List<Contenant> getAllContenantsCONCON() {
+        log.info("NIZO NIZO ...");
         return contenantRepository.findAll();
     }
 
@@ -318,6 +344,94 @@ public class ContenantResource {
 
         for (Contenant ca : cna) {
             if (ca.getContenant() != null && ca.getContenant().getId() == id) {
+                contenant.get().addContenants(ca);
+            }
+        }
+
+        return ResponseUtil.wrapOrNotFound(contenant);
+    }
+
+    //  @Param("SELECT c FROM Contenant c WHERE c.nom = :nom")
+    //  Optional<Contenant> findByNom(String nom);
+
+    @Transactional
+    public Optional<Contenant> generateletruc(String nom) {
+        //        dateTimeWrapperRepository.saveAndFlush(dateTimeWrapper);
+        Optional<Contenant> coco = Optional.ofNullable(new Contenant());
+        //   	List<Optional<Contenant>> kuku = new ArrayList<>();
+        String request = "SELECT * FROM CONTENANT WHERE UPPER(nom) = UPPER('" + nom + "');";
+        SqlRowSet resultSet = jdbcTemplate.queryForRowSet(request);
+
+        //        log.debug("JUJI 2" + resultSet.get);
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            //           kuku.add(contenantRepository.findById((long) id));
+            coco = contenantRepository.findById((long) id);
+        }
+
+        return coco;
+    }
+
+    @Transactional
+    public List<Contenant> choperDixContenantsAvecLePlusDeVues() {
+        //        dateTimeWrapperRepository.saveAndFlush(dateTimeWrapper);
+        Optional<Contenant> coco = Optional.ofNullable(new Contenant());
+        String request = "SELECT * FROM contenant ORDER BY vues DESC LIMIT 10;";
+        SqlRowSet resultSet = jdbcTemplate.queryForRowSet(request);
+        List<Contenant> kuku = new ArrayList<>();
+        //        log.debug("JUJI 2" + resultSet.get);
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            //           coco = contenantRepository.findById((long) id);
+            kuku.add(contenantRepository.findById((long) id).get());
+        }
+
+        return kuku;
+    }
+
+    @Transactional
+    public List<Contenant> choperDixContenantsAvecLesPlusNouveaux(List<Contenant> kuku) {
+        String request = "SELECT * FROM contenant ORDER BY date_creation DESC LIMIT 10;";
+        SqlRowSet resultSet = jdbcTemplate.queryForRowSet(request);
+        //    	List<Contenant> kuku = new ArrayList<>();
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            kuku.add(contenantRepository.findById((long) id).get());
+        }
+        return kuku;
+    }
+
+    @GetMapping("/contenantnom/{nom}")
+    public ResponseEntity<Contenant> getContenantParNom(@PathVariable String nom) {
+        Optional<Contenant> contenant = generateletruc(nom);
+        List<Contenu> cn = new ArrayList<>();
+        List<Lien> cl = new ArrayList<>();
+        List<Contenant> cna = new ArrayList<>();
+
+        cn = contenuRepository.findAll();
+        Collections.sort(cn, Comparator.comparing(Contenu::getDate_creation).reversed());
+
+        cn = cn.subList(0, 10);
+        cl = lienripository.findAll();
+        cna = contenantRepository.findAll();
+        // RAJOUT YAYA
+        for (Contenu cu : cn) {
+            if (cu.getContenant() != null && cu.getContenant().getNom() == nom) {
+                contenant.get().addContenus(cu);
+            }
+        }
+
+        // RAJOUT YAYA
+        for (Lien cu : cl) {
+            if (cu.getContenant() != null && cu.getContenant().getNom() == nom && cu.getVilleOrigine().getNom() == nom) {
+                contenant.get().addLiens(cu);
+            }
+        }
+
+        for (Contenant ca : cna) {
+            if (ca.getContenant() != null && ca.getContenant().getNom() == nom) {
                 contenant.get().addContenants(ca);
             }
         }

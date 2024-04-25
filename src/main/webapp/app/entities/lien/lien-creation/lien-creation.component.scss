@@ -1,3 +1,19 @@
+$form-bg: #d8c689;
+$site-bg: #ffffff;
+//$form-shadow: #ffa580;
+$form-shadow: #ff8a5c;
+$form-primary-highlight: #95a4ff;
+$form-secondary-highlight: #ffc8ff;
+$font-size: 14pt;
+$font-size-nom: 24pt;
+$font-face: 'Fjalla One';
+$font-color: #2a293e;
+$couleurDetails: #000000;
+$couleurFrom: #2a293e;
+$couleurUpload: #2a293e;
+$taille: 100px;
+$taillepetit: 75px;
+
 .bubu {
   background-color: #4caf50; /* Green */
   border: none;
@@ -8,6 +24,81 @@
   display: inline-block;
   font-size: 16px;
   border-radius: 8px;
+}
+
+.titrass {
+  color: $couleurDetails;
+  text-decoration: none;
+  font-size: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: relative;
+  top: 15px;
+  left: 80px;
+  width: 1400px;
+}
+
+.nom {
+  position: relative;
+  color: black;
+  font-size: 40px;
+  left: 5%;
+  width: 400px;
+  top: 75px;
+}
+
+.inpuput {
+  position: relative;
+  display: block;
+  width: 60%;
+  left: 5%;
+  top: 65px;
+  font-size: $font-size-nom;
+  line-height: $font-size-nom * 2;
+  font-family: $font-face;
+  margin-bottom: $font-size-nom * 2;
+  border: none;
+  border-bottom: 3px solid rgba(0, 0, 0, 1);
+  border-radius: 10px;
+  background: $form-bg;
+  min-width: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+.contenuti {
+  position: fixed;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  height: 100vw;
+  transition: transform 1s ease;
+  overflow-x: scroll;
+}
+
+.rectangle {
+  height: 700px;
+  width: 1200px;
+  background-color: $form-bg;
+  position: absolute;
+  top: 100px;
+  left: 300px;
+  color: azure;
+  border-radius: 10px;
+  // border: 5px solid rgb(53, 161, 50);
+}
+
+.go {
+  font-size: 40px;
+  top: 30px;
+  position: relative;
+  text-decoration: none;
+  left: 75%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: $couleurDetails;
 }
 
 a.aud {
@@ -34,8 +125,31 @@ a.aud:hover {
 }
 
 .dropdown {
+  top: 50px;
+  left: 50px;
   position: relative;
   display: inline-block;
+}
+
+.contient {
+  display: inline-block;
+}
+
+.plubas {
+  position: relative;
+  top: 250px;
+  left: 50px;
+}
+
+.clikar {
+  position: relative;
+  top: -50px;
+  left: 65%;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  //  cursor: pointer;
+  //  background-color: #5ce649;
 }
 
 .dropdown-content {

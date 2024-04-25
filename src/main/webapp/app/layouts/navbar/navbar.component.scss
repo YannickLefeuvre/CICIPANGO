@@ -138,6 +138,7 @@ h1 {
 
 .boule-principal {
   position: fixed;
+  z-index: 2;
   top: -3%;
   left: -5%;
   width: 300px; /* Définir la largeur de la boule */
